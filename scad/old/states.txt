@@ -1,0 +1,30 @@
+States for the turing machine from Wolfram's 5x2
+
+Symbols (1,2,3,4,5) = Green, Yellow, Blue, Magenta, Red
+States = Up, Down
+
+Symbol State -----> Symbol State Dir
+------ -----        ------ ----- ---
+1      Up           2      Down  Back
+2      Up           1      Down  Fwd
+3      Up           5      Up    Fwd
+4      Up           5      Up    Fwd
+5      Up           4      Up    Back
+1      Down         3      Down  Back
+2      Down         1      Down  Fwd
+3      Down         1      Up    Fwd
+4      Down         5      Up    Fwd
+5      Down         2      Up    Back
+
+Facing the front of the turing machine
+Symbols 1-5 go from left to right. 1= left, 5=right
+
+The maze is position with the longest channel towards you (=towards the front of the machine)
+
+In the 'up" state, the state bar sends the marbles away from you.
+In the "up" state, the state must be flipped on inputs 1 and 2 (the two leftmost inputs)
+
+In the "down" state, the state must be flipped on inputs 3,4 and 5 (the thee rightmight inputs)
+
+Our current statebar has been verified correct. (1st Aug 2010)
+
