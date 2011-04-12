@@ -1,0 +1,17 @@
+include <params.scad>
+
+// Defines wheels for the Turing machine. Wheels need to fit into holes
+// in the grid to provide some keying for the machine's position.
+
+// Wheels are Z adjusted to ride on a double-thickness grid.
+
+wheelDiameter = 37.5;
+wheelRadius = wheelDiameter/2;
+wheelWidth = 6; // Should be <= gridHoleSize
+
+
+module wheel()
+{
+	translate([0,0,wheelDiameter]) rotate([0,90,0]) cylinder(r=wheelRadius,h=wheelWidth);
+}
+

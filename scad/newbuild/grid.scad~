@@ -1,0 +1,8 @@
+include <params.scad>
+
+module grid
+{
+	for(x=[0:10]) {	
+		      cube(size=[gridWallWidth]
+	}	
+}
