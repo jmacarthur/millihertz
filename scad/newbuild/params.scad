@@ -9,3 +9,5 @@ gridSpacing = 7.58; // That's the period of the grid, not the hole size
 gridHoleSize = 6;
 gridWallWidth = gridSpacing - gridHoleSize;
 
+
+mazeWidth = 115+12;

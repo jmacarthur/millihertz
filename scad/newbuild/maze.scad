@@ -7,3 +7,13 @@
 // Turing machine 1 has extra cheeks attached; these are 6mm thick and are on the short sides; that is the ones 97mm long.
 
 // Holes: 76.5mm from front; 13mm from base on both sides.
+
+module maze()
+{
+	difference()
+	{
+		cube (size=[mazeWidth,97,30]);
+		translate([-1,76.5,13]) rotate([0,90,0]) cylinder(r=2.5,h=21);
+		translate([mazeWidth-20+1,76.5,13]) rotate([0,90,0])cylinder(r=2.5,h=21);
+		}
+}
