@@ -11,3 +11,12 @@ gridWallWidth = gridSpacing - gridHoleSize;
 
 
 mazeWidth = 115+12;
+mazeHeight = 30;
+dirBoxOffsetX = gridSpacing*2-5+6; // Offset from the edge of the grid to the dir box
+dirBoxOffsetY = gridSpacing*4-5; 
+
+dirBoxHeight=10;
+dirBoxWallWidth=5;
+
+stateBoxHeight=35;
+stateBoxWallWidth=5;

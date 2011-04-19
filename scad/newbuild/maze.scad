@@ -12,7 +12,7 @@ module maze()
 {
 	difference()
 	{
-		cube (size=[mazeWidth,97,30]);
+		cube (size=[mazeWidth,97,mazeHeight]);
 		translate([-1,76.5,13]) rotate([0,90,0]) cylinder(r=2.5,h=21);
 		translate([mazeWidth-20+1,76.5,13]) rotate([0,90,0])cylinder(r=2.5,h=21);
 		}
