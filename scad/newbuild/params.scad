@@ -11,7 +11,15 @@ gridWallWidth = gridSpacing - gridHoleSize;
 
 
 mazeWidth = 115+12;
-mazeHeight = 30;
+mazeHeight = 35;
+mazeLength = 97;
+mazeStartY = 0;
+
+// These define the location of the holes for the raiser axles.
+mazeHoleOffsetY = 76.5;
+mazeHoleOffsetZ = 13;
+
+
 dirBoxOffsetX = gridSpacing*2-5+6; // Offset from the edge of the grid to the dir box
 dirBoxOffsetY = gridSpacing*4-5; 
 

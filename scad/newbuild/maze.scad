@@ -12,8 +12,13 @@ module maze()
 {
 	difference()
 	{
-		cube (size=[mazeWidth,97,mazeHeight]);
-		translate([-1,76.5,13]) rotate([0,90,0]) cylinder(r=2.5,h=21);
-		translate([mazeWidth-20+1,76.5,13]) rotate([0,90,0])cylinder(r=2.5,h=21);
+	union() {
+		cube (size=[mazeWidth,mazeLength,mazeHeight-5]);
+		translate([(mazeWidth-chassisInternalSpacing)/2,0,-5])
+		    cube (size=[chassisInternalSpacing,mazeLength,mazeHeight]);
 		}
+		
+		translate([-1,mazeHoleOffsetY,mazeHoleOffsetZ]) rotate([0,90,0]) cylinder(r=2.5,h=21);
+		translate([mazeWidth-20+1,mazeHoleOffsetY,mazeHoleOffsetZ]) rotate([0,90,0])cylinder(r=2.5,h=21);
+	}
 }
