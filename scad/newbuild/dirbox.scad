@@ -7,7 +7,7 @@ dirBoxOverallWidth=gridSpacing*10+dirBoxWallWidth*2;
 // Gap is the space between the dir box flipper paddles and the wall of the box.
 
 flipperWidth=10;
-gap = (gridSpacing*2-flipperWidth)/2
+gap = (gridSpacing*2-flipperWidth)/2;
 module dirFlipper()
 {
 	union() {

@@ -6,6 +6,7 @@ include <maze.scad>
 include <lifter.scad>
 include <dirbox.scad>
 include <statebox.scad>
+include <stateflip.scad>
 
 grid();
 
@@ -37,5 +38,6 @@ translate([mazeStartX,mazeStartY,chassisTop]) {
 translate([mazeStartX + dirBoxOffsetX,dirBoxOffsetY,chassisTop+mazeHeight]) dirbox();
 //translate([mazeStartX + dirBoxOffsetX,dirBoxOffsetY,chassisTop+mazeHeight+dirBoxHeight]) statebox();
 
-
 translate([gridSpacing*5.5,gridSpacing*-1.5,4.76]) sphere(r=4.76);
+
+translate([mazeStartX + dirBoxOffsetX, dirBoxOffsetY +gridSpacing*2+dirBoxWallWidth,chassisTop+mazeHeight+20]) rotate([0,0,270])stateflip();
