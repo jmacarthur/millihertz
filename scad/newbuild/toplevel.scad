@@ -21,7 +21,7 @@ for(x=[0,1])
 x=$t*120;
 y = (x<105)?x:105;
 
-translate([gridWallWidth+wheelWidth,0,axleHeight+axleRadius]) chassis();
+//translate([gridWallWidth+wheelWidth,0,axleHeight+axleRadius]) chassis();
 
 chassisTop = axleHeight+axleRadius+chassisThickness;
 mazeStartX =  gridWallWidth+wheelWidth+chassisThickness-(mazeWidth-chassisInternalSpacing)/2;
@@ -35,7 +35,7 @@ translate([mazeStartX,mazeStartY,chassisTop]) {
 }
 
 translate([mazeStartX + dirBoxOffsetX,dirBoxOffsetY,chassisTop+mazeHeight]) dirbox();
-translate([mazeStartX + dirBoxOffsetX,dirBoxOffsetY,chassisTop+mazeHeight+dirBoxHeight]) statebox();
+//translate([mazeStartX + dirBoxOffsetX,dirBoxOffsetY,chassisTop+mazeHeight+dirBoxHeight]) statebox();
 
 
 translate([gridSpacing*5.5,gridSpacing*-1.5,4.76]) sphere(r=4.76);

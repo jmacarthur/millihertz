@@ -19,7 +19,6 @@ mazeStartY = 0;
 mazeHoleOffsetY = 76.5;
 mazeHoleOffsetZ = 13;
 
-
 dirBoxOffsetX = gridSpacing*2-5+6; // Offset from the edge of the grid to the dir box
 dirBoxOffsetY = gridSpacing*4-5; 
 
