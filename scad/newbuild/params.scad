@@ -25,5 +25,31 @@ dirBoxOffsetY = gridSpacing*4-5;
 dirBoxHeight=10;
 dirBoxWallWidth=5;
 
-stateBoxHeight=35;
+stateBoxHeight=25;
 stateBoxWallWidth=5;
+
+ballRadius = 4.76;
+
+// ballBearingHeight is the top of any ball bearing sitting in the grid.
+ballBearingHeight = sqrt(ballRadius*ballRadius - (gridHoleSize/2)*(gridHoleSize/2)) + gridThickness + ballRadius;
+
+// row1x is the X coordinate of the centre of the first row of ball bearings
+row1x = gridSpacing*5+gridWallWidth + gridHoleSize/2;
+
+// Measured from the original machine
+chassisInternalSpacing = 95;
+chassisWallThickness = 1.5;
+chassisThickness = 20;
+
+
+wheelDiameter = 37.5;
+wheelRadius = wheelDiameter/2;
+wheelWidth = 6; // Should be <= gridHoleSize
+axleDiameter = 3;
+axleRadius = axleDiameter/2;
+wheelIngress = sqrt((wheelRadius*wheelRadius)-(gridHoleSize/2)*(gridHoleSize/2));
+axleHeight = wheelIngress + gridThickness;
+
+chassisTop = axleHeight+axleRadius+chassisThickness;
+rideHeight = chassisTop - chassisThickness;
+

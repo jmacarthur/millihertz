@@ -8,15 +8,7 @@ include <params.scad>
 // The wheels used on the first Turing machine were 37mm "flight wheels"
 // from technobots, but these seem to have been discontinued. 
 
-wheelDiameter = 37.5;
-wheelRadius = wheelDiameter/2;
-wheelWidth = 6; // Should be <= gridHoleSize
-axleDiameter = 3;
-axleRadius = axleDiameter/2;
-wheelIngress = sqrt((wheelRadius*wheelRadius)-(gridHoleSize/2)*(gridHoleSize/2));
 
-
-axleHeight = wheelIngress + gridThickness;
 
 module wheel()
 {
