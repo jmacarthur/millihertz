@@ -15,7 +15,7 @@ module wheel()
 	translate([gridWallWidth,gridWallWidth+gridHoleSize/2,axleHeight]) rotate([0,90,0]) {
 	difference() {
     	  cylinder(r=wheelRadius,h=wheelWidth);
-	  translate([0,0,-1]) cylinder(r=axleDiameter/2,h=wheelWidth+2);
+	  translate([0,0,-1]) cylinder(r=axleBearingDiameter/2,h=wheelWidth+2);
 	}
 	}
 }

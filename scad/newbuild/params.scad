@@ -35,12 +35,11 @@ ballBearingHeight = sqrt(ballRadius*ballRadius - (gridHoleSize/2)*(gridHoleSize/
 
 // row1x is the X coordinate of the centre of the first row of ball bearings
 row1x = gridSpacing*5+gridWallWidth + gridHoleSize/2;
-
+echo("row1x is ",row1x);
 // Measured from the original machine
 chassisInternalSpacing = 95;
 chassisWallThickness = 1.5;
 chassisThickness = 20;
-
 
 wheelDiameter = 37.5;
 wheelRadius = wheelDiameter/2;
@@ -50,6 +49,19 @@ axleRadius = axleDiameter/2;
 wheelIngress = sqrt((wheelRadius*wheelRadius)-(gridHoleSize/2)*(gridHoleSize/2));
 axleHeight = wheelIngress + gridThickness;
 
+chassisStartX = gridWallWidth+wheelWidth;
+
 chassisTop = axleHeight+axleRadius+chassisThickness;
 rideHeight = chassisTop - chassisThickness;
 
+// Standard roller bearing
+bearingWidth = 5;
+bearingRadius = 8;
+
+raiserWallWidth = 3;
+raiserSeparation = 1;
+mazeStartX =  gridWallWidth+wheelWidth+chassisThickness-(mazeWidth-chassisInternalSpacing)/2;
+
+axle1Y = gridSpacing*8;
+axleBlockThickness = 3;
+axleBearingDiameter = 6; // These are technobots mini bearings, code 4255-020

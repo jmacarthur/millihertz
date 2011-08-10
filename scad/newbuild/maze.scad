@@ -17,7 +17,9 @@ module maze()
 		translate([(mazeWidth-chassisInternalSpacing)/2,0,-5])
 		    cube (size=[chassisInternalSpacing,mazeLength,mazeHeight]);
 		}
-		
+		translate([30.9,7.58*5,-10]) cylinder(r=5.5,h=50);		
+		translate([30.9,7.58*3,-10]) cylinder(r=5.5,h=50);		
+		translate([30.9,7.58*1,-10]) cylinder(r=5.5,h=50);		
 		translate([-1,mazeHoleOffsetY,mazeHoleOffsetZ]) rotate([0,90,0]) cylinder(r=2.5,h=21);
 		translate([mazeWidth-20+1,mazeHoleOffsetY,mazeHoleOffsetZ]) rotate([0,90,0])cylinder(r=2.5,h=21);
 	}

@@ -1,8 +1,15 @@
 include <params.scad>
-include <movercam.scad>
+include <generated_cams.scad>
 
 lifterFollowerLen = 70;
+lifterFollowerPos = 35;	
+resetFollowerLen = 70;
+resetFollowerPos = 35;
 
+moverCamRotate = 180;
+lifterCamRotate = 0;
+camShaftHeight = 55;
+camWidth = 6;
 module makeConRod(length, width)
 {
 	difference() {
@@ -29,36 +36,39 @@ module makeConRod(length, width)
 
 module cams(yOffset)
 {
-	for(outside=[0,1]) 
-	for(side=[0:1]) {
-	translate([wheelWidth+chassisThickness+gridWallWidth+(chassisInternalSpacing-5)*side+((side*2-1)*outside*(chassisThickness+5)),yOffset-20,chassisTop-chassisThickness]) {
-	difference() {
-		cube(size=[5,80,120]);
-		translate([-1,-50,80]) rotate([-45,0,0]) cube(size=[7,50,150]);
-		translate([-1,20,70]) rotate([0,90,0])	cylinder(r=2.5,h=7);
-		translate([-1,70,110]) rotate([0,90,0])	cylinder(r=2.5,h=7);
-		}
-}		
-	}
+	supports = true;
+	if(supports) {
 
-	translate([0, yOffset, chassisTop+50])
+	  for(outside=[0,1]) 
+	    for(side=[0:1]) {
+	      translate([wheelWidth+chassisThickness+gridWallWidth+(chassisInternalSpacing-5)*side+((side*2-1)*outside*(chassisThickness+5)),yOffset-20,chassisTop-chassisThickness]) {
+	        difference() {
+		  cube(size=[5,80,120]);
+		  translate([-1,-50,90]) rotate([-45,0,0]) cube(size=[7,50,150]);
+		  translate([-1,20,75]) rotate([0,90,0])	cylinder(r=2.5,h=7);
+		  translate([-1,70,110]) rotate([0,90,0])	cylinder(r=2.5,h=7);
+		}
+              }		
+	    }
+	  }
+
+	translate([0, yOffset, chassisTop+camShaftHeight])
 	{
 	translate([puntPosX-5,0,0])
 	rotate([0,90,0]) difference()
 	{
-		rotate([0,0,180]) moverCam();
-		//cylinder(r=47,h=5); // 30ish up to 47ish
+		rotate([0,0,moverCamRotate]) moverCam();
 		translate([0,0,-1]) cylinder(r=2.5,h=7);
 	}
 
 	// This one runs the lifters.
 	// There should be an identical one on the other side.
-	translate([gridWallWidth+wheelWidth,0,0])
+	translate([gridWallWidth+wheelWidth+5,0,0])
 	rotate([0,90,0]) difference()
 	{
 	union() {
-		cylinder(r=25,h=5); // Needs to vary by 10.5
-                translate([0,11,0])cylinder(r=25,h=5); // Needs to vary by 10.5
+		rotate([0,0,lifterCamRotate]) lifterCam();
+		translate([0,0,chassisInternalSpacing+chassisThickness])		rotate([0,0,lifterCamRotate]) lifterCam();
 		}
 		translate([0,0,-1]) cylinder(r=2.5,h=7);
 	}
@@ -66,7 +76,7 @@ module cams(yOffset)
 
 
 	// This one is meant to hold off the dir amp
-	translate([gridWallWidth+wheelWidth+10,0,0])
+	translate([gridWallWidth+wheelWidth+30,0,0])
 	rotate([0,90,0]) difference()
 	{
 	union() {
@@ -79,8 +89,8 @@ module cams(yOffset)
 	}
 
 
-	// Axle
-	translate([-5,yOffset,chassisTop+50]) {
+	// Axles
+	translate([-5,yOffset,chassisTop+camShaftHeight]) {
 		rotate([0,90,0])
 		color([0.5,0.5,0.5]) cylinder(r=2.5,h=150);
          }
@@ -89,10 +99,32 @@ module cams(yOffset)
 		color([0.5,0.5,0.5]) cylinder(r=2.5,h=150);
          }
 	 // Follower levers for the cams
-	translate([gridWallWidth+wheelWidth,yOffset+50,chassisTop+90]) 
+	 for(c=[0:1]) {
+	translate([gridWallWidth+wheelWidth+10+(chassisInternalSpacing+chassisThickness)*c,yOffset+50,chassisTop+90]) 
+	{
 	makeConRod(lifterFollowerLen,3);
+	  translate([-bearingWidth,0,-lifterFollowerPos])
+	    rotate([0,90,0]) cylinder(r=bearingRadius,h=bearingWidth);
+	    }
+	    }
 
-	translate([gridWallWidth+wheelWidth+10,yOffset+50,chassisTop+90]) 
-	makeConRod(lifterFollowerLen,3);
+	translate([gridWallWidth+wheelWidth+chassisThickness+80,yOffset+50,chassisTop+90]) 
+	{
+	makeConRod(resetFollowerLen,3);
+	  translate([-bearingWidth,0,-lifterFollowerPos])
+	    rotate([0,90,0]) cylinder(r=bearingRadius,h=bearingWidth);
+	    }
+
+	translate([gridWallWidth+wheelWidth+35,yOffset+50,chassisTop+90]) 
+	{
+	makeConRod(resetFollowerLen,3);
+	  translate([-bearingWidth,0,-lifterFollowerPos])
+	    rotate([0,90,0]) cylinder(r=bearingRadius,h=bearingWidth);
+	    }
+
+	translate([gridWallWidth+wheelWidth+chassisThickness+80-camWidth,yOffset,chassisTop+camShaftHeight]) 
+	{
+		rotate([0,90,0]) resetCam();
+	}
 
 }

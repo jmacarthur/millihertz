@@ -71,20 +71,20 @@ module stateflip()
 	translate([0,-1,0])
 	   rotate([270,0,0])
 		{
-			#cylinder(h=92,r=1.5);
+			cylinder(h=92,r=1.5);
 	}
 	
 	rotate([0,-45,0])
 	translate([0,0,4])
 	rotate([270,0,0])
 	{
-		#cylinder(h=92,r=0.8);
+		cylinder(h=92,r=0.8);
 	}
 	rotate([0,-45,0])
 	translate([0,0,6])
 	rotate([270,0,0])
 	{
-		#cylinder(h=92,r=0.5);
+		cylinder(h=92,r=0.5);
 	}
 
 	} // difference

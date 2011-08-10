@@ -4,18 +4,12 @@ use Math::Trig;
 my $lowRadius = 30;
 my $engageRadius = 40;
 my $highRadius = 47;
+my $camWidth = 6;
 
-print "module moverCam() { \n";
-print "difference () { \n";
-print "union () { \n";
-print "linear_extrude (height=10) scale([-1,1]) polygon( points=[";
-my $n=0;
-my $points1 = "";
-my $points2 = "";
-my $paths2 = "";
-for(my $t=0;$t<360.0;$t+=5)
+# Gives position of lifter cam at a given angle - argument is in degrees
+sub moverCamFunction
 {
-    # Calculate radius by inequalities
+    my $t = shift;
     if($t < 90) {
 	$r = $lowRadius + (90-$t)*($highRadius-$lowRadius)/90;
     }
@@ -32,23 +26,75 @@ for(my $t=0;$t<360.0;$t+=5)
     {
 	$r = $highRadius;
     }
-    my $x = $r*cos(deg2rad($t));
-    my $y = $r*sin(deg2rad($t));
-    $points1 .= sprintf("[%0.5f,%0.5f],",$x,$y);
-
-    $ir = $r - 5;
-    my $x2 = $ir*cos(deg2rad($t));
-    my $y2 = $ir*sin(deg2rad($t));
-    $points2 .= sprintf("[%0.5f,%0.5f],",$x2,$y2);
-    $paths .= "$n,";
-    $n++;
+    return $r;
 }
 
-print "$points1], \n";
-print "paths = [[$paths 0]] );\n";
+sub lifterCamFunction
+{
+    my $t = shift;
+    if($t<180)
+    {
+	return 42;
+    }
+    else
+    {
+	return 53;
+    }
+}
+
+sub resetCamFunction
+{
+    my $t = shift;
+    if($t<330)
+    {
+	return 42;
+    }
+    else
+    {
+	return 52;
+    }
+}
 
 
-print "cylinder(r=5,h=10);\n";
-print "}\n";
-print "}\n";
-print "}\n";
+sub createCam
+{
+    my ($moduleName, $funcRef) = @_;
+
+    print "module $moduleName"."() { \n";
+    print "difference () { \n";
+    print "union () { \n";
+    print "linear_extrude (height=$camWidth) scale([-1,1]) polygon( points=[";
+    my $n=0;
+    my $points1 = "";
+    my $points2 = "";
+    my $paths2 = "";
+    for(my $t=0;$t<360.0;$t+=5)
+    {
+	my $r = $funcRef->($t);
+	# Calculate radius by inequalities
+	my $x = $r*cos(deg2rad($t));
+	my $y = $r*sin(deg2rad($t));
+	$points1 .= sprintf("[%0.5f,%0.5f],",$x,$y);
+	
+	$ir = $r - 5;
+	my $x2 = $ir*cos(deg2rad($t));
+	my $y2 = $ir*sin(deg2rad($t));
+	$points2 .= sprintf("[%0.5f,%0.5f],",$x2,$y2);
+	$paths .= "$n,";
+	$n++;
+    }
+    print "$points1], \n";
+    print "paths = [[$paths 0]] );\n";
+    
+
+    print "cylinder(r=5,h=10);\n";
+    print "}\n";
+    print "}\n";
+    print "}\n";
+
+}
+
+
+createCam("moverCam",\&moverCamFunction);
+createCam("lifterCam",\&lifterCamFunction);
+createCam("resetCam",\&resetCamFunction);
