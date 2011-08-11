@@ -17,18 +17,22 @@ include <returner.scad>
 include <punt.scad>
 include <cams.scad>
 include <axle.scad>
-//grid();
+grid();
 
 
 
 // Add all four wheels
-for(x=[0,1]) 
+wheel1X = -gridSpacing;
+wheel2X = gridSpacing*19*1;
+
+for(y=[axle1Y,axle2Y]) 
 {
-  for(y=[0,1]) 
-  {
-      translate([gridSpacing*19*x,axle1Y+gridSpacing*30*y,0]) wheel();
-      translate([chassisStartX,gridWallWidth+gridHoleSize/2+axle1Y+gridSpacing*30*y,0]) axle();
+  for(x=[wheel1X,wheel2X]) 
+  { 			   
+
+    translate([x,y,0]) wheel();
   }
+  translate([chassisStartX,gridWallWidth+gridHoleSize/2+y,0]) axle();
 }
 
 
@@ -40,16 +44,16 @@ translate([chassisStartX,0,axleHeight+axleRadius]) chassis();
 
 echo("Maze starts at ",mazeStartX,",",mazeStartY,",",chassisTop);
 if(true) {
-translate([mazeStartX,mazeStartY,chassisTop]) {
+translate([0,mazeStartY,chassisTop]) {
     //maze();
 
-    translate([0,mazeHoleOffsetY,mazeHoleOffsetZ]) rotate([-x,0,0]) lifterSupport();
+    translate([chassisStartX+supportWallWidth,mazeHoleOffsetY,mazeHoleOffsetZ]) rotate([-x,0,0]) lifterSupport();
 
-    //translate([-raiserWallWidth-(raiserWallWidth+raiserSeparation)*1,mazeHoleOffsetY,mazeHoleOffsetZ]) rotate([-x,0,0]) lifter1();
+    translate([0,mazeHoleOffsetY,mazeHoleOffsetZ]) rotate([-x,0,0]) lifter1(-raiserWallWidth-(raiserWallWidth+raiserSeparation)*1+chassisStartX+supportWallWidth);
 
-    //translate([-raiserWallWidth-(raiserWallWidth+raiserSeparation)*2,mazeHoleOffsetY,mazeHoleOffsetZ]) rotate([-y,0,0])lifter2();
+    translate([0,mazeHoleOffsetY,mazeHoleOffsetZ]) rotate([-y,0,0])lifter2(-raiserWallWidth-(raiserWallWidth+raiserSeparation)*2+chassisStartX+supportWallWidth);
 
-    //translate([-raiserWallWidth-(raiserWallWidth+raiserSeparation)*3,mazeHoleOffsetY,mazeHoleOffsetZ]) rotate([-z,0,0])lifter3();
+    translate([0,mazeHoleOffsetY,mazeHoleOffsetZ]) rotate([-z,0,0])lifter3(-raiserWallWidth-(raiserWallWidth+raiserSeparation)*3+chassisStartX+supportWallWidth);
 }
 }
 

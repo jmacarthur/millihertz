@@ -21,7 +21,7 @@ module lifterSupport1()
 
 module lifterSupport()
 {
-  translate([mazeWidth,0,0]) lifterSupport1();
+  translate([chassisInternalSpacing+chassisThickness*2-supportWallWidth*2,0,0]) lifterSupport1();
   translate([0,0,0]) rotate([0,0,180]) lifterSupport1();
 
 }
