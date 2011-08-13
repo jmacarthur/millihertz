@@ -24,7 +24,7 @@ grid();
 // Add all four wheels
 wheel1X = -gridSpacing;
 wheel2X = gridSpacing*19*1;
-
+if(false) {
 for(y=[axle1Y,axle2Y]) 
 {
   for(x=[wheel1X,wheel2X]) 
@@ -34,26 +34,26 @@ for(y=[axle1Y,axle2Y])
   }
   translate([chassisStartX,gridWallWidth+gridHoleSize/2+y,0]) axle();
 }
-
+}
 
 // Configure the animation
 x=$t*120;
 y = (x<105)?x:105;
 z = 0;
-translate([chassisStartX,0,axleHeight+axleRadius]) chassis();
+//translate([chassisStartX,0,axleHeight+axleRadius]) chassis();
 
 echo("Maze starts at ",mazeStartX,",",mazeStartY,",",chassisTop);
 if(true) {
 translate([0,mazeStartY,chassisTop]) {
-    //maze();
+    translate([mazeStartX,0,0]) maze();
 
     translate([chassisStartX+supportWallWidth,mazeHoleOffsetY,mazeHoleOffsetZ]) rotate([-x,0,0]) lifterSupport();
 
     translate([0,mazeHoleOffsetY,mazeHoleOffsetZ]) rotate([-x,0,0]) lifter1(-raiserWallWidth-(raiserWallWidth+raiserSeparation)*1+chassisStartX+supportWallWidth);
 
-    translate([0,mazeHoleOffsetY,mazeHoleOffsetZ]) rotate([-y,0,0])lifter2(-raiserWallWidth-(raiserWallWidth+raiserSeparation)*2+chassisStartX+supportWallWidth);
+    //translate([0,mazeHoleOffsetY,mazeHoleOffsetZ]) rotate([-y,0,0])lifter2(-raiserWallWidth-(raiserWallWidth+raiserSeparation)*2+chassisStartX+supportWallWidth);
 
-    translate([0,mazeHoleOffsetY,mazeHoleOffsetZ]) rotate([-z,0,0])lifter3(-raiserWallWidth-(raiserWallWidth+raiserSeparation)*3+chassisStartX+supportWallWidth);
+    //    translate([0,mazeHoleOffsetY,mazeHoleOffsetZ]) rotate([-z,0,0])lifter3(-raiserWallWidth-(raiserWallWidth+raiserSeparation)*3+chassisStartX+supportWallWidth);
 }
 }
 
@@ -71,6 +71,6 @@ translate([row1x,gridSpacing*2*d+gridWallWidth+gridHoleSize/2,ballBearingHeight-
 
 //color([0,1,0]) returner();
 
-punt(120);
+//punt(120);
 
-cams(235);
+//cams(235);

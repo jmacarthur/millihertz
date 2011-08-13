@@ -17,10 +17,11 @@ module maze()
 		translate([(mazeWidth-chassisInternalSpacing)/2,0,-5])
 		    cube (size=[chassisInternalSpacing,mazeLength,mazeHeight]);
 		}
-		translate([30.9,7.58*5,-10]) cylinder(r=5.5,h=50);		
-		translate([30.9,7.58*3,-10]) cylinder(r=5.5,h=50);		
-		translate([30.9,7.58*1,-10]) cylinder(r=5.5,h=50);		
-		translate([-1,mazeHoleOffsetY,mazeHoleOffsetZ]) rotate([0,90,0]) cylinder(r=2.5,h=21);
-		translate([mazeWidth-20+1,mazeHoleOffsetY,mazeHoleOffsetZ]) rotate([0,90,0])cylinder(r=2.5,h=21);
+
+		for(x=[0:5]) {
+		for(y=[-1:5]) {
+		translate([30.9+7.58*2*y,3+7.58*(1+2*x),-10]) cylinder(r=5.5,h=50);		
+		}
+}
 	}
 }
