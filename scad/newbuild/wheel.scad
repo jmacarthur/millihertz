@@ -8,7 +8,7 @@ include <params.scad>
 // The wheels used on the first Turing machine were 37mm "flight wheels"
 // from technobots, but these seem to have been discontinued. 
 
-
+//Technobots do however sell a 38mm wheel which looks appropriate
 
 module wheel()
 {

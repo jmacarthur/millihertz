@@ -12,7 +12,7 @@ raiser2Drop = 35;
 raiser3Length = raiser1Length+5*gridSpacing;
 raiser3Drop = 40;
 
-raiser1Separation = chassisInternalSpacing+chassisThickness*2-raiserWallWidth*2;
+raiser1Separation = chassisInternalSpacing+chassisThickness*2-raiserWallWidth*0;
 
 // Makes a generic lifter bar of a given length and step number (1-based)
 // 1 is the innermost lifter.

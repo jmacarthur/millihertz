@@ -5,6 +5,7 @@ include <params.scad>
 
 module squareBoxSection(l)
 {
+	color([0.7,0.7,0.7])
 	difference() {
   	  cube(size=[chassisThickness,l,chassisThickness]);
 	  translate([chassisWallThickness,-1,chassisWallThickness]) cube (size=[chassisThickness-chassisWallThickness*2, l+2, chassisThickness-chassisWallThickness*2]);
