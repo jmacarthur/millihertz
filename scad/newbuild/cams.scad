@@ -6,8 +6,8 @@ lifterFollowerPos = 35;
 resetFollowerLen = 70;
 resetFollowerPos = 35;
 
-moverCamRotate = 180;
-lifterCamRotate = 0;
+moverCamRotate = $t*360;
+lifterCamRotate = $t*360;
 camShaftHeight = 55;
 camWidth = 6;
 module makeConRod(length, width)
@@ -57,7 +57,7 @@ module cams(yOffset)
 	translate([puntPosX-5,0,0])
 	rotate([0,90,0]) difference()
 	{
-		rotate([0,0,moverCamRotate]) moverCam();
+		rotate([0,0,moverCamRotate]) color([0,1,1]) moverCam();
 		translate([0,0,-1]) cylinder(r=2.5,h=7);
 	}
 
@@ -66,6 +66,7 @@ module cams(yOffset)
 	translate([gridWallWidth+wheelWidth+5,0,0])
 	rotate([0,90,0]) difference()
 	{
+	color([1,0,1])
 	union() {
 		rotate([0,0,lifterCamRotate]) lifterCam();
 		translate([0,0,chassisInternalSpacing+chassisThickness])		rotate([0,0,lifterCamRotate]) lifterCam();
@@ -79,6 +80,7 @@ module cams(yOffset)
 	translate([gridWallWidth+wheelWidth+30,0,0])
 	rotate([0,90,0]) difference()
 	{
+	color([0,1,0])
 	union() {
 		cylinder(r=25,h=5); // Unknown
                 translate([0,11,0])cylinder(r=25,h=5); 
@@ -125,6 +127,16 @@ module cams(yOffset)
 	translate([gridWallWidth+wheelWidth+chassisThickness+80-camWidth,yOffset,chassisTop+camShaftHeight]) 
 	{
 		rotate([0,90,0]) resetCam();
+	}
+
+	// Input pulley
+	color([1,0,0])
+	translate([gridWallWidth+wheelWidth+chassisThickness+60-camWidth,yOffset,chassisTop+camShaftHeight]) 
+	union()
+	{
+		rotate([0,90,0]) cylinder(r=40,h=5);
+		translate([-1,0,0]) rotate([0,90,0]) cylinder(r=45,h=1);
+		translate([5,0,0]) rotate([0,90,0]) cylinder(r=45,h=1);
 	}
 
 }

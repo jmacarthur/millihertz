@@ -40,24 +40,24 @@ for(y=[axle1Y,axle2Y])
 x=$t*120;
 y = (x<105)?x:105;
 z = 0;
-//translate([chassisStartX,0,axleHeight+axleRadius]) chassis();
+translate([chassisStartX,0,axleHeight+axleRadius]) chassis();
 
 echo("Maze starts at ",mazeStartX,",",mazeStartY,",",chassisTop);
 if(true) {
 translate([0,mazeStartY,chassisTop]) {
-    //translate([mazeStartX,0,0]) maze();
+    translate([mazeStartX,0,0]) maze();
 
-    translate([chassisStartX+supportWallWidth*0,mazeHoleOffsetY,mazeHoleOffsetZ]) rotate([-x,0,0]) lifterSupport();
+    translate([chassisStartX+supportWallWidth*0,mazeHoleOffsetY,mazeHoleOffsetZ]) rotate([0,0,0]) lifterSupport();
 
-    //translate([0,mazeHoleOffsetY,mazeHoleOffsetZ]) rotate([-x,0,0]) lifter1(-raiserWallWidth*2-(raiserWallWidth+raiserSeparation)*1+chassisStartX+supportWallWidth);
+    translate([0,mazeHoleOffsetY,mazeHoleOffsetZ]) rotate([-x,0,0]) lifter1(-raiserWallWidth*2-(raiserWallWidth+raiserSeparation)*1+chassisStartX+supportWallWidth);
 
-    //translate([0,mazeHoleOffsetY,mazeHoleOffsetZ]) rotate([-y,0,0])lifter2(-raiserWallWidth*2-(raiserWallWidth+raiserSeparation)*2+chassisStartX+supportWallWidth);
+    translate([0,mazeHoleOffsetY,mazeHoleOffsetZ]) rotate([-y,0,0])lifter2(-raiserWallWidth*2-(raiserWallWidth+raiserSeparation)*2+chassisStartX+supportWallWidth);
 
-    //translate([0,mazeHoleOffsetY,mazeHoleOffsetZ]) rotate([-z,0,0])lifter3(-raiserWallWidth*2-(raiserWallWidth+raiserSeparation)*3+chassisStartX+supportWallWidth);
+    translate([0,mazeHoleOffsetY,mazeHoleOffsetZ]) rotate([-z,0,0])lifter3(-raiserWallWidth*2-(raiserWallWidth+raiserSeparation)*3+chassisStartX+supportWallWidth);
 }
 }
 
-//translate([mazeStartX + dirBoxOffsetX,dirBoxOffsetY,chassisTop+mazeHeight]) dirbox();
+translate([mazeStartX + dirBoxOffsetX,dirBoxOffsetY,chassisTop+mazeHeight]) dirbox();
 //translate([mazeStartX + dirBoxOffsetX,dirBoxOffsetY,chassisTop+mazeHeight+dirBoxHeight]) statebox();
 
 if(false) {
@@ -65,12 +65,12 @@ for(d=[-1:10]) {
 translate([row1x,gridSpacing*2*d+gridWallWidth+gridHoleSize/2,ballBearingHeight-ballRadius]) sphere(r=ballRadius,$fn=20);
 }
 }
-//translate([mazeStartX + dirBoxOffsetX, dirBoxOffsetY +gridSpacing*2+dirBoxWallWidth,chassisTop+mazeHeight+25]) rotate([0,0,270])stateflip();
+translate([mazeStartX + dirBoxOffsetX, dirBoxOffsetY +gridSpacing*2+dirBoxWallWidth,chassisTop+mazeHeight+25]) rotate([0,0,270])stateflip();
 
-//translate([mazeStartX + dirBoxOffsetX+70, dirBoxOffsetY+55,chassisTop+mazeHeight+10-1.5]) diramp();
+translate([mazeStartX + dirBoxOffsetX+70, dirBoxOffsetY+55,chassisTop+mazeHeight+10-1.5]) diramp();
 
-//color([0,1,0]) returner();
+color([0,1,0]) returner();
 
-//punt(120);
+punt(120);
 
-//cams(235);
+cams(235);

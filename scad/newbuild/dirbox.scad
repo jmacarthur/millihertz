@@ -46,6 +46,9 @@ module dirbox()
 	// Amplifier support
 	translate([dirBoxWallWidth+gridSpacing*8,dirBoxWallWidth+gridSpacing*4,dirBoxHeight-4.5]) cube(size=[gridSpacing*2,30,3]);
 
+	// Support for reset bar 
+	translate([dirBoxWallWidth+gridSpacing*8,dirBoxWallWidth+gridSpacing*4+20,dirBoxHeight-4.5]) cube(size=[gridSpacing*2+30,10,3]);
+
 	// Spring support
 	difference() {
 	translate([dirBoxWallWidth-20,-5,dirBoxHeight-1.5]) cube(size=[gridSpacing*4+20,dirBoxWallWidth+5,3]);

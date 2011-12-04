@@ -10,17 +10,33 @@ puntPosX = row1x+gridSpacing*3+puntWidth/2; // MUST be an odd number otherwise y
 // Note - the measurements here are not accurately calculated, just done by eye
 leverLen=120;
 puntLen=50;
-leverAngle = 0; // Full deflect at 0; max 10
+
+up = 1;
+
+leverAngle = 10*up;
+
+
+
 
 leverPuntPos = 75;
       puntAxleY = leverPuntPos*cos(leverAngle);
       puntAxleZ = leverPuntPos*sin(leverAngle);
-puntAngle=0; // Full deflect at 31
+puntAngle=31*(1-up); // Full deflect at 31
 bearingPos = leverLen-15;
 bearingPosY = bearingPos*cos(leverAngle);
 bearingPosZ = bearingPos*sin(leverAngle);
 
 leverDescend = bearingPos*sin(10); 
+
+module dirSelector()
+{
+      difference() {
+      linear_extrude(height=3) {
+      polygon(points=[[0,0],[5,5],[10,5],[10,10],[15,15],[20,10],[20,5],[25,5],[30,0]], paths=[[0,1,2,3,4,5,6,7,8]]);
+      }
+      translate([15,7.5,-1]) cylinder(r=1.5,h=7);
+      }
+}
 
 module punt(yOffset)
 {
@@ -105,5 +121,25 @@ module punt(yOffset)
       translate([row1x+gridSpacing*3-puntWidth/2,yOffset+10,rideHeight-2.5])
       cube(size=[puntWidth,100,5]);
       }
-      
+
+      // Selector rail
+      translate([row1x+gridSpacing*3-puntWidth/2-6,yOffset+10,rideHeight])
+      cube(size=[3,100,3]);
+
+      // Mover guide thing
+      translate([row1x+gridSpacing*3-puntWidth/2-3,yOffset+puntAxleY+10-15,rideHeight])
+      {
+      rotate([90,0,0])
+      rotate([0,90,0])
+      color([0.5,0.5,0.5])
+      union() {
+
+            dirSelector();
+	    translate([0,0,-6])            dirSelector();
+	    }
+	    translate([-30,15,7.5])
+	    rotate([0,90,0])
+	    color([0.8,0.8,0.2])
+	    cylinder(r=1.5,h=30);
+	}    
 }
