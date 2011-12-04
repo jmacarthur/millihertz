@@ -17,5 +17,5 @@ module chassis()
 	translate([0,0,0]) squareBoxSection(605);
 	translate([chassisThickness+chassisInternalSpacing,0,0]) squareBoxSection(605);
 	translate([chassisThickness,120,0]) rotate([0,0,270]) squareBoxSection(chassisInternalSpacing);
-	translate([chassisThickness,120+222.5,0]) rotate([0,0,270]) squareBoxSection(chassisInternalSpacing);
+	translate([chassisThickness,120+250,0]) rotate([0,0,270]) squareBoxSection(chassisInternalSpacing);
 }

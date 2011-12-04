@@ -17,6 +17,9 @@ include <returner.scad>
 include <punt.scad>
 include <cams.scad>
 include <axle.scad>
+include <engine.scad>
+
+include <reducerpulley.scad>
 grid();
 
 
@@ -74,3 +77,6 @@ color([0,1,0]) returner();
 punt(120);
 
 cams(235);
+translate([0,0,chassisTop])engine(300);
+
+reducerPulley(280);
