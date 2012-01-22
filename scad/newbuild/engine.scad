@@ -16,7 +16,7 @@ module engine(ypos)
 	color([1,1,1]) 
 	translate([boilerCentreX-boilerRadius-5,ypos+5,0])
 	{
-	cube(size=[5,100,66]);
+		cube(size=[5,100,66]);
 	}
 
 	color([1,1,1]) 
