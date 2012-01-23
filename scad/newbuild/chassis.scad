@@ -26,9 +26,6 @@ module chassis()
 	translate([chassisThickness,crossBeam2Y+chassisThickness,0]) rotate([0,0,270]) squareBoxSection(chassisInternalSpacing);
 }
 
-// Laser beam diameter
-cutWidth=0.5;
-
 module acrylicBeams()
 {
 	difference() {

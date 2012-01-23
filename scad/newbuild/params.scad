@@ -66,3 +66,7 @@ axle1Y = gridSpacing*12;
 axle2Y = gridSpacing*38;
 axleBlockThickness = 3;
 axleBearingDiameter = 6; // These are technobots mini bearings, code 4255-020
+
+// Laser beam diameter
+cutWidth=0.5;
+

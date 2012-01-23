@@ -48,7 +48,7 @@ translate([chassisStartX,0,axleHeight+axleRadius]) acrylicChassis();
 drawLifters = false;
 
 echo("Maze starts at ",mazeStartX,",",mazeStartY,",",chassisTop);
-if(true) {
+if(false) {
 translate([0,mazeStartY,chassisTop]) {
     translate([mazeStartX,0,0]) maze();
 
@@ -64,17 +64,17 @@ translate([0,mazeStartY,chassisTop]) {
 }
 }
 
-translate([mazeStartX + dirBoxOffsetX,dirBoxOffsetY,chassisTop+mazeHeight]) dirbox();
-translate([mazeStartX + dirBoxOffsetX,dirBoxOffsetY,chassisTop+mazeHeight+dirBoxHeight]) statebox();
+//translate([mazeStartX + dirBoxOffsetX,dirBoxOffsetY,chassisTop+mazeHeight]) dirbox();
+//translate([mazeStartX + dirBoxOffsetX,dirBoxOffsetY,chassisTop+mazeHeight+dirBoxHeight]) statebox();
 
 if(false) {
 for(d=[-1:10]) {
 translate([row1x,gridSpacing*2*d+gridWallWidth+gridHoleSize/2,ballBearingHeight-ballRadius]) sphere(r=ballRadius,$fn=20);
 }
 }
-translate([mazeStartX + dirBoxOffsetX, dirBoxOffsetY +gridSpacing*2+dirBoxWallWidth,chassisTop+mazeHeight+25]) rotate([0,0,270])stateflip();
+//translate([mazeStartX + dirBoxOffsetX, dirBoxOffsetY +gridSpacing*2+dirBoxWallWidth,chassisTop+mazeHeight+25]) rotate([0,0,270])stateflip();
 
-translate([mazeStartX + dirBoxOffsetX+70, dirBoxOffsetY+55,chassisTop+mazeHeight+10-1.5]) diramp();
+//translate([mazeStartX + dirBoxOffsetX+70, dirBoxOffsetY+55,chassisTop+mazeHeight+10-1.5]) diramp();
 color([0,1,0]) returner();
 //punt(120);
 //cams(235);
