@@ -28,17 +28,26 @@ module chassis()
 
 module acrylicBeams()
 {
-	difference() {
-		union() {
-                  translate([0,0,0]) cube(size=[5,605,20]);
-		  translate([chassisThickness-5,0,0]) cube(size=[5,605,20]);
-		  translate([chassisThickness+chassisInternalSpacing,0,0]) cube(size=[5,605,20]);
-		  translate([chassisThickness+chassisInternalSpacing+chassisThickness-5,0,0]) cube(size=[5,605,20]);
-                }
-		for(y=[crossBeam1Y,crossBeam2Y]) {
-		translate([-1,y-cutWidth/2,15]) cube(size=[chassisInternalSpacing*2,5+cutWidth,20]);
-		}
-	}
+		  for(x=[0,chassisThickness-5,
+		         chassisThickness+chassisInternalSpacing,
+		         chassisThickness*2+chassisInternalSpacing-5]) {
+		  difference() {
+   		     union() {
+
+                       translate([x,0,0]) cube(size=[5,605,20]);
+		       // For some reason we have to fudge axle1Y in this way. We should refactor.
+		       translate([x,gridWallWidth+gridHoleSize/2+axle1Y-15,-10]) cube(size=[5,30,10]);
+		       translate([x,gridWallWidth+gridHoleSize/2+axle2Y-15,-10]) cube(size=[5,30,10]);
+		     }
+    		     for(y=[crossBeam1Y,crossBeam2Y]) {
+		       translate([-1,y-cutWidth/2,15]) cube(size=[chassisInternalSpacing*2,5+cutWidth,20]);
+		     }
+		// Holes for bearings
+		translate([x-1,gridWallWidth+gridHoleSize/2+axle1Y,-axleRadius]) rotate([0,90,0])  cylinder(r=axleBearingDiameter/2,h=10);
+		translate([x-1,gridWallWidth+gridHoleSize/2+axle2Y,-axleRadius]) rotate([0,90,0])  cylinder(r=axleBearingDiameter/2,h=10);
+
+                  }
+		  }
 }
 
 
@@ -64,7 +73,5 @@ module acrylicChassis()
 	color([1.0,0,0.5]) {	
 		acrylicBeams();
 		acrylicCrossBeams();
-
-
 	}
 }

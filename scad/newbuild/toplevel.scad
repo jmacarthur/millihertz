@@ -20,7 +20,7 @@ include <axle.scad>
 include <engine.scad>
 
 include <reducerpulley.scad>
-grid();
+//grid();
 
 
 
