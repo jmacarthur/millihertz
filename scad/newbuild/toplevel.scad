@@ -24,7 +24,16 @@ include <reducerpulley.scad>
 // Add all four wheels
 wheel1X = -gridSpacing;
 wheel2X = gridSpacing*19*1;
-if(true) {
+
+// Toggle top level elements on and off
+drawWheels = false;
+drawLifters = false;
+drawMazeAndLifters = false;
+drawDirAmp = false;
+drawData = false;
+drawStateFlip = false;
+
+if(drawWheels) {
   for(y=[axle1Y,axle2Y]) 
   {
     for(x=[wheel1X,wheel2X]) 
@@ -39,13 +48,6 @@ if(true) {
 x=$t*120;
 y = (x<105)?x:105;
 z = 0;
-
-// Toggle top level elements on and off
-drawLifters = false;
-drawMazeAndLifters = false;
-drawDirAmp = false;
-drawData = false;
-drawStateFlip = false;
 
 echo("Maze starts at ",mazeStartX,",",mazeStartY,",",chassisTop);
 
@@ -87,13 +89,13 @@ if(drawDirAmp)
 // These can be easily commented out while working on specific elements.
 
 color([0,1,0]) returner();
-punt(120);
-cams(235);
-translate([0,0,chassisTop])engine(300);
-reducerPulley(280);
-translate([mazeStartX + dirBoxOffsetX,dirBoxOffsetY,chassisTop+mazeHeight]) dirbox();
-translate([mazeStartX + dirBoxOffsetX,dirBoxOffsetY,chassisTop+mazeHeight+dirBoxHeight]) statebox();
+//punt(120);
+//cams(235);
+//translate([0,0,chassisTop])engine(300);
+//reducerPulley(280);
+//translate([mazeStartX + dirBoxOffsetX,dirBoxOffsetY,chassisTop+mazeHeight]) dirbox();
+//translate([mazeStartX + dirBoxOffsetX,dirBoxOffsetY,chassisTop+mazeHeight+dirBoxHeight]) statebox();
 //translate([chassisStartX,0,axleHeight+axleRadius]) chassis();
-translate([chassisStartX,0,axleHeight+axleRadius]) acrylicChassis();
-grid();
+//translate([chassisStartX,0,axleHeight+axleRadius]) acrylicChassis();
+//grid();
 
