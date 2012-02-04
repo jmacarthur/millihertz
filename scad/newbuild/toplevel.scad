@@ -26,11 +26,12 @@ wheel1X = -gridSpacing;
 wheel2X = gridSpacing*19*1;
 
 // Toggle top level elements on and off
+// Some elements are commented on/off at the bottom of this file.
 drawWheels = false;
 drawLifters = false;
 drawMazeAndLifters = false;
 drawDirAmp = false;
-drawData = false;
+drawData = true;
 drawStateFlip = false;
 
 if(drawWheels) {
@@ -88,7 +89,7 @@ if(drawDirAmp)
 // Below here should be a list of top-level elements, one per line. 
 // These can be easily commented out while working on specific elements.
 
-color([0,1,0]) returner();
+returner();
 //punt(120);
 //cams(235);
 //translate([0,0,chassisTop])engine(300);
@@ -96,6 +97,6 @@ color([0,1,0]) returner();
 //translate([mazeStartX + dirBoxOffsetX,dirBoxOffsetY,chassisTop+mazeHeight]) dirbox();
 //translate([mazeStartX + dirBoxOffsetX,dirBoxOffsetY,chassisTop+mazeHeight+dirBoxHeight]) statebox();
 //translate([chassisStartX,0,axleHeight+axleRadius]) chassis();
-//translate([chassisStartX,0,axleHeight+axleRadius]) acrylicChassis();
-//grid();
+translate([chassisStartX,0,axleHeight+axleRadius]) acrylicChassis();
+grid();
 
