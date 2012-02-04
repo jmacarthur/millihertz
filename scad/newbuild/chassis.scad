@@ -17,7 +17,7 @@ module squareBoxSection(l)
 
 crossBeam1Y = 100;
 crossBeam2Y = 250+crossBeam1Y;
-
+chassisAcrylThick = 5;
 module chassis()
 {
 	translate([0,0,0]) squareBoxSection(605);
@@ -28,28 +28,37 @@ module chassis()
 
 module acrylicBeams()
 {
-		  for(x=[0,chassisThickness-5,
-		         chassisThickness+chassisInternalSpacing,
-		         chassisThickness*2+chassisInternalSpacing-5]) {
-		  difference() {
-   		     union() {
-
-                       translate([x,0,0]) cube(size=[5,605,20]);
-		       // For some reason we have to fudge axle1Y in this way. We should refactor.
-		       translate([x,gridWallWidth+gridHoleSize/2+axle1Y-15,-10]) cube(size=[5,30,10]);
-		       translate([x,gridWallWidth+gridHoleSize/2+axle2Y-15,-10]) cube(size=[5,30,10]);
-		     }
-    		     for(y=[crossBeam1Y,crossBeam2Y]) {
-		       translate([-1,y-cutWidth/2,15]) cube(size=[chassisInternalSpacing*2,5+cutWidth,20]);
-		     }
-		// Holes for bearings
-		translate([x-1,gridWallWidth+gridHoleSize/2+axle1Y,-axleRadius]) rotate([0,90,0])  cylinder(r=axleBearingDiameter/2,h=10);
-		translate([x-1,gridWallWidth+gridHoleSize/2+axle2Y,-axleRadius]) rotate([0,90,0])  cylinder(r=axleBearingDiameter/2,h=10);
-
-                  }
-		  }
+  for(x=[0,chassisThickness-5,
+         chassisThickness+chassisInternalSpacing,
+         chassisThickness*2+chassisInternalSpacing-5]) {
+    difference() {
+      union() {
+        translate([x,0,0]) cube(size=[5,605,20]);
+        // For some reason we have to fudge axle1Y in this way. We should refactor.
+        translate([x,gridWallWidth+gridHoleSize/2+axle1Y-15,-10]) cube(size=[5,30,10]);
+        translate([x,gridWallWidth+gridHoleSize/2+axle2Y-15,-10]) cube(size=[5,30,10]);
+      }
+      for(y=[crossBeam1Y,crossBeam2Y]) {
+        translate([-1,y-cutWidth/2,15]) cube(size=[chassisInternalSpacing*2,5+cutWidth,20]);
+      }
+      // Holes for bearings
+      translate([x-1,gridWallWidth+gridHoleSize/2+axle1Y,-axleRadius]) rotate([0,90,0])  cylinder(r=axleBearingDiameter/2,h=10);
+      translate([x-1,gridWallWidth+gridHoleSize/2+axle2Y,-axleRadius]) rotate([0,90,0])  cylinder(r=axleBearingDiameter/2,h=10);     
+    }
+  }
 }
 
+module drilledAcrylicBeams()
+{
+  difference() {
+    acrylicBeams();
+    for(holeY=[10,60])
+    translate([chassisThickness-chassisAcrylThick-thin,holeY,ballBearingHeight+clearance+20-axleRadius-axleHeight])
+    rotate([0,90,0]) {
+      cylinder(r=1.5,h=chassisInternalSpacing+2*chassisAcrylThick+2*thin);
+    }
+  }
+}
 
 
 module acrylicCrossBeam() 
@@ -71,7 +80,7 @@ module acrylicCrossBeams()
 module acrylicChassis()
 {
 	color([1.0,0,0.5]) {	
-		acrylicBeams();
+		drilledAcrylicBeams();
 		acrylicCrossBeams();
 	}
 }

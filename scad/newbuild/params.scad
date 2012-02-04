@@ -72,3 +72,5 @@ axleBearingDiameter = 6; // These are technobots mini bearings, code 4255-020
 // outside OpenSCAD (in InkScape, probably)
 cutWidth=0;
 
+// This is used to make things slightly bigger for CSG, to avoid touching walls.
+thin = 0.1;
