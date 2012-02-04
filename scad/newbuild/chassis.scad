@@ -53,9 +53,9 @@ module drilledAcrylicBeams()
   difference() {
     acrylicBeams();
     for(holeY=[10,60])
-    translate([chassisThickness-chassisAcrylThick-thin,holeY,ballBearingHeight+clearance+20-axleRadius-axleHeight])
+    translate([-thin,holeY,ballBearingHeight+clearance+20-axleRadius-axleHeight])
     rotate([0,90,0]) {
-      cylinder(r=1.5,h=chassisInternalSpacing+2*chassisAcrylThick+2*thin);
+      cylinder(r=1.5,h=chassisInternalSpacing+2*chassisThickness+2*thin);
     }
   }
 }
