@@ -68,5 +68,7 @@ axleBlockThickness = 3;
 axleBearingDiameter = 6; // These are technobots mini bearings, code 4255-020
 
 // Laser beam diameter
-cutWidth=0.5;
+// This is set to zero because I expect to account for the laser cut width
+// outside OpenSCAD (in InkScape, probably)
+cutWidth=0;
 

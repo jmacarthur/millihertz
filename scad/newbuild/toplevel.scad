@@ -88,12 +88,12 @@ if(drawDirAmp)
 
 color([0,1,0]) returner();
 punt(120);
-//cams(235);
-//translate([0,0,chassisTop])engine(300);
-//reducerPulley(280);
-//translate([mazeStartX + dirBoxOffsetX,dirBoxOffsetY,chassisTop+mazeHeight]) dirbox();
-//translate([mazeStartX + dirBoxOffsetX,dirBoxOffsetY,chassisTop+mazeHeight+dirBoxHeight]) statebox();
+cams(235);
+translate([0,0,chassisTop])engine(300);
+reducerPulley(280);
+translate([mazeStartX + dirBoxOffsetX,dirBoxOffsetY,chassisTop+mazeHeight]) dirbox();
+translate([mazeStartX + dirBoxOffsetX,dirBoxOffsetY,chassisTop+mazeHeight+dirBoxHeight]) statebox();
 //translate([chassisStartX,0,axleHeight+axleRadius]) chassis();
 translate([chassisStartX,0,axleHeight+axleRadius]) acrylicChassis();
-//grid();
+grid();
 
