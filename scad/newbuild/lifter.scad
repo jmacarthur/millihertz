@@ -19,15 +19,21 @@ raiser1Separation = chassisInternalSpacing+chassisThickness*2-raiserWallWidth*0;
 module lifterBar(length, step)
 {
   difference() {
-  union() {
-  for(side=[0:1]) {
-    translate([raiser1Separation*side+(raiserWallWidth+raiserSeparation)*(side*step*2)+(raiserWallWidth*side),0,0] )rotate([0,90,0]) cylinder(r=10,h=raiserWallWidth); 
-    translate([raiser1Separation*side+(raiserWallWidth+raiserSeparation)*(side*step*2)+(raiserWallWidth*side),-length,-10]) cube(size=[raiserWallWidth,length,20]);
-    rotate([135,0,0]) translate([raiser1Separation*side+(raiserWallWidth+raiserSeparation)*(side*step*2)+(raiserWallWidth*side),0,-10]) cube(size=[raiserWallWidth,45,20]);
-  } 
-  translate([0,-length,-10]) cube(size=[raiser1Separation+(raiserWallWidth+raiserSeparation)*(2*step)+raiserWallWidth,raiserWallWidth,20]); // cross bar
-  }
-  translate([-10,0,0]) rotate([0,90,0]) cylinder(r=2.5,h=200); // Axle hole
+    union() {
+      for(side=[0:1]) {
+        translate([raiser1Separation*side+(raiserWallWidth+raiserSeparation)*(side*step*2)+(raiserWallWidth*side),0,0] )rotate([0,90,0]) cylinder(r=10,h=raiserWallWidth); 
+        color([0.8,0.8,0]) translate([raiser1Separation*side+(raiserWallWidth+raiserSeparation)*(side*step*2)+(raiserWallWidth*side),-length+raiserWallWidth,-10]) cube(size=[raiserWallWidth,length-raiserWallWidth,20]);
+        color([0.8,0.8,0])         translate([raiser1Separation*side+(raiserWallWidth+raiserSeparation)*(side*step*2)+(raiserWallWidth*side),-length,-10]) cube(size=[raiserWallWidth,raiserWallWidth,10]);
+        color([0.8,0.8,0])         rotate([135,0,0]) translate([raiser1Separation*side+(raiserWallWidth+raiserSeparation)*(side*step*2)+(raiserWallWidth*side),0,-10]) cube(size=[raiserWallWidth,45,20]);
+      } 
+      translate([raiserWallWidth,-length,-10]) cube(size=[raiser1Separation+(raiserWallWidth+raiserSeparation)*(2*step),raiserWallWidth,20]); // cross bar
+      translate([0,-length,0]) cube(size=[raiserWallWidth,raiserWallWidth,10]); // cross bar tab
+      translate([raiser1Separation+(raiserWallWidth+raiserSeparation)*(2*step)+raiserWallWidth,-length,0]) cube(size=[raiserWallWidth,raiserWallWidth,10]); // cross bar tab
+    }
+    translate([-thin,0,0]) rotate([0,90,0]) cylinder(r=2.5,h=200); // Axle hole
+    translate([-thin,-20,20])rotate([0,90,0]) cylinder(r=2.5,h=200); // Axle hole
+    translate([-thin,-25,30])rotate([0,90,0]) cylinder(r=2.5,h=200); // Axle hole
+    translate([-thin,-10,10])rotate([0,90,0]) cylinder(r=2.5,h=200); // Axle hole
   }
 }
 
@@ -85,7 +91,7 @@ module lifter3(startX)
 {
 	union() {
 
-	translate([startX,0,0])	lifterBar(raiser3Length,3);
+          translate([startX,0,0])	lifterBar(raiser3Length,3);
 
 	translate([startX+raiser1Separation/2+raiserWallWidth*3-40+raiserSeparation*3,-raiser3Length,-raiser3Drop-10]) cube(size=[80,raiserWallWidth,raiser3Drop+20]); // Vertical plate
 

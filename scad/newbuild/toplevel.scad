@@ -28,12 +28,12 @@ wheel2X = gridSpacing*19*1;
 // Toggle top level elements on and off
 // Some elements are commented on/off at the bottom of this file.
 drawWheels = true;
-drawLifters = false;
+drawLifters = true;
 drawMazeAndLifters = true;
 drawDirAmp = false;
-drawData = false;
+drawData = true;
 drawStateFlip = false;
-drawMaze = false;
+drawMaze = true;
 
 if(drawWheels) {
   for(y=[axle1Y,axle2Y]) 
@@ -49,7 +49,7 @@ if(drawWheels) {
 // Configure the animation
 x=$t*120;
 y = (x<105)?x:105;
-z = 0;
+z = 2;
 
 echo("Maze starts at ",mazeStartX,",",mazeStartY,",",chassisTop);
 
@@ -59,7 +59,7 @@ if(drawMazeAndLifters) {
     translate([mazeStartX,0,0]) maze();
     }
     
-    translate([chassisStartX+supportWallWidth*0,mazeHoleOffsetY,mazeHoleOffsetZ]) rotate([0,0,0]) lifterSupport();
+    translate([chassisStartX+supportWallWidth*0,mazeHoleOffsetY,mazeHoleOffsetZ]) lifterSupport();
     
     if(drawLifters) {
       translate([0,mazeHoleOffsetY,mazeHoleOffsetZ]) rotate([-x,0,0]) lifter1(-raiserWallWidth*2-(raiserWallWidth+raiserSeparation)*1+chassisStartX+supportWallWidth);
@@ -74,7 +74,7 @@ if(drawMazeAndLifters) {
 // Top level elements that have boolean toggles
 
 if(drawData) {
-  for(d=[-1:10]) {
+  for(d=[-5:10]) {
     translate([row1x,gridSpacing*2*d+gridWallWidth+gridHoleSize/2,ballBearingHeight-ballRadius]) sphere(r=ballRadius,$fn=20);
   }
 }
@@ -92,12 +92,12 @@ if(drawDirAmp)
 // Below here should be a list of top-level elements, one per line. 
 // These can be easily commented out while working on specific elements.
 
-//returner();
+returner();
 //punt(120);
 //cams(235);
 //translate([0,0,chassisTop])engine(300);
 //reducerPulley(280);
-//translate([mazeStartX + dirBoxOffsetX,dirBoxOffsetY,chassisTop+mazeHeight]) dirbox();
+translate([mazeStartX + dirBoxOffsetX,dirBoxOffsetY,chassisTop+mazeHeight]) dirbox();
 //translate([mazeStartX + dirBoxOffsetX,dirBoxOffsetY,chassisTop+mazeHeight+dirBoxHeight]) statebox();
 //translate([chassisStartX,0,axleHeight+axleRadius]) chassis();
 translate([chassisStartX,0,axleHeight+axleRadius]) acrylicChassis();
