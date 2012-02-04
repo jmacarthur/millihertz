@@ -19,9 +19,6 @@ mazeStartY = 0;
 mazeHoleOffsetY = 76.5;
 mazeHoleOffsetZ = 13;
 
-dirBoxOffsetX = gridSpacing*2-5+6; // Offset from the edge of the grid to the dir box
-dirBoxOffsetY = gridSpacing*4-5; 
-
 dirBoxHeight=10;
 dirBoxWallWidth=5;
 
@@ -74,3 +71,9 @@ cutWidth=0;
 
 // This is used to make things slightly bigger for CSG, to avoid touching walls.
 thin = 0.1;
+
+mazeTop = chassisTop+mazeHeight-5;
+
+dirBoxOffsetY = gridSpacing*4-dirBoxWallWidth/2; 
+dirBoxOffsetX = row1x-dirBoxWallWidth-gridSpacing; // Offset from the edge of the grid to the dir box
+

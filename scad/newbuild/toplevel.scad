@@ -92,14 +92,14 @@ if(drawDirAmp)
 // Below here should be a list of top-level elements, one per line. 
 // These can be easily commented out while working on specific elements.
 
-returner();
+//returner();
 //punt(120);
 //cams(235);
 //translate([0,0,chassisTop])engine(300);
 //reducerPulley(280);
-translate([mazeStartX + dirBoxOffsetX,dirBoxOffsetY,chassisTop+mazeHeight]) dirbox();
+translate([dirBoxOffsetX,dirBoxOffsetY,mazeTop]) dirbox();
 //translate([mazeStartX + dirBoxOffsetX,dirBoxOffsetY,chassisTop+mazeHeight+dirBoxHeight]) statebox();
 //translate([chassisStartX,0,axleHeight+axleRadius]) chassis();
-translate([chassisStartX,0,axleHeight+axleRadius]) acrylicChassis();
+//translate([chassisStartX,0,axleHeight+axleRadius]) acrylicChassis();
 //grid();
 

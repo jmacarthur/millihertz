@@ -5,6 +5,7 @@ include <params.scad>
 
 dirBoxOverallWidth=gridSpacing*10+dirBoxWallWidth*2;
 // Gap is the space between the dir box flipper paddles and the wall of the box.
+flipperRotate=90;
 
 flipperWidth=10;
 gap = (gridSpacing*2-flipperWidth)/2;
@@ -28,33 +29,71 @@ module dirFlipper()
 	}
 }
 
-module dirbox()
+module dirBoxWalls()
+{
+  color([0.5,0.5,0.5])
+    union() {
+    difference() {
+      cube(size=[gridSpacing*10+dirBoxWallWidth*2,dirBoxWallWidth,dirBoxHeight]);
+      // Sensor support thing
+      translate([dirBoxWallWidth-10,-thin,dirBoxHeight-1.5]) cube(size=[gridSpacing*4,dirBoxWallWidth+thin*2,3]);
+
+
+    }
+    difference() {
+    translate([0,gridSpacing*4+dirBoxWallWidth,0])
+      cube(size=[gridSpacing*10+dirBoxWallWidth*2,dirBoxWallWidth,dirBoxHeight]);
+      translate([dirBoxWallWidth+gridSpacing*8,dirBoxWallWidth+1,dirBoxHeight-4.5]) cube(size=[gridSpacing*2,100,3]);
+    }
+
+    difference() {
+      union() {
+        translate([0,dirBoxWallWidth,0])
+          cube(size=[dirBoxWallWidth,gridSpacing*4,dirBoxHeight]);
+        translate([gridSpacing*10+dirBoxWallWidth,dirBoxWallWidth,0])
+          cube(size=[dirBoxWallWidth,gridSpacing*4,dirBoxHeight]);
+      }
+      translate([-thin,dirBoxWallWidth+gridSpacing*2,dirBoxHeight]) {
+        rotate([0,90,0])
+          cylinder(r=1.5,h=100);
+      }
+    }
+  }
+  
+}
+
+module dirboxA()
 {
 	// Casing
-	difference()
-	{
-	cube(size=[gridSpacing*10+dirBoxWallWidth*2,gridSpacing*4+dirBoxWallWidth*2,dirBoxHeight]);
-	translate([dirBoxWallWidth,dirBoxWallWidth,-1])	cube(size=[gridSpacing*10,gridSpacing*4,dirBoxHeight+2]);
-	// Space for amplifier support
-	translate([dirBoxWallWidth+gridSpacing*8,dirBoxWallWidth+1,dirBoxHeight-4.5]) cube(size=[gridSpacing*2,100,3]);
+  dirBoxWalls();
 
-	// Space for spring support
-	translate([dirBoxWallWidth-10,-1,dirBoxHeight-1.5]) cube(size=[gridSpacing*4,dirBoxWallWidth+1,3]);
-	}
-	translate([0,dirBoxWallWidth+gridSpacing*2,dirBoxHeight]) dirFlipper();
+  translate([0,dirBoxWallWidth+gridSpacing*2,dirBoxHeight]) rotate([flipperRotate,0,0]) dirFlipper();
 
 	// Amplifier support
-	translate([dirBoxWallWidth+gridSpacing*8,dirBoxWallWidth+gridSpacing*4,dirBoxHeight-4.5]) cube(size=[gridSpacing*2,30,3]);
+        translate([dirBoxWallWidth+gridSpacing*8,dirBoxWallWidth+gridSpacing*4,dirBoxHeight-4.5]) cube(size=[gridSpacing*2,30,3]);
 
 	// Support for reset bar 
 	translate([dirBoxWallWidth+gridSpacing*8,dirBoxWallWidth+gridSpacing*4+20,dirBoxHeight-4.5]) cube(size=[gridSpacing*2+30,10,3]);
 
 	// Spring support
 	difference() {
-	translate([dirBoxWallWidth-20,-5,dirBoxHeight-1.5]) cube(size=[gridSpacing*4+20,dirBoxWallWidth+5,3]);
-	translate([dirBoxWallWidth-20+2.5,0,dirBoxHeight-2.5]) cylinder(r=1.5,h=100);
+          //translate([dirBoxWallWidth-20,-5,dirBoxHeight-1.5]) cube(size=[gridSpacing*4+20,dirBoxWallWidth+5,3]);
+          //translate([dirBoxWallWidth-20+2.5,0,dirBoxHeight-2.5]) cylinder(r=1.5,h=100);
 
 	}
 
 
+}
+
+module dirbox()
+{
+  translate([0,0,dirBoxWallWidth]) {
+    dirboxA();
+  }
+  difference() {
+    translate([-gridSpacing*2,0,0])
+      cube(size=[gridSpacing*16,dirBoxWallWidth*2+gridSpacing*4,dirBoxWallWidth]);
+    translate([dirBoxWallWidth,dirBoxWallWidth,-thin])
+      cube(size=[gridSpacing*10,gridSpacing*4,dirBoxWallWidth+2*thin]);
+  }
 }
