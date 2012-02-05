@@ -29,7 +29,7 @@ wheel2X = gridSpacing*19*1;
 // Some elements are commented on/off at the bottom of this file.
 drawWheels = true;
 drawLifters = true;
-drawMazeAndLifters = false;
+drawMazeAndLifters = true;
 drawDirAmp = false;
 drawData = true;
 drawStateFlip = true;
@@ -49,7 +49,7 @@ if(drawWheels) {
 // Configure the animation
 x=$t*120;
 y = (x<105)?x:105;
-z = 2;
+z = 20;
 
 echo("Maze starts at ",mazeStartX,",",mazeStartY,",",chassisTop);
 
@@ -92,14 +92,14 @@ if(drawDirAmp)
 // Below here should be a list of top-level elements, one per line. 
 // These can be easily commented out while working on specific elements.
 
-//returner();
-//punt(120);
-//cams(235);
-//translate([0,0,chassisTop])engine(300);
-//reducerPulley(280);
+returner();
+punt(120);
+cams(235);
+translate([0,0,chassisTop])engine(300);
+reducerPulley(280);
 translate([dirBoxOffsetX,dirBoxOffsetY,mazeTop]) dirbox();
 translate([dirBoxOffsetX,dirBoxOffsetY,chassisTop+mazeHeight+dirBoxHeight]) statebox();
 //translate([chassisStartX,0,axleHeight+axleRadius]) chassis();
-//translate([chassisStartX,0,axleHeight+axleRadius]) acrylicChassis();
-//grid();
+translate([chassisStartX,0,axleHeight+axleRadius]) acrylicChassis();
+grid();
 

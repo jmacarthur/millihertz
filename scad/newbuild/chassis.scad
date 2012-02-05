@@ -33,7 +33,7 @@ module acrylicBeams()
          chassisThickness*2+chassisInternalSpacing-5]) {
     difference() {
       union() {
-        translate([x,0,0]) cube(size=[5,605,20]);
+        translate([x,0,0]) cube(size=[5,450,20]);
         // For some reason we have to fudge axle1Y in this way. We should refactor.
         translate([x,gridWallWidth+gridHoleSize/2+axle1Y-15,-10]) cube(size=[5,30,10]);
         translate([x,gridWallWidth+gridHoleSize/2+axle2Y-15,-10]) cube(size=[5,30,10]);
