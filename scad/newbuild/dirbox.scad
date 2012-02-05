@@ -29,35 +29,51 @@ module dirFlipper()
 	}
 }
 
+module dirBoxLongWall()
+{
+  difference() {
+    cube(size=[gridSpacing*10+dirBoxWallWidth*2,dirBoxWallWidth,dirBoxHeight]);
+    translate([gridSpacing*4,-thin,5]) cube(size=[gridSpacing*2,dirBoxWallWidth+thin*2,5+thin]);
+  }
+}
+module dirBoxShortWall()
+{
+  difference() {
+    cube(size=[dirBoxWallWidth,gridSpacing*4,dirBoxHeight]);
+    translate([-thin,gridSpacing*2,dirBoxHeight]) {
+      rotate([0,90,0])
+        cylinder(r=1.5,h=dirBoxWallWidth+thin*2);
+    }
+    translate([-thin,-thin,dirBoxHeight-5]) {
+      cube(size=[dirBoxWallWidth+thin*2,gridSpacing+thin,5+thin]);
+    }
+    translate([-thin,gridSpacing*3,dirBoxHeight-5]) {
+      cube(size=[dirBoxWallWidth+thin*2,gridSpacing+thin,5+thin]);
+    }
+  }
+}
+
 module dirBoxWalls()
 {
   color([0.5,0.5,0.5])
     union() {
     difference() {
-      cube(size=[gridSpacing*10+dirBoxWallWidth*2,dirBoxWallWidth,dirBoxHeight]);
+      dirBoxLongWall();
       // Sensor support thing
       translate([dirBoxWallWidth-10,-thin,dirBoxHeight-1.5]) cube(size=[gridSpacing*4,dirBoxWallWidth+thin*2,3]);
-
-
+      
+      
     }
     difference() {
     translate([0,gridSpacing*4+dirBoxWallWidth,0])
-      cube(size=[gridSpacing*10+dirBoxWallWidth*2,dirBoxWallWidth,dirBoxHeight]);
+      dirBoxLongWall();
       translate([dirBoxWallWidth+gridSpacing*8,dirBoxWallWidth+1,dirBoxHeight-4.5]) cube(size=[gridSpacing*2,100,3]);
     }
 
-    difference() {
-      union() {
-        translate([0,dirBoxWallWidth,0])
-          cube(size=[dirBoxWallWidth,gridSpacing*4,dirBoxHeight]);
-        translate([gridSpacing*10+dirBoxWallWidth,dirBoxWallWidth,0])
-          cube(size=[dirBoxWallWidth,gridSpacing*4,dirBoxHeight]);
-      }
-      translate([-thin,dirBoxWallWidth+gridSpacing*2,dirBoxHeight]) {
-        rotate([0,90,0])
-          cylinder(r=1.5,h=100);
-      }
-    }
+    translate([0,dirBoxWallWidth,0])
+      dirBoxShortWall();
+    translate([gridSpacing*10+dirBoxWallWidth,dirBoxWallWidth,0])
+      dirBoxShortWall();
   }
   
 }
@@ -69,20 +85,18 @@ module dirboxA()
 
   translate([0,dirBoxWallWidth+gridSpacing*2,dirBoxHeight]) rotate([flipperRotate,0,0]) dirFlipper();
 
-	// Amplifier support
-        translate([dirBoxWallWidth+gridSpacing*8,dirBoxWallWidth+gridSpacing*4,dirBoxHeight-4.5]) cube(size=[gridSpacing*2,30,3]);
-
-	// Support for reset bar 
-	translate([dirBoxWallWidth+gridSpacing*8,dirBoxWallWidth+gridSpacing*4+20,dirBoxHeight-4.5]) cube(size=[gridSpacing*2+30,10,3]);
-
-	// Spring support
-	difference() {
-          //translate([dirBoxWallWidth-20,-5,dirBoxHeight-1.5]) cube(size=[gridSpacing*4+20,dirBoxWallWidth+5,3]);
-          //translate([dirBoxWallWidth-20+2.5,0,dirBoxHeight-2.5]) cylinder(r=1.5,h=100);
-
-	}
-
-
+  // Amplifier support
+  translate([dirBoxWallWidth+gridSpacing*8,dirBoxWallWidth+gridSpacing*4,dirBoxHeight-4.5]) cube(size=[gridSpacing*2,30,3]);
+  
+  // Support for reset bar 
+  translate([dirBoxWallWidth+gridSpacing*8,dirBoxWallWidth+gridSpacing*4+20,dirBoxHeight-4.5]) cube(size=[gridSpacing*2+30,10,3]);
+  
+  // Spring support
+  difference() {
+    //translate([dirBoxWallWidth-20,-5,dirBoxHeight-1.5]) cube(size=[gridSpacing*4+20,dirBoxWallWidth+5,3]);
+    //translate([dirBoxWallWidth-20+2.5,0,dirBoxHeight-2.5]) cylinder(r=1.5,h=100);
+    
+  }  
 }
 
 module dirbox()

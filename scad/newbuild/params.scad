@@ -22,7 +22,7 @@ mazeHoleOffsetZ = 13;
 dirBoxHeight=10;
 dirBoxWallWidth=5;
 
-stateBoxHeight=25;
+stateBoxHeight=22;
 stateBoxWallWidth=5;
 
 ballRadius = 4.76;

@@ -29,10 +29,10 @@ wheel2X = gridSpacing*19*1;
 // Some elements are commented on/off at the bottom of this file.
 drawWheels = true;
 drawLifters = true;
-drawMazeAndLifters = true;
+drawMazeAndLifters = false;
 drawDirAmp = false;
 drawData = true;
-drawStateFlip = false;
+drawStateFlip = true;
 drawMaze = true;
 
 if(drawWheels) {
@@ -81,7 +81,7 @@ if(drawData) {
 
 if(drawStateFlip) 
 {
-  translate([mazeStartX + dirBoxOffsetX, dirBoxOffsetY +gridSpacing*2+dirBoxWallWidth,chassisTop+mazeHeight+25]) rotate([0,0,270])stateflip();
+  translate([dirBoxOffsetX-1, dirBoxOffsetY +gridSpacing*2+dirBoxWallWidth,mazeTop+dirBoxWallWidth+dirBoxHeight+stateBoxHeight]) rotate([0,0,270])stateflip();
 }
 
 if(drawDirAmp)
@@ -98,7 +98,7 @@ if(drawDirAmp)
 //translate([0,0,chassisTop])engine(300);
 //reducerPulley(280);
 translate([dirBoxOffsetX,dirBoxOffsetY,mazeTop]) dirbox();
-//translate([mazeStartX + dirBoxOffsetX,dirBoxOffsetY,chassisTop+mazeHeight+dirBoxHeight]) statebox();
+translate([dirBoxOffsetX,dirBoxOffsetY,chassisTop+mazeHeight+dirBoxHeight]) statebox();
 //translate([chassisStartX,0,axleHeight+axleRadius]) chassis();
 //translate([chassisStartX,0,axleHeight+axleRadius]) acrylicChassis();
 //grid();
