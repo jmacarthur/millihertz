@@ -80,7 +80,12 @@ module acrylicCrossBeams()
 module acrylicChassis()
 {
 	color([1.0,0,0.5]) {	
-		drilledAcrylicBeams();
-		acrylicCrossBeams();
+          union() {
+            drilledAcrylicBeams();
+            // Tabs for punt plate
+            translate([0,140,-3]) cube([chassisAcrylThick,20,3]);
+            translate([chassisInternalSpacing+chassisThickness*2-chassisAcrylThick,140,-3]) cube([chassisAcrylThick,20,3]);
+          }
+          acrylicCrossBeams();
 	}
 }
