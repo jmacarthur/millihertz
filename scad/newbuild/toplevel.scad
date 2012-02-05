@@ -28,12 +28,12 @@ wheel2X = gridSpacing*19*1;
 // Toggle top level elements on and off
 // Some elements are commented on/off at the bottom of this file.
 drawWheels = true;
-drawLifters = true;
-drawMazeAndLifters = true;
-drawDirAmp = true;
-drawData = true;
-drawStateFlip = true;
-drawMaze = true;
+drawLifters = false;
+drawMazeAndLifters = false;
+drawDirAmp = false;
+drawData = false;
+drawStateFlip = false;
+drawMaze = false;
 
 if(drawWheels) {
   for(y=[axle1Y,axle2Y]) 
