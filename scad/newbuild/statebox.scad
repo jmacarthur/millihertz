@@ -45,7 +45,7 @@ module statebox()
     difference() {
     stateLongWall();
     // Space for spring support
-    translate([dirBoxWallWidth-10,-1,-1.5]) cube(size=[gridSpacing*4,dirBoxWallWidth+1.5,3]);
+    translate([-thin,-1,-1.5]) cube(size=[20+thin,dirBoxWallWidth+1.5,3]);
   }
   translate([0,gridSpacing*4+stateBoxWallWidth,0])
     stateLongWall();

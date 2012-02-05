@@ -33,7 +33,7 @@ module dirBoxLongWall()
 {
   difference() {
     cube(size=[gridSpacing*10+dirBoxWallWidth*2,dirBoxWallWidth,dirBoxHeight]);
-    translate([gridSpacing*4,-thin,5]) cube(size=[gridSpacing*2,dirBoxWallWidth+thin*2,5+thin]);
+    translate([gridSpacing*4,-thin,5]) cube(size=[gridSpacing*2,dirBoxWallWidth+thin*2,5+thin]); // Space for notch support
   }
 }
 module dirBoxShortWall()
@@ -60,9 +60,7 @@ module dirBoxWalls()
     difference() {
       dirBoxLongWall();
       // Sensor support thing
-      translate([dirBoxWallWidth-10,-thin,dirBoxHeight-1.5]) cube(size=[gridSpacing*4,dirBoxWallWidth+thin*2,3]);
-      
-      
+      translate([-thin,-thin,dirBoxHeight-1.5]) cube(size=[20+thin,dirBoxWallWidth+thin*2,3]);
     }
     difference() {
     translate([0,gridSpacing*4+dirBoxWallWidth,0])
@@ -85,17 +83,19 @@ module dirboxA()
 
   translate([0,dirBoxWallWidth+gridSpacing*2,dirBoxHeight]) rotate([flipperRotate,0,0]) dirFlipper();
 
-  // Amplifier support
-  translate([dirBoxWallWidth+gridSpacing*8,dirBoxWallWidth+gridSpacing*4,dirBoxHeight-4.5]) cube(size=[gridSpacing*2,30,3]);
-  
-  // Support for reset bar 
-  translate([dirBoxWallWidth+gridSpacing*8,dirBoxWallWidth+gridSpacing*4+20,dirBoxHeight-4.5]) cube(size=[gridSpacing*2+30,10,3]);
-  
+  // Amplifier support / support for reset bar
+  difference() {
+    union() {
+      translate([dirBoxWallWidth+gridSpacing*8,dirBoxWallWidth+gridSpacing*4,dirBoxHeight-4.5]) cube(size=[gridSpacing*2,30,3]);
+      
+      translate([dirBoxWallWidth+gridSpacing*8,dirBoxWallWidth+gridSpacing*4+20,dirBoxHeight-4.5]) cube(size=[gridSpacing*2+30,10,3]);
+    }
+    translate([70,dirBoxWallWidth+gridSpacing*4+20,dirBoxHeight-4.5]) cylinder(r=2.5,h=50);
+  }
   // Spring support
   difference() {
-    //translate([dirBoxWallWidth-20,-5,dirBoxHeight-1.5]) cube(size=[gridSpacing*4+20,dirBoxWallWidth+5,3]);
-    //translate([dirBoxWallWidth-20+2.5,0,dirBoxHeight-2.5]) cylinder(r=1.5,h=100);
-    
+    translate([-20,-5,dirBoxHeight-1.5]) cube(size=[40,dirBoxWallWidth+5,3]);
+    translate([-15,0,dirBoxHeight-2.5]) cylinder(r=1.5,h=100);
   }  
 }
 

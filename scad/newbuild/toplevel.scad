@@ -30,7 +30,7 @@ wheel2X = gridSpacing*19*1;
 drawWheels = true;
 drawLifters = true;
 drawMazeAndLifters = true;
-drawDirAmp = false;
+drawDirAmp = true;
 drawData = true;
 drawStateFlip = true;
 drawMaze = true;
@@ -86,7 +86,7 @@ if(drawStateFlip)
 
 if(drawDirAmp)
 {
-  translate([mazeStartX + dirBoxOffsetX+70, dirBoxOffsetY+55,chassisTop+mazeHeight+10-1.5]) diramp();
+  translate([dirBoxOffsetX+70, dirBoxOffsetY+55,chassisTop+mazeHeight+10-1.5]) diramp();
 }
 
 // Below here should be a list of top-level elements, one per line. 
