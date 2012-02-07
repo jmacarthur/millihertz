@@ -31,7 +31,7 @@ drawWheels = true;
 drawLifters = true;
 drawMazeAndLifters = true;
 drawDirAmp = false;
-drawData = false;
+drawData = true;
 drawStateFlip = false;
 drawMaze = false;
 
@@ -46,10 +46,16 @@ if(drawWheels) {
   }
 }
 
-// Configure the animation
-x=$t*120;
+// Configure the animation. Here are the rough steps:
+// At time zero, the main raiser starts lifting.
+// At time (0.25), the main raiser should be at the top.
+// At time (0.50), the mover should start depressing. The outer lifter should start raising at this point.
+
+maxLifterAngle = 120;
+maxOuterRaiserAngle = 10;
+x= ($t<0.25)?($t/0.25)*maxLifterAngle:($t<0.75)?maxLifterAngle:((1-$t)/0.25)*maxLifterAngle;
 y = (x<105)?x:105;
-z = 20;
+z = ($t<0.5)?0:($t<0.75)?($t-0.5)*(1/0.25)*maxOuterRaiserAngle:($t<0.9)?maxOuterRaiserAngle:(1-$t)*(1/0.1)*maxOuterRaiserAngle;
 
 echo("Maze starts at ",mazeStartX,",",mazeStartY,",",chassisTop);
 

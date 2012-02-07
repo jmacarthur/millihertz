@@ -8,6 +8,8 @@ resetFollowerPos = 35;
 
 moverCamRotate = $t*360;
 lifterCamRotate = $t*360;
+followerAngle = ($t>0.25 && $t<0.75)?17:0;
+
 camShaftHeight = 55;
 camWidth = 6;
 module makeConRod(length, width)
@@ -36,21 +38,21 @@ module makeConRod(length, width)
 
 module cams(yOffset)
 {
-	supports = true;
-	if(supports) {
-
-	  for(outside=[0,1]) 
-	    for(side=[0:1]) {
-	      translate([wheelWidth+chassisThickness+gridWallWidth+(chassisInternalSpacing-5)*side+((side*2-1)*outside*(chassisThickness+5)),yOffset-20,chassisTop-chassisThickness]) {
-	        difference() {
-		  cube(size=[5,80,120]);
-		  translate([-1,-50,90]) rotate([-45,0,0]) cube(size=[7,50,150]);
-		  translate([-1,20,75]) rotate([0,90,0])	cylinder(r=2.5,h=7);
-		  translate([-1,70,110]) rotate([0,90,0])	cylinder(r=2.5,h=7);
-		}
-              }		
-	    }
-	  }
+  supports = false;
+  if(supports) {
+    
+    for(outside=[0,1]) 
+      for(side=[0:1]) {
+        translate([wheelWidth+chassisThickness+gridWallWidth+(chassisInternalSpacing-5)*side+((side*2-1)*outside*(chassisThickness+5)),yOffset-20,chassisTop-chassisThickness]) {
+          difference() {
+            cube(size=[5,80,120]);
+            translate([-1,-50,90]) rotate([-45,0,0]) cube(size=[7,50,150]);
+            translate([-1,20,75]) rotate([0,90,0])	cylinder(r=2.5,h=7);
+            translate([-1,70,110]) rotate([0,90,0])	cylinder(r=2.5,h=7);
+          }
+        }		
+      }
+  }
 
 	translate([0, yOffset, chassisTop+camShaftHeight])
 	{
@@ -100,13 +102,16 @@ module cams(yOffset)
 		rotate([0,90,0])
 		color([0.5,0.5,0.5]) cylinder(r=2.5,h=150);
          }
+
 	 // Follower levers for the cams
 	 for(c=[0:1]) {
 	translate([gridWallWidth+wheelWidth+10+(chassisInternalSpacing+chassisThickness)*c,yOffset+50,chassisTop+90]) 
 	{
+          rotate([followerAngle,0,0]) {
 	makeConRod(lifterFollowerLen,3);
 	  translate([-bearingWidth,0,-lifterFollowerPos])
 	    rotate([0,90,0]) cylinder(r=bearingRadius,h=bearingWidth);
+          }
 	    }
 	    }
 
