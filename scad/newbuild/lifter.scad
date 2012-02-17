@@ -32,9 +32,9 @@ module lifterBar(length, step, inputAngle)
       translate([raiser1Separation+(raiserWallWidth+raiserSeparation)*(2*step)+raiserWallWidth,-length,0]) cube(size=[raiserWallWidth,raiserWallWidth,10]); // cross bar tab
     }
     translate([-thin,0,0]) rotate([0,90,0]) cylinder(r=2.5,h=200); // Axle hole
-    translate([-thin,-20,20])rotate([0,90,0]) cylinder(r=2.5,h=200); // Axle hole
-    translate([-thin,-25,30])rotate([0,90,0]) cylinder(r=2.5,h=200); // Axle hole
-    translate([-thin,-10,15])rotate([0,90,0]) cylinder(r=2.5,h=200); // Axle hole
+    translate([-thin,-20,20])rotate([0,90,0]) cylinder(r=2.5,h=200); // Pull hole d=28.2
+    translate([-thin,-25,30])rotate([0,90,0]) cylinder(r=2.5,h=200); // Pull hole d=39.1
+    translate([-thin,-10,15])rotate([0,90,0]) cylinder(r=2.5,h=200); // Pull hole d=18.0
   }
 }
 

@@ -11,7 +11,7 @@ puntPosX = row1x+gridSpacing*3+puntWidth/2; // MUST be an odd number otherwise y
 leverLen=120;
 puntLen=50;
 
-up = 1;
+up = ($t<0.5)?1:($t<0.7)?1-($t-0.5)*5:$t;
 
 leverAngle = 10*up;
 

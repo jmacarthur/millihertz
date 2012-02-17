@@ -38,7 +38,7 @@ sub lifterCamFunction
     }
     else
     {
-	return 53;
+	return 54;
     }
 }
 

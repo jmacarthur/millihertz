@@ -1,38 +1,45 @@
 include <params.scad>
 include <generated_cams.scad>
 
-lifterFollowerLen = 70;
+lifterFollowerLen = 80;
 lifterFollowerPos = 35;	
 resetFollowerLen = 70;
 resetFollowerPos = 35;
 
 moverCamRotate = $t*360;
 lifterCamRotate = $t*360;
-followerAngle = ($t>0.25 && $t<0.75)?17:0;
+followerMaxAngle = 20;
+followerAngle = ($t>0.25 && $t<0.75)?followerMaxAngle:0;
+
+pull = lifterFollowerLen*sin(followerMaxAngle);
+echo("Lifter pull: ",pull);
 
 camShaftHeight = 55;
 camWidth = 6;
+
+drawMoverCam = true;
+drawLifterCam = false;
 module makeConRod(length, width)
 {
-	difference() {
-	union() {
-	rotate([0,90,0])
+  difference() {
+    union() {
+      rotate([0,90,0])
 	cylinder(r=5,h=width);
-	translate([0,0,-length]) {
+      translate([0,0,-length]) {
 	rotate([0,90,0])
-	cylinder(r=5,h=width);
-	}
-	translate([0,-5,-length]) {
+          cylinder(r=5,h=width);
+      }
+      translate([0,-5,-length]) {
 	cube(size=[width,10,length]);
-	}
-	}
-	translate([-1,0,0])
-	rotate([0,90,0])
-	cylinder(r=2.5,h=width+2);
-	translate([-1,0,-length])
-	rotate([0,90,0])
-	cylinder(r=2.5,h=width+2);
-	}
+      }
+    }
+    translate([-1,0,0])
+      rotate([0,90,0])
+      cylinder(r=2.5,h=width+2);
+    translate([-1,0,-length])
+      rotate([0,90,0])
+      cylinder(r=2.5,h=width+2);
+  }
 }
 
 
@@ -57,24 +64,27 @@ module cams(yOffset)
 	translate([0, yOffset, chassisTop+camShaftHeight])
 	{
 	translate([puntPosX-5,0,0])
+          if(drawMoverCam) {
 	rotate([0,90,0]) difference()
 	{
 		rotate([0,0,moverCamRotate]) color([0,1,1]) moverCam();
 		translate([0,0,-1]) cylinder(r=2.5,h=7);
 	}
-
+          }
 	// This one runs the lifters.
 	// There should be an identical one on the other side.
-	translate([gridWallWidth+wheelWidth+5,0,0])
-	rotate([0,90,0]) difference()
-	{
-	color([1,0,1])
-	union() {
-		rotate([0,0,lifterCamRotate]) lifterCam();
-		translate([0,0,chassisInternalSpacing+chassisThickness])		rotate([0,0,lifterCamRotate]) lifterCam();
-		}
-		translate([0,0,-1]) cylinder(r=2.5,h=7);
-	}
+        if(drawLifterCam) {
+          translate([gridWallWidth+wheelWidth+5,0,0])
+            rotate([0,90,0]) difference()
+          {
+            color([1,0,1])
+              union() {
+              rotate([0,0,lifterCamRotate]) lifterCam();
+              translate([0,0,chassisInternalSpacing+chassisThickness])		rotate([0,0,lifterCamRotate]) lifterCam();
+            }
+            translate([0,0,-1]) cylinder(r=2.5,h=7);
+          }
+        }
 
 
 

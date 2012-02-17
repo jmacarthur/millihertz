@@ -57,6 +57,9 @@ x= ($t<0.25)?($t/0.25)*maxLifterAngle:($t<0.75)?maxLifterAngle:((1-$t)/0.25)*max
 y = (x<105)?x:105;
 z = ($t<0.5)?0:($t<0.75)?($t-0.5)*(1/0.25)*maxOuterRaiserAngle:($t<0.9)?maxOuterRaiserAngle:(1-$t)*(1/0.1)*maxOuterRaiserAngle;
 
+lifterHolePos=18.0; // See lifter.scad
+lifterPullReq = lifterHolePos*(1+sin(maxLifterAngle-90));
+echo("lifter pull requires ",lifterPullReq,"mm");
 echo("Maze starts at ",mazeStartX,",",mazeStartY,",",chassisTop);
 
 if(drawMazeAndLifters) {
