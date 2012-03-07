@@ -19,9 +19,9 @@ echo("Lifter pull: ",pull);
 
 camShaftHeight = 55;
 camWidth = 6;
-
+resetCamRotate = $t*360;
 drawMoverCam = true;
-drawLifterCam = false;
+drawLifterCam = true;
 module makeConRod(length, width)
 {
   difference() {
@@ -140,6 +140,7 @@ module cams(yOffset)
   }
 
   translate([gridWallWidth+wheelWidth+chassisThickness+80-camWidth,yOffset,chassisTop+camShaftHeight]) 
+    rotate([resetCamRotate,0,0])
   {
     rotate([0,90,0]) resetCam();
   }

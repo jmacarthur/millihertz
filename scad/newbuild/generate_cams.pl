@@ -1,15 +1,20 @@
 #!/usr/bin/perl -w
 use Math::Trig;
 
+# This is for the mover cam
 my $lowRadius = 30;
 my $engageRadius = 40;
 my $highRadius = 47;
 my $camWidth = 6;
 
+# This is for all other cams
+my $baseRadius = 42;
+
 # Gives position of lifter cam at a given angle - argument is in degrees
 sub moverCamFunction
 {
     my $t = shift;
+
     if($t < 90) {
 	$r = $lowRadius + (90-$t)*($highRadius-$lowRadius)/90;
     }
@@ -32,26 +37,30 @@ sub moverCamFunction
 sub lifterCamFunction
 {
     my $t = shift;
-    if($t<180)
+    if($t<90)
     {
-	return 42;
+	return $baseRadius;
+    }
+    elsif($t<180)
+    {
+	return $baseRadius+12*($t-90)/(90);
     }
     else
     {
-	return 54;
+	return $baseRadius+12;
     }
 }
 
 sub resetCamFunction
 {
     my $t = shift;
-    if($t<330)
+    if($t<150 && $t >120)
     {
-	return 42;
+	return $baseRadius+5*($t-120)/(150-120);
     }
     else
     {
-	return 52;
+	return $baseRadius;
     }
 }
 
