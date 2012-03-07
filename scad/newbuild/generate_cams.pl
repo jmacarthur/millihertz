@@ -56,6 +56,18 @@ sub resetCamFunction
 }
 
 
+sub dirAmpCamFunction()
+{
+    my $t = shift;
+    if($t<(360*0.45)) {
+        return 42+2.5;
+    }
+    else
+    {
+        return 42;
+    }
+}
+
 sub createCam
 {
     my ($moduleName, $funcRef) = @_;
@@ -98,3 +110,4 @@ sub createCam
 createCam("moverCam",\&moverCamFunction);
 createCam("lifterCam",\&lifterCamFunction);
 createCam("resetCam",\&resetCamFunction);
+createCam("dirAmpCam",\&dirAmpCamFunction);
