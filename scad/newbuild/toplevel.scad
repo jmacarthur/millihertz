@@ -105,7 +105,7 @@ returner();
 punt(120);
 cams(235);
 translate([0,0,chassisTop])engine(320);
-reducerPulley(275);
+//reducerPulley(305);
 translate([dirBoxOffsetX,dirBoxOffsetY,mazeTop]) dirbox();
 translate([dirBoxOffsetX,dirBoxOffsetY,chassisTop+mazeHeight+dirBoxHeight]) statebox();
 //translate([chassisStartX,0,axleHeight+axleRadius]) chassis();

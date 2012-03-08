@@ -50,7 +50,7 @@ module makeConRod(length, width)
 
 module cams(yOffset)
 {
-  supports = false;
+  supports = true;
   if(supports) {
     
     for(outside=[0,1]) 
@@ -106,7 +106,7 @@ module cams(yOffset)
   // Axles
   translate([-5,yOffset,chassisTop+camShaftHeight]) {
     rotate([0,90,0])
-      color([0.5,0.5,0.5]) cylinder(r=2.5,h=150);
+      color([0.5,0.5,0.5]) cylinder(r=2.5,h=180);
   }
   translate([-5,yOffset+50,chassisTop+90]) {
     rotate([0,90,0])
@@ -159,5 +159,10 @@ module cams(yOffset)
     translate([-1,0,0]) rotate([0,90,0]) cylinder(r=45,h=1);
     translate([5,0,0]) rotate([0,90,0]) cylinder(r=45,h=1);
   }
+  // Input sprocket (alternative)
+  color([0.5,0.5,0.5])
+    translate([gridWallWidth+wheelWidth+chassisThickness+130-camWidth,yOffset,chassisTop+camShaftHeight]) 
+    rotate([0,90,0]) cylinder(r=40,h=5);
+
 
 }
