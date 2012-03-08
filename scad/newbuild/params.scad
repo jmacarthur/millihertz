@@ -60,7 +60,7 @@ raiserSeparation = 1;
 mazeStartX =  gridWallWidth+wheelWidth+chassisThickness-(mazeWidth-chassisInternalSpacing)/2;
 
 axle1Y = gridSpacing*12;
-axle2Y = gridSpacing*38;
+axle2Y = gridSpacing*39;
 axleBlockThickness = 3;
 axleBearingDiameter = 6; // These are technobots mini bearings, code 4255-020
 

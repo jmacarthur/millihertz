@@ -21,9 +21,9 @@ camShaftHeight = 55;
 camWidth = 6;
 resetCamRotate = $t*360;
 drawMoverCam = true;
-drawLifterCam = false;
-drawDirAmpCam = false;
-drawRestCam = false;
+drawLifterCam = true;
+drawDirAmpCam = true;
+drawResetCam = true;
 module makeConRod(length, width)
 {
   difference() {

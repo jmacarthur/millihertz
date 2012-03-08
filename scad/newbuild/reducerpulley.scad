@@ -17,19 +17,21 @@ module pulley()
 }
 }
 
+pulley1Z = 53;
+
 module reducerPulley(ypos) 
 {
-	translate([90,ypos,60]) {
+	translate([90,ypos,pulley1Z]) {
 		rotate([0,90,0])
 		pulley();
 		}
 
-	translate([95,ypos+120,60]) {
+	translate([95,ypos+120,pulley1Z]) {
 		rotate([0,90,0])
 		pulley();
 		}
 
-	translate([0,ypos,60]) {
+	translate([0,ypos,pulley1Z]) {
 	rotate([0,90,0]) 
 	color([0.5,0.5,0.5])
 	cylinder(r=2.5,h=150);
