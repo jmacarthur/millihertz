@@ -6,7 +6,7 @@ lifterFollowerPos = 35;
 resetFollowerLen = 70;
 resetFollowerPos = 35;
 
-moverCamRotate = $t*360+180;
+moverCamRotate = $t*360;
 lifterCamRotate = $t*360;
 followerMaxAngle = 20;
 followerAngle = ($t>0.25 && $t<0.75)?followerMaxAngle:0;
@@ -21,7 +21,9 @@ camShaftHeight = 55;
 camWidth = 6;
 resetCamRotate = $t*360;
 drawMoverCam = true;
-drawLifterCam = true;
+drawLifterCam = false;
+drawDirAmpCam = false;
+drawRestCam = false;
 module makeConRod(length, width)
 {
   difference() {
@@ -89,15 +91,15 @@ module cams(yOffset)
       }
     }
 
-
-
     // This one is meant to hold off the dir amp
-    translate([gridWallWidth+wheelWidth+30,0,0])
-      rotate([dirAmpCamRotate,0,0])
-      rotate([0,90,0]) difference()
-    {
-      color([0,1,0]) dirAmpCam();
-      translate([0,0,-1]) cylinder(r=2.5,h=7);
+    if(drawDirAmpCam) {
+      translate([gridWallWidth+wheelWidth+30,0,0])
+        rotate([dirAmpCamRotate,0,0])
+        rotate([0,90,0]) difference()
+      {
+        color([0,1,0]) dirAmpCam();
+        translate([0,0,-1]) cylinder(r=2.5,h=7);
+      }
     }
   }
 
@@ -139,10 +141,13 @@ module cams(yOffset)
     }
   }
 
-  translate([gridWallWidth+wheelWidth+chassisThickness+80-camWidth,yOffset,chassisTop+camShaftHeight]) 
-    rotate([resetCamRotate,0,0])
-  {
-    rotate([0,90,0]) resetCam();
+
+  if(drawResetCam) {
+    translate([gridWallWidth+wheelWidth+chassisThickness+80-camWidth,yOffset,chassisTop+camShaftHeight]) 
+      rotate([resetCamRotate,0,0])
+    {
+      rotate([0,90,0]) resetCam();
+    }
   }
 
   // Input pulley

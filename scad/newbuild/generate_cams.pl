@@ -2,9 +2,9 @@
 use Math::Trig;
 
 # This is for the mover cam
-my $lowRadius = 30;
+my $lowRadius = 34;
 my $engageRadius = 40;
-my $highRadius = 47;
+my $highRadius = 50;
 my $camWidth = 6;
 
 # This is for all other cams
@@ -15,21 +15,15 @@ sub moverCamFunction
 {
     my $t = shift;
 
-    if($t < 90) {
-	$r = $lowRadius + (90-$t)*($highRadius-$lowRadius)/90;
+    if($t < 70) {
+	$r = $lowRadius + ($t)*($highRadius-$lowRadius)/70;
     }
     elsif($t < 180){
 	$r = $lowRadius;     
     }
-    elsif($t < 200) {
-	$r = $lowRadius + ($t-180)*($engageRadius-$lowRadius)/20;
-    }
-    elsif($t < 350) {
-	$r = $engageRadius + ($t-200)*($highRadius-$engageRadius)/(350-200);
-    }
     else
     {
-	$r = $highRadius;
+	$r = $lowRadius;
     }
     return $r;
 }
