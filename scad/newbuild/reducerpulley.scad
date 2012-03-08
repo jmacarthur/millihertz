@@ -80,4 +80,4 @@ translate([blockStartY+blockSeparation*2,350,blockAxleHeight]) pulleyT(60);
 translate([blockStartY+blockSeparation*2,400,blockAxleHeight]) pulleyT(20);
 translate([blockStartY+blockSeparation*3,350,blockAxleHeight]) pulleyT(20);
 translate([blockStartY+blockSeparation*3,400,blockAxleHeight]) pulleyT(60);
-translate([blockStartY+blockSeparation*3+25,400,blockAxleHeight]) sprocketT(20);
+translate([blockStartY+blockSeparation*3+25,400,blockAxleHeight]) sprocketT(20); // default 6mm bore
