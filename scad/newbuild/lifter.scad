@@ -76,7 +76,7 @@ module lifter2(startX)
 {
   union() {
     
-    translate([startX,0,0])	lifterBar(raiser2Length,2,105);	
+    translate([startX,0,0])	lifterBar(raiser2Length,2,180);	
     
     translate([startX+raiser1Separation/2+raiserWallWidth*2-37+raiserSeparation*2,-raiser2Length,-raiser2Drop-10]) cube(size=[70,raiserWallWidth,raiser2Drop+20]);
     difference() {
