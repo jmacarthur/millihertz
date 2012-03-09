@@ -48,8 +48,7 @@ module punt(yOffset)
     union() {
       translate([-20,0,0]) cube(size=[20,puntMaterialThickness,20]); // This bit needs tabs
       difference() {
-	translate([-puntMaterialThickness,0,0])	cube(size=[puntMaterialThickness,20,70]);
-	translate([-puntMaterialThickness-1,15,60]) rotate([0,90,0]) cylinder(r=1.5,h=5); // Hole for spring
+	translate([-puntMaterialThickness,0,0])	cube(size=[puntMaterialThickness,20,20]);
 	translate([-puntMaterialThickness-1,10,15]) rotate([0,90,0]) cylinder(r=2.5,h=5); // Axle hole
       }
     }
@@ -72,20 +71,27 @@ module punt(yOffset)
   translate([puntPosX,yOffset+10,chassisTop-5]) {
     rotate([leverAngle,0,0])
       difference() {
+      union() {
       translate([0,-10,-5])
-        cube(size=[puntWidth, leverLen, 10]);
+        cube(size=[puntWidth, leverLen+40, 10]);
+      translate([0,-10,-5])
+        cube(size=[puntWidth, 20, 40]);
+      translate([0,-10,30])
+        rotate([-20,0,0])
+        cube(size=[puntWidth, 100, 10]);
+      }
       // Punch holes
       translate([-1,leverPuntPos,0]) {
         rotate([0,90,0]) cylinder(r=2.5,h=100); // Punt hole
-      }
-      translate([-1,40,2]) {
-        rotate([0,90,0]) cylinder(r=1.5,h=100); // Spring hole
       }
       translate([-1,bearingPos,0]) {
         rotate([0,90,0]) cylinder(r=2.5,h=100); // Bearing hole
       }
       translate([-1,0,0]) {
         rotate([0,90,0]) cylinder(r=2.5,h=100); // axis hole
+      }
+      translate([-1,5,30]) {
+        rotate([0,90,0]) cylinder(r=1.5,h=100); // for guide plate lifter
       }
     }
   }
