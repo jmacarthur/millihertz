@@ -73,11 +73,28 @@ blockAxleHeight = 70;
 blockStartY = 95;
 blockSeparation = 10;
 
+// We are separating by 50
+// That gives us a minimum belt length of :
+// 30*Pi (one side)
+// 10*pi (other side)
+// 2*sqrt(45*45+20*20) (between)
+// = 107+126=233 (at blockDistanceY=50).
+// = 210 (at blockDistance = 45).
+
+// We have belts at 
+// 94.48
+// 126 
+blockDistanceY = 45;
+
+beltLen = 40*3.141592+2*sqrt(blockDistanceY*blockDistanceY+20*20);
+echo(" Belt length: ",beltLen);
+echo(" Belt dia: ",beltLen/3.141592);
+
 translate([blockStartY,350,blockAxleHeight]) pulleyT(60);
 translate([blockStartY+blockSeparation,350,blockAxleHeight]) pulleyT(20);
-translate([blockStartY+blockSeparation,400,blockAxleHeight]) pulleyT(60);
+translate([blockStartY+blockSeparation,350+blockDistanceY,blockAxleHeight]) pulleyT(60);
 translate([blockStartY+blockSeparation*2,350,blockAxleHeight]) pulleyT(60);
-translate([blockStartY+blockSeparation*2,400,blockAxleHeight]) pulleyT(20);
+translate([blockStartY+blockSeparation*2,350+blockDistanceY,blockAxleHeight]) pulleyT(20);
 translate([blockStartY+blockSeparation*3,350,blockAxleHeight]) pulleyT(20);
-translate([blockStartY+blockSeparation*3,400,blockAxleHeight]) pulleyT(60);
-translate([blockStartY+blockSeparation*3+25,400,blockAxleHeight]) sprocketT(20); // default 6mm bore
+translate([blockStartY+blockSeparation*3,350+blockDistanceY,blockAxleHeight]) pulleyT(60);
+translate([blockStartY+blockSeparation*3+25,350+blockDistanceY,blockAxleHeight]) sprocketT(20); // default 6mm bore
