@@ -17,25 +17,33 @@ raiser1Separation = chassisInternalSpacing+chassisThickness*2-raiserWallWidth*0;
 // Makes a generic lifter bar of a given length and step number (1-based)
 // 1 is the innermost lifter. InputAngle is of the bar with holes in attached
 // to the cams.
-module lifterBar(length, step, inputAngle)
+
+module raiserArm(length,step,side,inputAngle) 
 {
-  difference() {
-    union() {
-      for(side=[0:1]) {
-        translate([raiser1Separation*side+(raiserWallWidth+raiserSeparation)*(side*step*2)+(raiserWallWidth*side),0,0] )rotate([0,90,0]) cylinder(r=10,h=raiserWallWidth); 
-        color([0.8,0.8,0]) translate([raiser1Separation*side+(raiserWallWidth+raiserSeparation)*(side*step*2)+(raiserWallWidth*side),-length+raiserWallWidth,-10]) cube(size=[raiserWallWidth,length-raiserWallWidth,20]);
-        color([0.8,0.8,0])         translate([raiser1Separation*side+(raiserWallWidth+raiserSeparation)*(side*step*2)+(raiserWallWidth*side),-length,-10]) cube(size=[raiserWallWidth,raiserWallWidth,10]);
-        color([0.8,0.8,0])         rotate([inputAngle,0,0]) translate([raiser1Separation*side+(raiserWallWidth+raiserSeparation)*(side*step*2)+(raiserWallWidth*side),0,-10]) cube(size=[raiserWallWidth,45,20]);
-      } 
-      translate([raiserWallWidth,-length,-10]) cube(size=[raiser1Separation+(raiserWallWidth+raiserSeparation)*(2*step),raiserWallWidth,20]); // cross bar
-      translate([0,-length,0]) cube(size=[raiserWallWidth,raiserWallWidth,10]); // cross bar tab
-      translate([raiser1Separation+(raiserWallWidth+raiserSeparation)*(2*step)+raiserWallWidth,-length,0]) cube(size=[raiserWallWidth,raiserWallWidth,10]); // cross bar tab
-    }
+   difference() {
+	translate([raiser1Separation*side+(raiserWallWidth+raiserSeparation)*(side*step*2)+(raiserWallWidth*side),0,0]) {
+	translate([0,0,0] ) rotate([0,90,0]) cylinder(r=10,h=raiserWallWidth); 
+        translate([0,-length+raiserWallWidth,-10]) cube(size=[raiserWallWidth,length-raiserWallWidth,20]);
+        translate([0,-length,-10]) cube(size=[raiserWallWidth,raiserWallWidth,10]);
+        rotate([inputAngle,0,0]) translate([0,0,-10]) cube(size=[raiserWallWidth,45,20]);
+	}
     translate([-thin,0,0]) rotate([0,90,0]) cylinder(r=2.5,h=200); // Axle hole
     translate([-thin,-20,20])rotate([0,90,0]) cylinder(r=2.5,h=200); // Pull hole d=28.2
     translate([-thin,-25,30])rotate([0,90,0]) cylinder(r=2.5,h=200); // Pull hole d=39.1
     translate([-thin,-10,15])rotate([0,90,0]) cylinder(r=2.5,h=200); // Pull hole d=18.0
-  }
+    }
+}
+
+module lifterBar(length, step, inputAngle)
+{
+      for(side=[0:1]) {
+        raiserArm(length,step,side,inputAngle);
+      }
+    union() {
+      translate([raiserWallWidth,-length,-10]) cube(size=[raiser1Separation+(raiserWallWidth+raiserSeparation)*(2*step),raiserWallWidth,20]); // cross bar
+      translate([0,-length,0]) cube(size=[raiserWallWidth,raiserWallWidth,10]); // cross bar tab
+      translate([raiser1Separation+(raiserWallWidth+raiserSeparation)*(2*step)+raiserWallWidth,-length,0]) cube(size=[raiserWallWidth,raiserWallWidth,10]); // cross bar tab
+    }
 }
 
 magnet1X = raiserWallWidth-chassisStartX+raiserSeparation+gridSpacing*10;
@@ -46,8 +54,6 @@ magnetY = -raiser1Length-raiserWallWidth*0.5+raiserWallWidth;
 
 module lifter1(startX)
 {
-	
-	union() {
 
           translate([startX,0,0]) lifterBar(raiser1Length,1,135);
  // 38 here is arbitrary; it's the start position of the drop plate, which isn't critical
@@ -68,14 +74,10 @@ module lifter1(startX)
 			translate([row1x+gridSpacing*2*x,magnetY,-raiser1Drop-10-raiserWallWidth]) color([1.0,0.5,0.5]) cylinder(r=1.5,h=3+raiserWallWidth);
 
 	}
-
-	}
 }
 
 module lifter2(startX)
 {
-  union() {
-    
     translate([startX,0,0])	lifterBar(raiser2Length,2,180);	
     
     translate([startX+raiser1Separation/2+raiserWallWidth*2-37+raiserSeparation*2,-raiser2Length,-raiser2Drop-10]) cube(size=[70,raiserWallWidth,raiser2Drop+20]);
@@ -85,13 +87,10 @@ module lifter2(startX)
         translate([row1x+gridSpacing*2*x,magnetY,-raiser2Drop-11]) cylinder(r=3,h=5);
       }
     }
-  }
 }
 
 module lifter3(startX)
 {
-  union() {
-    
     translate([startX,0,0])	lifterBar(raiser3Length,3,135);
     
     translate([startX+raiser1Separation/2+raiserWallWidth*3-40+raiserSeparation*3,-raiser3Length,-raiser3Drop-10]) cube(size=[80,raiserWallWidth,raiser3Drop+20]); // Vertical plate
