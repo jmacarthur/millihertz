@@ -26,7 +26,7 @@ module raiserArm(length,step,side,inputAngle)
         translate([0,-length+raiserWallWidth,-10]) cube(size=[raiserWallWidth,length-raiserWallWidth,20]);
         translate([0,-length,-10]) cube(size=[raiserWallWidth,raiserWallWidth,10]);
         rotate([inputAngle,0,0]) translate([0,0,-10]) cube(size=[raiserWallWidth,45,20]);
-	}
+    }
     translate([-thin,0,0]) rotate([0,90,0]) cylinder(r=2.5,h=200); // Axle hole
     translate([-thin,-20,20])rotate([0,90,0]) cylinder(r=2.5,h=200); // Pull hole d=28.2
     translate([-thin,-25,30])rotate([0,90,0]) cylinder(r=2.5,h=200); // Pull hole d=39.1
@@ -36,9 +36,9 @@ module raiserArm(length,step,side,inputAngle)
 
 module lifterBar(length, step, inputAngle)
 {
-      for(side=[0:1]) {
-        raiserArm(length,step,side,inputAngle);
-      }
+  for(side=[0:1]) {
+      raiserArm(length,step,side,inputAngle);
+   }
     union() {
       translate([raiserWallWidth,-length,-10]) cube(size=[raiser1Separation+(raiserWallWidth+raiserSeparation)*(2*step),raiserWallWidth,20]); // cross bar
       translate([0,-length,0]) cube(size=[raiserWallWidth,raiserWallWidth,10]); // cross bar tab
@@ -108,5 +108,4 @@ module lifter3(startX)
     }
     // Alignment beam - should all be in line with row1x
     color([255,0,0]) translate([row1x,-raiser1Length,-100]) cylinder(r=0.5,h=300);
-  }
 }
