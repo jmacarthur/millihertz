@@ -46,54 +46,50 @@ module support2D()
 
 module centreSupportPlate()
 {
-  difference() {
-    union() {
-      translate([0,-length*2,-10-supportWallWidth]) cube(size=[supportWallWidth,length*4,20+supportWallWidth]);
-      translate([0,length*2-35,-30-supportWallWidth]) cube(size=[supportWallWidth,20,31]);
-      translate([0,-length*2,-30-supportWallWidth]) cube(size=[supportWallWidth,10,31]);
-      translate([0,-length*2+10,-30-supportWallWidth+10]) cube(size=[supportWallWidth,supportWallWidth,5]);
-      translate([0,length*2-35-supportWallWidth,-30-supportWallWidth+10]) cube(size=[supportWallWidth,supportWallWidth,5]);
-    }
+  union() {
+    translate([0,-length*2,-10-supportWallWidth]) cube(size=[supportWallWidth,length*4,20+supportWallWidth]);
+    translate([0,length*2-35,-30-supportWallWidth]) cube(size=[supportWallWidth,20,31]);
+    translate([0,-length*2,-30-supportWallWidth]) cube(size=[supportWallWidth,10,31]);
+    translate([0,-length*2+10,-30-supportWallWidth+10]) cube(size=[supportWallWidth,supportWallWidth,5]);
+    translate([0,length*2-35-supportWallWidth,-30-supportWallWidth+10]) cube(size=[supportWallWidth,supportWallWidth,5]);
   }
-  
 }
 
 module lifterSupport1()
 {
   difference() {
-    union() {
-      
-      translate([0,-30,0]) centreSupportPlate();    
-      color([0,0,1])
-        difference() {
-        translate([supportX1,supportY1,-10]) cube(size=[supportWallWidth,supportYd+20,20]); // Short vertical
-        translate([supportX1-thin,supportY1-thin,5]) cube(size=[supportWallWidth+thin*2,supportWallWidth+thin,10+thin]); // Short vertical
-        translate([supportX1-thin,supportY2-supportWallWidth,5]) cube(size=[supportWallWidth+thin*2,supportWallWidth,10+thin]); // Short vertical
-      }
-      
-    color([0,1,1])
-      translate([supportWallWidth,supportY1,-10-3]) cube(size=[supportWallWidth+supportInternalX,supportYd,supportWallWidth]); // Horizontal
-      
-      // Angle Brackets
-      color([1.0,0,0])
-        translate([0,supportY1+supportWallWidth,0])
-        rotate([90,0,0]) 
-        linear_extrude(height = supportWallWidth) {
-        support2D();
-      }
-      
-      color([0,1.0,0])
-        translate([0,supportY2,0])
-        rotate([90,0,0]) 
-        linear_extrude(height = supportWallWidth) {
-        support2D();
-      }
-      
-    }
+    translate([0,-30,0]) centreSupportPlate();    
     translate([-15,0,0]) rotate([0,90,0]) cylinder(r=2.5,h=200); // Axle hole
     for(mountHoleY=[10,60])
       translate([-thin,-mazeHoleOffsetY+mountHoleY,-mazeHoleOffsetZ-chassisTop+ballBearingHeight+clearance+20]) rotate([0,90,0]) cylinder(r=1.5,h=200); // Mounting hole
-    
+  }
+  
+  color([0,0,1])
+    difference() {
+    translate([supportX1,supportY1,-10]) cube(size=[supportWallWidth,supportYd+20,20]); // Short vertical
+    translate([supportX1-thin,supportY1-thin,5]) cube(size=[supportWallWidth+thin*2,supportWallWidth+thin,10+thin]); // Short vertical
+    translate([supportX1-thin,supportY2-supportWallWidth,5]) cube(size=[supportWallWidth+thin*2,supportWallWidth,10+thin]); // Short vertical
+    translate([-15,0,0]) rotate([0,90,0]) cylinder(r=2.5,h=200); // Axle hole
+  }
+  
+  
+  
+  color([0,1,1])
+    translate([supportWallWidth,supportY1,-10-3]) cube(size=[supportWallWidth+supportInternalX,supportYd,supportWallWidth]); // Horizontal
+  
+  // Angle Brackets
+  color([1.0,0,0])
+    translate([0,supportY1+supportWallWidth,0])
+    rotate([90,0,0]) 
+    linear_extrude(height = supportWallWidth) {
+    support2D();
+  }
+  
+  color([0,1.0,0])
+    translate([0,supportY2,0])
+    rotate([90,0,0]) 
+    linear_extrude(height = supportWallWidth) {
+    support2D();
   }
 }
 
