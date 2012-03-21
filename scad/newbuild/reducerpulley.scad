@@ -90,11 +90,14 @@ beltLen = 40*3.141592+2*sqrt(blockDistanceY*blockDistanceY+20*20);
 echo(" Belt length: ",beltLen);
 echo(" Belt dia: ",beltLen/3.141592);
 
-translate([blockStartY,350,blockAxleHeight]) pulleyT(60);
-translate([blockStartY+blockSeparation,350,blockAxleHeight]) pulleyT(20);
-translate([blockStartY+blockSeparation,350+blockDistanceY,blockAxleHeight]) pulleyT(60);
-translate([blockStartY+blockSeparation*2,350,blockAxleHeight]) pulleyT(60);
-translate([blockStartY+blockSeparation*2,350+blockDistanceY,blockAxleHeight]) pulleyT(20);
-translate([blockStartY+blockSeparation*3,350,blockAxleHeight]) pulleyT(20);
-translate([blockStartY+blockSeparation*3,350+blockDistanceY,blockAxleHeight]) pulleyT(60);
-translate([blockStartY+blockSeparation*3+25,350+blockDistanceY,blockAxleHeight]) sprocketT(20); // default 6mm bore
+module pulleyBlock()
+{
+  translate([blockStartY,350,blockAxleHeight]) pulleyT(60);
+  translate([blockStartY+blockSeparation,350,blockAxleHeight]) pulleyT(20);
+  translate([blockStartY+blockSeparation,350+blockDistanceY,blockAxleHeight]) pulleyT(60);
+  translate([blockStartY+blockSeparation*2,350,blockAxleHeight]) pulleyT(60);
+  translate([blockStartY+blockSeparation*2,350+blockDistanceY,blockAxleHeight]) pulleyT(20);
+  translate([blockStartY+blockSeparation*3,350,blockAxleHeight]) pulleyT(20);
+  translate([blockStartY+blockSeparation*3,350+blockDistanceY,blockAxleHeight]) pulleyT(60);
+  translate([blockStartY+blockSeparation*3+25,350+blockDistanceY,blockAxleHeight]) sprocketT(20); // default 6mm bore
+}

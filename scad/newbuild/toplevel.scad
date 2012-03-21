@@ -27,11 +27,11 @@ wheel2X = gridSpacing*19*1;
 
 // Toggle top level elements on and off
 // Some elements are commented on/off at the bottom of this file.
-drawWheels = true;
-drawLifters = true;
-drawMazeAndLifters = true;
-drawDirAmp = true;
-drawData = true;
+drawWheels = false;
+drawLifters = false;
+drawMazeAndLifters = false;
+drawDirAmp = false;
+drawData = false;
 drawStateFlip = false;
 drawMaze = false;
 
@@ -102,13 +102,13 @@ if(drawDirAmp)
 // These can be easily commented out while working on specific elements.
 
 returner();
-punt(120);
-cams(235);
-translate([0,0,chassisTop])engine(320);
+//punt(120);
+//cams(235);
+//translate([0,0,chassisTop])engine(320);
 //reducerPulley(305);
-translate([dirBoxOffsetX,dirBoxOffsetY,mazeTop]) dirbox();
-translate([dirBoxOffsetX,dirBoxOffsetY,chassisTop+mazeHeight+dirBoxHeight]) statebox();
+//translate([dirBoxOffsetX,dirBoxOffsetY,mazeTop]) dirbox();
+//translate([dirBoxOffsetX,dirBoxOffsetY,chassisTop+mazeHeight+dirBoxHeight]) statebox();
 //translate([chassisStartX,0,axleHeight+axleRadius]) chassis();
-translate([chassisStartX,0,axleHeight+axleRadius]) acrylicChassis();
-grid();
-
+//translate([chassisStartX,0,axleHeight+axleRadius]) acrylicChassis();
+//grid();
+//pulleyBlock();
