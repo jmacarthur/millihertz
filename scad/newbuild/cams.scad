@@ -30,12 +30,12 @@ module makeConRod(length, width)
     union() {
       rotate([0,90,0])
 	cylinder(r=5,h=width);
+      translate([0,-5,-length]) {
+	cube(size=[width,10,length]);
+      }
       translate([0,0,-length]) {
 	rotate([0,90,0])
           cylinder(r=5,h=width);
-      }
-      translate([0,-5,-length]) {
-	cube(size=[width,10,length]);
       }
     }
     translate([-1,0,0])
