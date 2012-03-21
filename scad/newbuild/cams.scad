@@ -18,12 +18,16 @@ pull = lifterFollowerLen*sin(followerMaxAngle);
 echo("Lifter pull: ",pull);
 
 camShaftHeight = 55;
-camWidth = 6;
+camWidth = 5;
 resetCamRotate = $t*360;
 drawMoverCam = true;
-drawLifterCam = true;
-drawDirAmpCam = true;
-drawResetCam = true;
+drawLifterCam = false;
+drawDirAmpCam = false;
+drawResetCam = false;
+drawSupports = false;
+
+bossHeight = 50;
+
 module makeConRod(length, width)
 {
   difference() {
@@ -50,8 +54,7 @@ module makeConRod(length, width)
 
 module cams(yOffset)
 {
-  supports = true;
-  if(supports) {
+  if(drawSupports) {
     
     for(outside=[0,1]) 
       for(side=[0:1]) {

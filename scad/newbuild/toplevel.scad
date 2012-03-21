@@ -101,9 +101,9 @@ if(drawDirAmp)
 // Below here should be a list of top-level elements, one per line. 
 // These can be easily commented out while working on specific elements.
 
-returner();
+//returner();
 //punt(120);
-//cams(235);
+cams(235);
 //translate([0,0,chassisTop])engine(320);
 //reducerPulley(305);
 //translate([dirBoxOffsetX,dirBoxOffsetY,mazeTop]) dirbox();

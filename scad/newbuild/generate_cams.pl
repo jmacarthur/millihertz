@@ -5,7 +5,7 @@ use Math::Trig;
 my $lowRadius = 34;
 my $engageRadius = 40;
 my $highRadius = 50;
-my $camWidth = 6;
+my $camWidth = 5;
 
 # This is for all other cams
 my $baseRadius = 42;
@@ -78,7 +78,7 @@ sub createCam
     print "module $moduleName"."() { \n";
     print "difference () { \n";
     print "union () { \n";
-    print "linear_extrude (height=$camWidth) scale([-1,1]) polygon( points=[";
+    print "linear_extrude (height=$camWidth) polygon( points=[";
     my $n=0;
     my $points1 = "";
     my $points2 = "";
@@ -101,8 +101,8 @@ sub createCam
     print "$points1], \n";
     print "paths = [[$paths 0]] );\n";
     
-
-    print "cylinder(r=5,h=10);\n";
+    print "translate([0,0,5])\n";
+    print "cylinder(r=5,h=5);\n";
     print "}\n";
     print "}\n";
     print "}\n";
