@@ -77,7 +77,6 @@ sub createCam
 
     print "module $moduleName"."() { \n";
     print "difference () { \n";
-    print "union () { \n";
     print "linear_extrude (height=$camWidth) polygon( points=[";
     my $n=0;
     my $points1 = "";
@@ -101,9 +100,6 @@ sub createCam
     print "$points1], \n";
     print "paths = [[$paths 0]] );\n";
     
-    print "translate([0,0,5])\n";
-    print "cylinder(r=5,h=5);\n";
-    print "}\n";
     print "}\n";
     print "}\n";
 
