@@ -116,6 +116,8 @@ sub createCam
     print "$points1], \n";
     print "paths = [[$paths 0]] );\n";
     print "translate([-boxWidth/2,-boxWidth/2,-1]) cube(size=[boxWidth,boxWidth,10]);\n";
+    print "translate([-10,0,-1]) cylinder(r=1.5,h=10);\n";
+    print "translate([10,0,-1]) cylinder(r=1.5,h=10);\n";
     print "}\n"; # Closes difference
     print "}\n"; # Closes module
 

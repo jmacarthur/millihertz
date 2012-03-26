@@ -24,7 +24,7 @@ drawMoverCam = true;
 drawLifterCam = true;
 drawDirAmpCam = true;
 drawResetCam = true;
-drawSupports = false;
+drawSupports = true;
 drawCamAxle = false;
 bossHeight = 50;
 
@@ -58,11 +58,11 @@ module cams(yOffset)
     
     for(outside=[0,1]) 
       for(side=[0:1]) {
-        translate([wheelWidth+chassisThickness+gridWallWidth+(chassisInternalSpacing-5)*side+((side*2-1)*outside*(chassisThickness+5)),yOffset-20,chassisTop-chassisThickness]) {
+        translate([wheelWidth+chassisThickness+gridWallWidth+(chassisInternalSpacing-5)*side+((side*2-1)*outside*(chassisThickness)),yOffset-20,chassisTop-chassisThickness]) {
           difference() {
             cube(size=[5,80,120]);
             translate([-1,-50,90]) rotate([-45,0,0]) cube(size=[7,50,150]);
-            translate([-1,20,75]) rotate([0,90,0])	cylinder(r=2.5,h=7);
+            translate([-1,20,75]) rotate([0,90,0])	cylinder(r=bearingRadius,h=7);
             translate([-1,70,110]) rotate([0,90,0])	cylinder(r=2.5,h=7);
           }
         }		

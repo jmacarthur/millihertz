@@ -26,6 +26,14 @@ module chassis()
 	translate([chassisThickness,crossBeam2Y+chassisThickness,0]) rotate([0,0,270]) squareBoxSection(chassisInternalSpacing);
 }
 
+/*          difference() {
+            cube(size=[5,80,120]);
+            translate([-1,-50,90]) rotate([-45,0,0]) cube(size=[7,50,150]);
+            translate([-1,20,75]) rotate([0,90,0])	cylinder(r=bearingRadius,h=7);
+            translate([-1,70,110]) rotate([0,90,0])	cylinder(r=2.5,h=7);
+          }
+*/
+
 module acrylicBeams()
 {
   for(x=[0,chassisThickness-5,
@@ -37,10 +45,16 @@ module acrylicBeams()
         // For some reason we have to fudge axle1Y in this way. We should refactor.
         translate([x,gridWallWidth+gridHoleSize/2+axle1Y-15,-10]) cube(size=[5,30,10]);
         translate([x,gridWallWidth+gridHoleSize/2+axle2Y-15,-10]) cube(size=[5,30,10]);
+        translate([x,camsYoffset-20,0]) cube(size=[5,80,120]);
       }
       for(y=[crossBeam1Y,crossBeam2Y]) {
         translate([-1,y-cutWidth/2,15]) cube(size=[chassisInternalSpacing*2,5+cutWidth,20]);
       }
+      // Cam support holes/cutoff
+      translate([x-1,camsYoffset-50-20,100]) rotate([-45,0,0]) cube(size=[7,50,150]);
+      translate([x-1,camsYoffset,75]) rotate([0,90,0])	cylinder(r=bearingRadius,h=7);
+      translate([x-1,camsYoffset+70-20,110]) rotate([0,90,0])	cylinder(r=2.5,h=7);
+
       // Holes for bearings
       translate([x-1,gridWallWidth+gridHoleSize/2+axle1Y,-axleRadius]) rotate([0,90,0])  cylinder(r=axleBearingDiameter/2,h=10);
       translate([x-1,gridWallWidth+gridHoleSize/2+axle2Y,-axleRadius]) rotate([0,90,0])  cylinder(r=axleBearingDiameter/2,h=10);     

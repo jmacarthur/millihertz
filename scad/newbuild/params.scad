@@ -51,7 +51,7 @@ chassisStartX = gridWallWidth+wheelWidth;
 chassisTop = axleHeight+axleRadius+chassisThickness;
 rideHeight = chassisTop - chassisThickness;
 
-// Standard roller bearing
+// Standard roller bearing, 
 bearingWidth = 5;
 bearingRadius = 8;
 
