@@ -15,11 +15,14 @@ sub moverCamFunction
 {
     my $t = shift;
 
-    if($t < 70) {
-	$r = $lowRadius + ($t)*($highRadius-$lowRadius)/70;
+    if($t < 170) {
+        $r = $lowRadius;
     }
-    elsif($t < 180){
-	$r = $lowRadius;     
+    elsif($t < 320){
+	$r = 	$r = $lowRadius + ($t-170)*($highRadius-$lowRadius)/(320-170);
+    }
+    elsif($t < 330){
+	$r = 	$r = $highRadius - ($t-320)*($highRadius-$lowRadius)/(330-320);
     }
     else
     {
@@ -31,26 +34,33 @@ sub moverCamFunction
 sub lifterCamFunction
 {
     my $t = shift;
-    if($t<90)
+    if($t<100)
     {
-	return $baseRadius;
+	return $baseRadius+12*($t/100);
     }
-    elsif($t<180)
+    elsif($t<330)
     {
-	return $baseRadius+12*($t-90)/(90);
+	return $baseRadius+12-8*($t-100)/(330-100);
     }
     else
     {
-	return $baseRadius+12;
+	return $baseRadius+4-4*($t-330)/(360-330);
     }
 }
 
 sub resetCamFunction
 {
     my $t = shift;
-    if($t<150 && $t >120)
+    if($t<40) {
+        return $baseRadius;
+    }
+    elsif($t<50)
     {
-	return $baseRadius+5*($t-120)/(150-120);
+	return $baseRadius+5*($t-40)/(50-40);
+    }
+    elsif($t<60)
+    {
+	return $baseRadius+5-5*($t-50)/(60-50);
     }
     else
     {
@@ -62,8 +72,14 @@ sub resetCamFunction
 sub dirAmpCamFunction()
 {
     my $t = shift;
-    if($t<(360*0.45)) {
-        return 42+2.5;
+    if($t<20) {
+        return $baseRadius+2.5*($t-0)/(20-0);
+    }
+    elsif($t<140) {
+        return $baseRadius+2.5;
+    }
+    elsif($t<160) {
+        return $baseRadius+2.5-2.5*($t-140)/(160-140);
     }
     else
     {
@@ -84,7 +100,7 @@ sub createCam
     my $paths2 = "";
     for(my $t=0;$t<360.0;$t+=5)
     {
-	my $r = $funcRef->($t);
+	my $r = $funcRef->(360-$t); # Reversing direction here
 	# Calculate radius by inequalities
 	my $x = $r*cos(deg2rad($t));
 	my $y = $r*sin(deg2rad($t));
@@ -99,9 +115,9 @@ sub createCam
     }
     print "$points1], \n";
     print "paths = [[$paths 0]] );\n";
-    
-    print "}\n";
-    print "}\n";
+    print "translate([-boxWidth/2,-boxWidth/2,-1]) cube(size=[boxWidth,boxWidth,10]);\n";
+    print "}\n"; # Closes difference
+    print "}\n"; # Closes module
 
 }
 

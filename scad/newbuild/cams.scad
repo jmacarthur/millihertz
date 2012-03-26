@@ -11,7 +11,7 @@ lifterCamRotate = $t*360;
 followerMaxAngle = 20;
 followerAngle = ($t>0.25 && $t<0.75)?followerMaxAngle:0;
 
-dirAmpCamRotate = $t*360+270;
+dirAmpCamRotate = $t*360;
 dirAmpFollowerRotate = ($t<0.45?5:0);
 
 pull = lifterFollowerLen*sin(followerMaxAngle);
@@ -21,11 +21,11 @@ camShaftHeight = 55;
 camWidth = 5;
 resetCamRotate = $t*360;
 drawMoverCam = true;
-drawLifterCam = false;
-drawDirAmpCam = false;
-drawResetCam = false;
+drawLifterCam = true;
+drawDirAmpCam = true;
+drawResetCam = true;
 drawSupports = false;
-
+drawCamAxle = false;
 bossHeight = 50;
 
 module makeConRod(length, width)
@@ -73,24 +73,21 @@ module cams(yOffset)
   {
     translate([puntPosX-5,0,0])
       if(drawMoverCam) {
-	rotate([0,90,0]) difference()
+	rotate([0,90,0]) 
 	{
           rotate([0,0,moverCamRotate]) color([0,1,1]) moverCam();
-          translate([0,0,-1]) cylinder(r=2.5,h=7);
 	}
       }
     // This one runs the lifters.
     // There should be an identical one on the other side.
     if(drawLifterCam) {
       translate([gridWallWidth+wheelWidth+5,0,0])
-        rotate([0,90,0]) difference()
+        rotate([0,90,0])
       {
-        color([1,0,1])
-          union() {
+        color([1,0,1]) {
           rotate([0,0,lifterCamRotate]) lifterCam();
           translate([0,0,chassisInternalSpacing+chassisThickness])		rotate([0,0,lifterCamRotate]) lifterCam();
         }
-        translate([0,0,-1]) cylinder(r=2.5,h=7);
       }
     }
 
@@ -98,18 +95,19 @@ module cams(yOffset)
     if(drawDirAmpCam) {
       translate([gridWallWidth+wheelWidth+30,0,0])
         rotate([dirAmpCamRotate,0,0])
-        rotate([0,90,0]) difference()
+        rotate([0,90,0])
       {
         color([0,1,0]) dirAmpCam();
-        translate([0,0,-1]) cylinder(r=2.5,h=7);
       }
     }
   }
 
   // Axles
-  translate([-5,yOffset,chassisTop+camShaftHeight]) {
-    rotate([0,90,0])
-      color([0.5,0.5,0.5]) cylinder(r=2.5,h=180);
+  if(drawCamAxle) {
+    translate([-5,yOffset,chassisTop+camShaftHeight]) {
+      rotate([0,90,0])
+        color([0.5,0.5,0.5]) cylinder(r=2.5,h=180);
+    }
   }
   translate([-5,yOffset+50,chassisTop+90]) {
     rotate([0,90,0])
@@ -149,23 +147,27 @@ module cams(yOffset)
     translate([gridWallWidth+wheelWidth+chassisThickness+80-camWidth,yOffset,chassisTop+camShaftHeight]) 
       rotate([resetCamRotate,0,0])
     {
-      rotate([0,90,0]) resetCam();
+        rotate([0,90,0]) resetCam();
     }
   }
 
   // Input pulley
-  color([1,0,0])
-    translate([gridWallWidth+wheelWidth+chassisThickness+60-camWidth,yOffset,chassisTop+camShaftHeight]) 
-    union()
-  {
-    rotate([0,90,0]) cylinder(r=40,h=5);
-    translate([-1,0,0]) rotate([0,90,0]) cylinder(r=45,h=1);
-    translate([5,0,0]) rotate([0,90,0]) cylinder(r=45,h=1);
+  if(drawPulley) {
+    color([1,0,0])
+      translate([gridWallWidth+wheelWidth+chassisThickness+60-camWidth,yOffset,chassisTop+camShaftHeight]) 
+      union()
+    {
+      rotate([0,90,0]) cylinder(r=40,h=5);
+      translate([-1,0,0]) rotate([0,90,0]) cylinder(r=45,h=1);
+      translate([5,0,0]) rotate([0,90,0]) cylinder(r=45,h=1);
+    }
   }
-  // Input sprocket (alternative)
-  color([0.5,0.5,0.5])
-    translate([gridWallWidth+wheelWidth+chassisThickness+130-camWidth,yOffset,chassisTop+camShaftHeight]) 
-    rotate([0,90,0]) cylinder(r=40,h=5);
 
+  // Input sprocket (alternative)
+  if(drawSprocket) {
+    color([0.5,0.5,0.5])
+      translate([gridWallWidth+wheelWidth+chassisThickness+130-camWidth,yOffset,chassisTop+camShaftHeight]) 
+      rotate([0,90,0]) cylinder(r=40,h=5);
+  }
 
 }

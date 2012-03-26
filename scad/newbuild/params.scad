@@ -77,3 +77,4 @@ mazeTop = chassisTop+mazeHeight-5;
 dirBoxOffsetY = gridSpacing*4-dirBoxWallWidth/2; 
 dirBoxOffsetX = row1x-dirBoxWallWidth-gridSpacing; // Offset from the edge of the grid to the dir box
 
+boxWidth = 4.76; // Width of box section used as cam axle
