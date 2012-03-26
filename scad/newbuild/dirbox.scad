@@ -55,25 +55,22 @@ module dirBoxShortWall()
 
 module dirBoxWalls()
 {
-  color([0.5,0.5,0.5])
-    union() {
-    difference() {
-      dirBoxLongWall();
-      // Sensor support thing
-      translate([-thin,-thin,dirBoxHeight-1.5]) cube(size=[20+thin,dirBoxWallWidth+thin*2,3]);
-    }
-    difference() {
+  difference() {
+    dirBoxLongWall();
+    // Sensor support thing
+    translate([-thin,-thin,dirBoxHeight-1.5]) cube(size=[20+thin,dirBoxWallWidth+thin*2,3]);
+  }
+  difference() {
     translate([0,gridSpacing*4+dirBoxWallWidth,0])
       dirBoxLongWall();
-      translate([dirBoxWallWidth+gridSpacing*8,dirBoxWallWidth+1,dirBoxHeight-4.5]) cube(size=[gridSpacing*2,100,3]);
-    }
-
+    translate([dirBoxWallWidth+gridSpacing*8,dirBoxWallWidth+1,dirBoxHeight-4.5]) cube(size=[gridSpacing*2,100,3]);
+  }
+  
     translate([0,dirBoxWallWidth,0])
       dirBoxShortWall();
     translate([gridSpacing*10+dirBoxWallWidth,dirBoxWallWidth,0])
       dirBoxShortWall();
-  }
-  
+    
 }
 
 module dirboxA()

@@ -24,7 +24,7 @@ drawMoverCam = true;
 drawLifterCam = true;
 drawDirAmpCam = true;
 drawResetCam = true;
-drawSupports = true;
+drawSupports = false; // Obsolete.
 drawCamAxle = false;
 bossHeight = 50;
 

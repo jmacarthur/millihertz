@@ -50,14 +50,10 @@ module statebox()
   translate([0,gridSpacing*4+stateBoxWallWidth,0])
     stateLongWall();
 
-  difference() {
-    union() {
-      translate([0,stateBoxWallWidth,0]) {
-        stateShortWall();
-      }
-      translate([gridSpacing*10+stateBoxWallWidth,stateBoxWallWidth,0]) {
-        stateShortWall();
-      }
-    }
-  }  
+  translate([0,stateBoxWallWidth,0]) {
+    stateShortWall();
+  }
+  translate([gridSpacing*10+stateBoxWallWidth,stateBoxWallWidth,0]) {
+    stateShortWall();
+  }
 }
