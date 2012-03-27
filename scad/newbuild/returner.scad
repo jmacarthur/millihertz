@@ -16,16 +16,12 @@ baseShift = returnerThickness / sin(angle);
 
 module returnerBase()
 {
+      rotate([angle,0,0]) {
   union() {
-    translate([returnerThickness,baseShift*cos(angle),ballBearingHeight+clearance+baseShift*sin(angle)]) 
-      rotate([angle,0,0]) {
-      cube(size=[chassisInternalSpacing-returnerThickness*2,returnerLen-baseShift,returnerThickness]);
-    }
-    translate([0,baseShift*cos(angle),ballBearingHeight+clearance+baseShift*sin(angle)]) 
-      rotate([angle,0,0]) {
+    translate([0,baseShift*cos(angle),ballBearingHeight+clearance+baseShift*sin(angle)-returnerThickness]) 
       cube(size=[chassisInternalSpacing,returnerLen-baseShift-10,returnerThickness]);
-    }
   }
+      }
 
 }
 
@@ -79,8 +75,8 @@ module returner()
     color([0,0.5,0]) 
       translate([returnerThickness,0,0])
       returnerComb();
-    returnerSide();
-    translate([chassisInternalSpacing-returnerThickness,0,0])
-      returnerSide();
+//    returnerSide();
+/*    translate([chassisInternalSpacing-returnerThickness,0,0])
+      returnerSide();*/
   }
 }
