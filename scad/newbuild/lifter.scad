@@ -34,17 +34,23 @@ module raiserArm(length,step,side,inputAngle)
     }
 }
 
-module lifterBar(length, step, inputAngle)
+module lifterBarSides(length, step, inputAngle)
 {
   for(side=[0:1]) {
       raiserArm(length,step,side,inputAngle);
    }
+}
+
+module lifterBarDrop(length, step, inputAngle)
+{
     union() {
       translate([raiserWallWidth,-length,-10]) cube(size=[raiser1Separation+(raiserWallWidth+raiserSeparation)*(2*step),raiserWallWidth,20]); // cross bar
       translate([0,-length,0]) cube(size=[raiserWallWidth,raiserWallWidth,10]); // cross bar tab
       translate([raiser1Separation+(raiserWallWidth+raiserSeparation)*(2*step)+raiserWallWidth,-length,0]) cube(size=[raiserWallWidth,raiserWallWidth,10]); // cross bar tab
     }
 }
+
+
 
 magnet1X = raiserWallWidth-chassisStartX+raiserSeparation+gridSpacing*10;
 magnet2X = raiserWallWidth-chassisStartX+raiserSeparation*2+raiserWallWidth+gridSpacing*10;
@@ -55,11 +61,13 @@ magnetY = -raiser1Length-raiserWallWidth*0.5+raiserWallWidth;
 module lifter1(startX)
 {
 
-          translate([startX,0,0]) lifterBar(raiser1Length,1,135);
+        translate([startX,0,0]) lifterBarSides(raiser1Length,1,135);
  // 38 here is arbitrary; it's the start position of the drop plate, which isn't critical
         difference() {
+          union() {
 	translate([startX+raiser1Separation/2+raiserWallWidth*2-38+raiserSeparation,-raiser1Length,-raiser1Drop-10]) cube(size=[70,raiserWallWidth,raiser1Drop+20]);
-
+        translate([startX,0,0]) lifterBarDrop(raiser1Length,1,135);
+          }
 
 	// Magnet holes
 
@@ -78,9 +86,12 @@ module lifter1(startX)
 
 module lifter2(startX)
 {
-    translate([startX,0,0])	lifterBar(raiser2Length,2,180);	
+    translate([startX,0,0])	lifterBarSides(raiser2Length,2,180);	
+    union() {
+      translate([startX,0,0])	lifterBarDrop(raiser2Length,2,180);	
     
-    translate([startX+raiser1Separation/2+raiserWallWidth*2-37+raiserSeparation*2,-raiser2Length,-raiser2Drop-10]) cube(size=[70,raiserWallWidth,raiser2Drop+20]);
+      translate([startX+raiser1Separation/2+raiserWallWidth*2-37+raiserSeparation*2,-raiser2Length,-raiser2Drop-10]) cube(size=[70,raiserWallWidth,raiser2Drop+20]);
+    }
     difference() {
       translate([startX+raiser1Separation/2+raiserWallWidth*3-37+raiserSeparation*2,-raiser2Length,-raiser2Drop-10]) cube(size=[70,raiser2Length-raiser1Length+10,raiserWallWidth]);
       for(x=[0:4]) {
@@ -91,10 +102,12 @@ module lifter2(startX)
 
 module lifter3(startX)
 {
-    translate([startX,0,0])	lifterBar(raiser3Length,3,135);
+    translate([startX,0,0])	lifterBarSides(raiser3Length,3,135);
+    union() {
+    translate([startX,0,0])	lifterBarDrop(raiser3Length,3,135);
     
     translate([startX+raiser1Separation/2+raiserWallWidth*3-40+raiserSeparation*3,-raiser3Length,-raiser3Drop-10]) cube(size=[80,raiserWallWidth,raiser3Drop+20]); // Vertical plate
-    
+    }
     
     difference()
     {
