@@ -78,9 +78,9 @@ module drilledAcrylicBeams()
 module acrylicCrossBeam() 
 {
 	difference() {
-	translate([0,0,10]) cube(size=[chassisInternalSpacing+chassisThickness*2,5,10]);
+	translate([-10,0,0]) cube(size=[chassisInternalSpacing+chassisThickness*2+20,5,20]);
 	for(x=[0,chassisThickness-5,chassisThickness+chassisInternalSpacing,chassisInternalSpacing+chassisThickness*2-5]) {
-	translate([x-cutWidth/2,-1,9]) cube(size=[5+cutWidth,7,6]);
+	translate([x,-1,-1]) cube(size=[5+cutWidth,7,16]);
 	}
 	}
 }
