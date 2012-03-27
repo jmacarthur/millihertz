@@ -39,32 +39,33 @@ module dirSelector()
       }
 }
 
-drawBasePlate = 1;
-
+drawBasePlate = true;
+drawAngleBracket1 = true;
+drawAngleBracket2 = true;
 module punt(yOffset)
 {
-  translate([puntPosX,yOffset,chassisTop-20]) {
+  if(drawAngleBracket1) {
+  translate([puntPosX,yOffset,chassisTop-chassisThickness-10]) {
     // Two bits of angle to hold the punt
-    union() {
-      translate([-20,0,0]) cube(size=[20,puntMaterialThickness,20]); // This bit needs tabs
+      translate([-20,0,10]) cube(size=[20,puntMaterialThickness,20]); // This bit needs tabs
       difference() {
-	translate([-puntMaterialThickness,0,0])	cube(size=[puntMaterialThickness,20,20]);
-	translate([-puntMaterialThickness-1,10,15]) rotate([0,90,0]) cylinder(r=2.5,h=5); // Axle hole
+	translate([-puntMaterialThickness,0,0])	cube(size=[puntMaterialThickness,20,30]);
+	translate([-puntMaterialThickness-1,10,25]) rotate([0,90,0]) cylinder(r=2.5,h=5); // Axle hole
+        translate([-8,10,10-puntMaterialThickness]) cube(size=[10,20,puntMaterialThickness]);
       }
-    }
   }
-  
+  }
+  if(drawAngleBracket2) {
   translate([puntPosX+puntWidth,yOffset,chassisTop-chassisThickness-10]) {
     // Two bits of angle to hold the punt
+    translate([0,0,10]) cube(size=[20,puntMaterialThickness,20]); // This bit needs tabs
     difference() {
-      union() {
-        translate([0,0,0]) cube(size=[20,puntMaterialThickness,30]); // This bit needs tabs
 	translate([0,0,0]) cube(size=[puntMaterialThickness,20,30]);
         
-      }
-      translate([-1,10,25]) rotate([0,90,0]) cylinder(r=2.5,h=5); // Axle hole
-      translate([-1,10,10-puntMaterialThickness]) cube(size=[10,20,puntMaterialThickness]);
+        translate([-1,10,25]) rotate([0,90,0]) cylinder(r=2.5,h=5); // Axle hole
+        translate([-1,10,10-puntMaterialThickness]) cube(size=[10,20,puntMaterialThickness]);
     }
+  }
   }
   
   // Lever

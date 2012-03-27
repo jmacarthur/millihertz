@@ -52,7 +52,7 @@ module acrylicBeams()
       }
       // Cam support holes/cutoff
       translate([x-1,camsYoffset-50-20,100]) rotate([-45,0,0]) cube(size=[7,50,150]);
-      translate([x-1,camsYoffset,75]) rotate([0,90,0])	cylinder(r=bearingRadius,h=7);
+      translate([x-1,camsYoffset,75]) rotate([0,90,0])	cylinder(r=needleRollerRadius,h=7);
       translate([x-1,camsYoffset+70-20,110]) rotate([0,90,0])	cylinder(r=2.5,h=7);
 
       // Holes for bearings

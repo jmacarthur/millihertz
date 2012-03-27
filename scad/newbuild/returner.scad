@@ -75,8 +75,8 @@ module returner()
     color([0,0.5,0]) 
       translate([returnerThickness,0,0])
       returnerComb();
-//    returnerSide();
-/*    translate([chassisInternalSpacing-returnerThickness,0,0])
-      returnerSide();*/
+    returnerSide();
+    translate([chassisInternalSpacing-returnerThickness,0,0])
+      returnerSide();
   }
 }

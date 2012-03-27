@@ -72,16 +72,17 @@ module lifter1(startX)
 	// Magnet holes
 
 	for(x=[0:4]) {
-		translate([row1x+gridSpacing*2*x,magnetY,-raiser1Drop-7]) color([0.5,0.5,0.5]) cylinder(r=2.5,h=2);
+          translate([row1x+gridSpacing*2*x-2.5,magnetY-2.5,-raiser1Drop-7]) color([0.5,0.5,0.5]) cube(size=[5,5,2]);
 		translate([row1x+gridSpacing*2*x-1,magnetY-5,-raiser1Drop-11]) color([0.5,0.5,0.5]) cube(size=[2,10,5]);
 	}
 	}
 	// Magnets
-	for(x=[0:4]) {
-			translate([row1x+gridSpacing*2*x,magnetY,-raiser1Drop-7]) color([0.5,0.5,0.5]) cylinder(r=2.5,h=2);
-			translate([row1x+gridSpacing*2*x,magnetY,-raiser1Drop-10-raiserWallWidth]) color([1.0,0.5,0.5]) cylinder(r=1.5,h=3+raiserWallWidth);
-
+        if(drawMagnets) {
+          for(x=[0:4]) {
+            translate([row1x+gridSpacing*2*x,magnetY,-raiser1Drop-7]) color([0.5,0.5,0.5]) cylinder(r=2.5,h=2);
+            translate([row1x+gridSpacing*2*x,magnetY,-raiser1Drop-10-raiserWallWidth]) color([1.0,0.5,0.5]) cylinder(r=1.5,h=3+raiserWallWidth);            
 	}
+        }
 }
 
 module lifter2(startX)

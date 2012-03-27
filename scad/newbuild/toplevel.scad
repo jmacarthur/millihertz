@@ -33,7 +33,7 @@ drawMazeAndLifters = true;
 drawDirAmp = true;
 drawData = false;
 drawStateFlip = false;
-drawMaze = false;
+drawMaze = true;
 
 if(drawWheels) {
   for(y=[axle1Y,axle2Y]) 
@@ -104,12 +104,12 @@ if(drawDirAmp)
 camsYoffset = 235;
 returner();
 punt(120);
-//cams(camsYoffset);
+cams(camsYoffset);
 //translate([0,0,chassisTop])engine(320);
 //reducerPulley(305);
 translate([dirBoxOffsetX,dirBoxOffsetY,mazeTop]) dirbox();
-//translate([dirBoxOffsetX,dirBoxOffsetY,chassisTop+mazeHeight+dirBoxHeight]) statebox();
+translate([dirBoxOffsetX,dirBoxOffsetY,chassisTop+mazeHeight+dirBoxHeight]) statebox();
 //translate([chassisStartX,0,axleHeight+axleRadius]) chassis();
-//translate([chassisStartX,0,axleHeight+axleRadius]) acrylicChassis();
+translate([chassisStartX,0,axleHeight+axleRadius]) acrylicChassis();
 //grid();
 //pulleyBlock();

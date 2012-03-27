@@ -51,9 +51,14 @@ chassisStartX = gridWallWidth+wheelWidth;
 chassisTop = axleHeight+axleRadius+chassisThickness;
 rideHeight = chassisTop - chassisThickness;
 
-// Standard roller bearing, 
+// Standard roller bearing, 5mm bore, 16mm OD
 bearingWidth = 5;
 bearingRadius = 8;
+
+// Needle roller bearing, 12mm bore, 10mm wide, 16mm OD
+// Technobots 4250-007
+needleRollerRadius = 8;
+needleRollerWidth=10;
 
 raiserWallWidth = 3;
 raiserSeparation = 1;
