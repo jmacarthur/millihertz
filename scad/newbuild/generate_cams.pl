@@ -34,17 +34,18 @@ sub moverCamFunction
 sub lifterCamFunction
 {
     my $t = shift;
+    my $lifterBase = $baseRadius - 4;
     if($t<100)
     {
-	return $baseRadius+12*($t/100);
+	return $lifterBase+16*($t/100);
     }
     elsif($t<330)
     {
-	return $baseRadius+12-8*($t-100)/(330-100);
+	return $lifterBase+16-12*($t-100)/(330-100);
     }
     else
     {
-	return $baseRadius+4-4*($t-330)/(360-330);
+	return $lifterBase+4-4*($t-330)/(360-330);
     }
 }
 
