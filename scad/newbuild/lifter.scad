@@ -88,16 +88,27 @@ module lifter1(startX)
 module lifter2(startX)
 {
     translate([startX,0,0])	lifterBarSides(raiser2Length,2,180);	
+    dropBarX = startX+raiser1Separation/2+raiserWallWidth*2-35+raiserSeparation*2;
     union() {
       translate([startX,0,0])	lifterBarDrop(raiser2Length,2,180);	
     
-      translate([startX+raiser1Separation/2+raiserWallWidth*2-37+raiserSeparation*2,-raiser2Length,-raiser2Drop-10]) cube(size=[70,raiserWallWidth,raiser2Drop+20]);
+      // Drop bar...
+      translate([dropBarX,-raiser2Length,-raiser2Drop-10+raiserWallWidth]) cube(size=[70,raiserWallWidth,raiser2Drop+20-raiserWallWidth]);
+
+      for(x=[0:3]) {
+      translate([dropBarX+20*x,-raiser2Length,-raiser2Drop-10]) cube(size=[10,raiserWallWidth,raiser2Drop+20]);
+      }
     }
     difference() {
-      translate([startX+raiser1Separation/2+raiserWallWidth*3-37+raiserSeparation*2,-raiser2Length,-raiser2Drop-10]) cube(size=[70,raiser2Length-raiser1Length+10,raiserWallWidth]);
+      translate([dropBarX-5,-raiser2Length,-raiser2Drop-10]) cube(size=[80,raiser2Length-raiser1Length+10,raiserWallWidth]);
       for(x=[0:4]) {
         translate([row1x+gridSpacing*2*x,magnetY,-raiser2Drop-11]) cylinder(r=3,h=5);
       }
+
+      for(x=[0:3]) {
+        translate([dropBarX+x*20,-raiser2Length-thin,-raiser2Drop-10-thin]) cube(size=[10,raiserWallWidth+thin,raiserWallWidth+thin*2]);
+      }
+      
     }
 }
 
