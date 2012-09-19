@@ -11,45 +11,44 @@ clearance = 0.2;
 gridLineWidth = gridSpacing - gridHoleSize;
 $fn=20;
 $t=(1-$t);
+
 // The grid
 module grid()
 {
-for (i=[-17:5]) {
-translate([-50,gridSpacing*i+gridHoleSize/2,-1]) cube([100,gridLineWidth,1]);
-}
-
-
-for (i=[-5:5]) {
-translate([-gridSpacing*i+gridHoleSize/2,-120,-1]) cube([gridLineWidth,150,1]);
-}
+  for (i=[-17:5]) {
+    translate([-50,gridSpacing*i+gridHoleSize/2,-1]) cube([100,gridLineWidth,1]);
+  }
+    
+  for (i=[-5:5]) {
+    translate([-gridSpacing*i+gridHoleSize/2,-120,-1]) cube([gridLineWidth,150,1]);
+  }
 }
 
 // A clip-close sleeve for axles
 module clipSleeve()
 {
-	difference() {
-		cylinder(r=5,h=5);
-		translate([0,0,-1])cylinder(r=2.5+2*clearance,h=12);
-		translate([0,-6,-1]) cube([10,12,12]);
-		translate([-3,2.5+1.25,-1])cylinder(r=1+clearance,h=20); // Note - only clearance on one side, as I want an interference fit here
-		translate([-3,-5+1.25,-1])cylinder(r=1+clearance,h=20);
-		
-		}
+  difference() {
+    cylinder(r=5,h=5);
+    translate([0,0,-1])cylinder(r=2.5+2*clearance,h=12);
+    translate([0,-6,-1]) cube([10,12,12]);
+    translate([-3,2.5+1.25,-1])cylinder(r=1+clearance,h=20); // Note - only clearance on one side, as I want an interference fit here
+    translate([-3,-5+1.25,-1])cylinder(r=1+clearance,h=20);    
+  }
 }
 
 module clipSleeveA()
 {
-	union() {
-	difference() {
-		cylinder(r=5,h=7);
-		translate([0,0,-1])cylinder(r=2.5+2*clearance,h=12,$fn=50);
-		translate([-10,-6,-1]) cube([10,12,12]);
-		}
-		translate([-4,2.5+clearance*2,5]) cube([4.1,2.4,2]);
-		translate([-4,-5,5]) cube([4.1,2.5-clearance*2,2]);
-		translate([-3,2.5+1.25,0])cylinder(r=1,h=7);
-		translate([-3,-5+1.25,0])cylinder(r=1,h=7);
-		}
+  union() {
+    difference() {
+      cylinder(r=5,h=7);
+      translate([0,0,-1])cylinder(r=2.5+2*clearance,h=12,$fn=50);
+      translate([-10,-6,-1]) cube([10,12,12]);
+    }
+    translate([-4,2.5+clearance*2,5]) cube([4.1,2.4,2]);
+    translate([-4,-5,5]) cube([4.1,2.5-clearance*2,2]);
+    translate([-3,2.5+1.25,0])cylinder(r=1,h=7);
+    translate([-3,-5+1.25,0])cylinder(r=1,h=7);
+  }
 }
 
 
@@ -57,17 +56,13 @@ module clipSleeveA()
 include <cam1.scad>;
 // A simple cam
 
-//linear_extrude(height = 10, center = true, convexity = 10, twist = 0)
-//polygon(points=[[0,0],[100,0],[100,100],[50,150],[0,100]], paths=[[0,1,2,3,4]]);
-
-
 // Small model bearing from Technobots, stock code 4255-020
 module smallBearing()
 {
-	difference() {
-		cylinder(r=3,h=3);
-		translate([0,0,-1]) cylinder(r=1.5,h=5);
-	}
+  difference() {
+    cylinder(r=3,h=3);
+    translate([0,0,-1]) cylinder(r=1.5,h=5);
+  }
 }
 
 // Place a ball on the grid
@@ -85,15 +80,12 @@ bit0 = (pattern3>=1)?1:0;
 
 module data()
 {
-	translate([0,gridSpacing*bit2,ballHeight]) sphere(r=ballRadius, $fn=30);
-	translate([gridSpacing*2,gridSpacing*bit1,ballHeight]) sphere(r=ballRadius, $fn=30);
-	translate([gridSpacing*4,gridSpacing*bit0,ballHeight]) sphere(r=ballRadius, $fn=30);
-	
-
-// Put a ball out on the sweeper to check alignment
-translate([gridSpacing*2,gridSpacing*-12,ballHeight]) sphere(r=ballRadius, $fn=30);
-
-
+  translate([0,gridSpacing*bit2,ballHeight]) sphere(r=ballRadius, $fn=30);
+  translate([gridSpacing*2,gridSpacing*bit1,ballHeight]) sphere(r=ballRadius, $fn=30);
+  translate([gridSpacing*4,gridSpacing*bit0,ballHeight]) sphere(r=ballRadius, $fn=30);
+   
+  // Put a ball out on the sweeper to check alignment
+  translate([gridSpacing*2,gridSpacing*-12,ballHeight]) sphere(r=ballRadius, $fn=30);
 }
 
 // Now add three 'reader rods'
@@ -107,88 +99,87 @@ ballTopZ = ballHeight+(ballRadius);
 feelerSize = 4.76;
 module feeler()
 {
-	difference() {
-	union()
-	 {translate([-feelerSize/2,-feelerSize/2,0])
-	  cube(size=[feelerSize,feelerSize,50]);
-	}
-		translate([-10,-feelerSize/2-1,35]) cube([50,4,2]);
-		translate([-feelerSize/2+1,-feelerSize/2+1,-1]) cube([3,3,30]);
-		}
-	  
+  difference() {
+    union()
+    {translate([-feelerSize/2,-feelerSize/2,0])
+        cube(size=[feelerSize,feelerSize,50]);
+    }
+    translate([-10,-feelerSize/2-1,35]) cube([50,4,2]);
+    translate([-feelerSize/2+1,-feelerSize/2+1,-1]) cube([3,3,30]);
+  }  
 }
 
 // Notch feeler1
 module feeler1()
 {
-union() {
-difference()
-	{
-		feeler();
-		translate([-10,-feelerSize/2-1,40]) cube([50,4,2]);
-		translate([-10,-feelerSize/2-1,40-ballTopZ]) cube([50,4,2]);
-		translate([-feelerSize/2+1,-feelerSize/2+1,40+3]) cube([3,3,30]);
-		}
-		  translate([0,-feelerSize/2+1,10]) rotate([90,0,0]) cylinder(r=2,h=9,$fn=10);
-
-		}	  
+  union() {
+    difference()
+    {
+      feeler();
+      translate([-10,-feelerSize/2-1,40]) cube([50,4,2]);
+      translate([-10,-feelerSize/2-1,40-ballTopZ]) cube([50,4,2]);
+      translate([-feelerSize/2+1,-feelerSize/2+1,40+3]) cube([3,3,30]);
+    }
+    translate([0,-feelerSize/2+1,10]) rotate([90,0,0]) cylinder(r=2,h=9,$fn=10);
+    
+  }	  
 }
 
 module feeler2()
 {
-union()
-{difference()
-	{
-		feeler();
-		translate([-10,-feelerSize/2-1,40-ballTopZ]) cube([50,4,2]);
-		translate([-feelerSize/2+1,-feelerSize/2+1,43]) cube([3,3,30]);
-		}
-		  translate([0,-feelerSize/2+1,10]) rotate([90,0,0]) cylinder(r=2,h=9,$fn=10);
-
-}
+  union()
+  {difference()
+    {
+      feeler();
+      translate([-10,-feelerSize/2-1,40-ballTopZ]) cube([50,4,2]);
+      translate([-feelerSize/2+1,-feelerSize/2+1,43]) cube([3,3,30]);
+    }
+    translate([0,-feelerSize/2+1,10]) rotate([90,0,0]) cylinder(r=2,h=9,$fn=10);
+    
+  }
 }
 
 // lever 1
 engage1=(pattern==7)?1:0;
 module lever()
 {
-	difference() {
-	union() {
-	translate([-100,-5,0])
+  difference() {
+    union() {
+      translate([-100,-5,0])
 	cube(size=[105,10,2]);
-	translate([0,0,-20])cylinder(r=2.5,h=20);
-	translate([0,0,-5])cylinder(r=3.5,h=10);
-	}
-		// Hole for axle
-		translate([0,0,-30])cylinder(r=1.5+2*clearance,h=50);
-		// Hole for spring attachment
-		translate([-83,2,-1]) cylinder(r=1.5,h=4);
-		for(x=[1:7]) translate([-10*x,0,-1]) cylinder(r=4,h=4);
-		for(x=[0:1]) translate([-78-10*x,-1,-1]) cylinder(r=3,h=4);
-		translate([-95,-0,-1]) cylinder(r=3,h=4);
-		// Chamfer edges
-		translate([-101,5,1.5]) rotate([45,0,0]) cube([100,2,2]);
-		translate([-101,7,-4.5]) rotate([45,0,0]) cube([100,5,5]);
-	}
-	
+      translate([0,0,-20])cylinder(r=2.5,h=20);
+      translate([0,0,-5])cylinder(r=3.5,h=10);
+    }
+    // Hole for axle
+    translate([0,0,-30])cylinder(r=1.5+2*clearance,h=50);
+    // Hole for spring attachment
+    translate([-83,2,-1]) cylinder(r=1.5,h=4);
+    for(x=[1:7]) translate([-10*x,0,-1]) cylinder(r=4,h=4);
+    for(x=[0:1]) translate([-78-10*x,-1,-1]) cylinder(r=3,h=4);
+    translate([-95,-0,-1]) cylinder(r=3,h=4);
+    // Chamfer edges
+    translate([-101,5,1.5]) rotate([45,0,0]) cube([100,2,2]);
+    translate([-101,7,-4.5]) rotate([45,0,0]) cube([100,5,5]);
+  }
+  
 }
 
 module lever2()
 {
-	difference() {
-	union() {
-	translate([-100,-5,0])
+  difference() {
+    union() {
+      translate([-100,-5,0])
 	cube(size=[105,10,2]);
-	translate([0,0,-15])cylinder(r=1.5,h=15);
-	}
-		// Hole for spring attachment
-		translate([-83,2,-1]) cylinder(r=1.5,h=4);
-		for(x=[1:7]) translate([-10*x,0,-1]) cylinder(r=4,h=4);
-		for(x=[0:1]) translate([-78-10*x,-1,-1]) cylinder(r=3,h=4);
-		translate([-95,-0,-1]) cylinder(r=3,h=4);
-		translate([-101,5,1.5]) rotate([45,0,0]) cube([100,5,5]);
-		translate([-101,5,-6.5]) rotate([45,0,0]) cube([100,5,5]);
-		}
+      translate([0,0,-15])cylinder(r=1.5,h=15);
+    }
+    // Hole for spring attachment
+    translate([-83,2,-1]) cylinder(r=1.5,h=4);
+    for(x=[1:7]) translate([-10*x,0,-1]) cylinder(r=4,h=4);
+    for(x=[0:1]) translate([-78-10*x,-1,-1]) cylinder(r=3,h=4);
+    translate([-95,-0,-1]) cylinder(r=3,h=4);
+    translate([-101,5,1.5]) rotate([45,0,0]) cube([100,5,5]);
+    translate([-101,5,-6.5]) rotate([45,0,0]) cube([100,5,5]);
+  }
 }
 
 leverAxisX = -20+95;
@@ -201,17 +192,17 @@ engage2=(pattern==4 || pattern==0)?1:0;
 // Tower for mounting springs to
 module springTower()
 {
-difference()
-{
-union()
-{
-translate([-10,30,25]) squareBarZ(15);
-translate([-10,0,25]) squareBarY(30);
-translate([-10,25,35]) cube([5,10,2]);
-translate([-10,25,40]) cube([5,10,2]);
-}
-translate([-7.5,27.5,0]) cylinder(r=1.5,h=100);
-}
+  difference()
+  {
+    union()
+    {
+      translate([-10,30,25]) squareBarZ(15);
+      translate([-10,0,25]) squareBarY(30);
+      translate([-10,25,35]) cube([5,10,2]);
+      translate([-10,25,40]) cube([5,10,2]);
+    }
+    translate([-7.5,27.5,0]) cylinder(r=1.5,h=100);
+  }
 }
 
 wheelRadius = 15;
@@ -219,53 +210,54 @@ wheelRadius = 15;
 // guide plate (baseplate)
 module basePlate() 
 {
-difference() {
-	union() {
-	translate([-5,-5,25])cube(size=[40,10,5]);
-	translate([leverAxisX,leverAxisY,20]) cylinder(r=5,h=10);
-	translate([-3.5,-2.5-1,45])cube(size=[gridSpacing*4+7,5+3.5,1]);
-	translate([35,-5,25]) squareBarX(40);
-	translate([29,-30,25]) squareBarX(45);
-	translate([-20,0,25]) squareBarX(20);
-	translate([leverAxisX-2.5,-30,25]) squareBarY(30);
-	difference() {
-		translate([-3.5,4,25])cube(size=[gridSpacing*4+7,1,20]);
-		translate([gridSpacing*1,3,37]) rotate([270,0,0]) cylinder(r=7,h=4);
-		translate([gridSpacing*3,3,37]) rotate([270,0,0]) cylinder(r=7,h=4);
-		}
-	translate([-3.5,2.5,35])cube(size=[gridSpacing*4+7,2,1]);
-	translate([-3.5,2.5,40])cube(size=[gridSpacing*4+7,2,1]);
-	}
-
-	// Cut out holes for feelers
-	translate([-feelerSize/2-clearance,-feelerSize/2-clearance,-1]) cube([feelerSize+2*clearance,feelerSize+2*clearance,100]);
-	translate([gridSpacing*2-feelerSize/2-clearance,-feelerSize/2-clearance,-1]) cube([feelerSize+2*clearance,feelerSize+2*clearance,100]);
-	translate([gridSpacing*4-feelerSize/2-clearance,-feelerSize/2-clearance,-1]) cube([feelerSize+2*clearance,feelerSize+2*clearance,100]);
-	// Hole for lever axle
-	translate([leverAxisX,leverAxisY,-1]) cylinder(r=2.5+clearance*2,h=100);
-	
-	// Square holes between feelers
-	translate([gridSpacing*1-2.5,0-2.5,24]) cube([5,5,12]);
-	translate([gridSpacing*3-2.5,0-2.5,24]) cube([5,5,12]);
-	}
+  difference() {
+    union() {
+      translate([-5,-5,25])cube(size=[40,10,5]);
+      translate([leverAxisX,leverAxisY,20]) cylinder(r=5,h=10);
+      translate([-3.5,-2.5-1,45])cube(size=[gridSpacing*4+7,5+3.5,1]);
+      translate([35,-5,25]) squareBarX(40);
+      translate([29,-30,25]) squareBarX(45);
+      translate([-20,0,25]) squareBarX(20);
+      translate([leverAxisX-2.5,-30,25]) squareBarY(30);
+      difference() {
+        translate([-3.5,4,25])cube(size=[gridSpacing*4+7,1,20]);
+        translate([gridSpacing*1,3,37]) rotate([270,0,0]) cylinder(r=7,h=4);
+        translate([gridSpacing*3,3,37]) rotate([270,0,0]) cylinder(r=7,h=4);
+      }
+      translate([-3.5,2.5,35])cube(size=[gridSpacing*4+7,2,1]);
+      translate([-3.5,2.5,40])cube(size=[gridSpacing*4+7,2,1]);
+    }
+    
+    // Cut out holes for feelers
+    translate([-feelerSize/2-clearance,-feelerSize/2-clearance,-1]) cube([feelerSize+2*clearance,feelerSize+2*clearance,100]);
+    translate([gridSpacing*2-feelerSize/2-clearance,-feelerSize/2-clearance,-1]) cube([feelerSize+2*clearance,feelerSize+2*clearance,100]);
+    translate([gridSpacing*4-feelerSize/2-clearance,-feelerSize/2-clearance,-1]) cube([feelerSize+2*clearance,feelerSize+2*clearance,100]);
+    // Hole for lever axle
+    translate([leverAxisX,leverAxisY,-1]) cylinder(r=2.5+clearance*2,h=100);
+    
+    // Square holes between feelers
+    translate([gridSpacing*1-2.5,0-2.5,24]) cube([5,5,12]);
+    translate([gridSpacing*3-2.5,0-2.5,24]) cube([5,5,12]);
+  }
 }
+
 // Wheel
 module wheel()
 {
-	rotate([90,0,0])
-	difference() {
-	union() {
-		cylinder(r1=wheelRadius-1, r2=wheelRadius, h=1,$fn=100);
-		translate([0,0,1])cylinder(r=wheelRadius, h=4,$fn=100);
-		translate([0,0,5])	cylinder(r1=wheelRadius,r2=wheelRadius-1,h=1,$fn=100);
-		}
-		// axle bore
-		translate([0,0,-1]) cylinder(r=1.5,h=8);
-		// Weight reduction
-		for(a=[0,60,120,180,240,300])
-		translate([wheelRadius*0.6*cos(a),wheelRadius*0.6*sin(a),-1]) cylinder(r=wheelRadius*0.25,h=8);
-		translate([0,0,2])cylinder(r=wheelRadius-3, h=2,$fn=10);		
-		}
+  rotate([90,0,0])
+    difference() {
+    union() {
+      cylinder(r1=wheelRadius-1, r2=wheelRadius, h=1,$fn=100);
+      translate([0,0,1])cylinder(r=wheelRadius, h=4,$fn=100);
+      translate([0,0,5])	cylinder(r1=wheelRadius,r2=wheelRadius-1,h=1,$fn=100);
+    }
+    // axle bore
+    translate([0,0,-1]) cylinder(r=1.5,h=8);
+    // Weight reduction
+    for(a=[0,60,120,180,240,300])
+      translate([wheelRadius*0.6*cos(a),wheelRadius*0.6*sin(a),-1]) cylinder(r=wheelRadius*0.25,h=8);
+    translate([0,0,2])cylinder(r=wheelRadius-3, h=2,$fn=10);		
+  }
 }
 
 // Calculations to do with wheels
@@ -282,85 +274,83 @@ axle2X = gridSpacing*7;
 // Legs
 module leg()
 {
-color([0.5,0.5,0.5]) {
-difference() {
-	translate([axle1X-2.5,0,axleHeight-3]) cube(size=[5,5,25-axleHeight]);
-	translate([axle1X,6,axleHeight]) rotate([90,0,0]) cylinder(r=1.5+clearance,h=20,$fn=20);
-	translate([axle1X-1.5,1,axleHeight-4]) cube(size=[3,3,28]);
-	}
-}
-
+  color([0.5,0.5,0.5]) {
+    difference() {
+      translate([axle1X-2.5,0,axleHeight-3]) cube(size=[5,5,25-axleHeight]);
+      translate([axle1X,6,axleHeight]) rotate([90,0,0]) cylinder(r=1.5+clearance,h=20,$fn=20);
+      translate([axle1X-1.5,1,axleHeight-4]) cube(size=[3,3,28]);
+    }
+  } 
 }
 
 // bed-frame on top of axles (union with body)
 
 module squareBarX(size)
 {
-	difference() {
-		cube(size=[size,5,5]);
-		translate([-1,1,1])cube(size=[size+2,3,3]);
-		if(size>10) {
-			translate([size/2-1,1,-1]) cube(size=[3,3,7]); 
-			}
-		}
+  difference() {
+    cube(size=[size,5,5]);
+    translate([-1,1,1])cube(size=[size+2,3,3]);
+    if(size>10) {
+      translate([size/2-1,1,-1]) cube(size=[3,3,7]); 
+    }
+  }
 }
 
 module squareBarY(size)
 {
-	translate([5,0,0]) rotate([0,0,90]) squareBarX(size);
+  translate([5,0,0]) rotate([0,0,90]) squareBarX(size);
 }
 
 module squareBarZ(size)
 {
-	translate([0,0,size]) rotate([0,90,0]) squareBarX(size);
+  translate([0,0,size]) rotate([0,90,0]) squareBarX(size);
 }
 
 module bedFrame()
 {
-union() {
-translate([axle1X-2.5,-gridSpacing*10+3.5,21]) squareBarX(gridSpacing*4+5);
-translate([axle1X-2.5+gridSpacing*6,-gridSpacing*10+3.5,21]) squareBarX(gridSpacing*4+1);
-
-translate([axle1X-2.5+gridSpacing*6,-gridSpacing*12+3.5,21]) squareBarY(gridSpacing*2+5);
-translate([axle1X-2.5+gridSpacing*4,-gridSpacing*12+8,21]) squareBarY(gridSpacing*1+4);
-translate([axle1X-2.5+gridSpacing*4,-gridSpacing*12+3.5,21]) squareBarX(gridSpacing*2+2);
-
-translate([axle1X-2.5,-gridSpacing*2-2.5-3-2.5,21]) squareBarX(gridSpacing*10+1);
+  union() {
+    translate([axle1X-2.5,-gridSpacing*10+3.5,21]) squareBarX(gridSpacing*4+5);
+    translate([axle1X-2.5+gridSpacing*6,-gridSpacing*10+3.5,21]) squareBarX(gridSpacing*4+1);
+    
+    translate([axle1X-2.5+gridSpacing*6,-gridSpacing*12+3.5,21]) squareBarY(gridSpacing*2+5);
+    translate([axle1X-2.5+gridSpacing*4,-gridSpacing*12+8,21]) squareBarY(gridSpacing*1+4);
+    translate([axle1X-2.5+gridSpacing*4,-gridSpacing*12+3.5,21]) squareBarX(gridSpacing*2+2);
+    
+    translate([axle1X-2.5,-gridSpacing*2-2.5-3-2.5,21]) squareBarX(gridSpacing*10+1);
 //translate([axle1X-2.5,-gridSpacing*10+2.5+1,21]) cube([5,gridSpacing*8,5]); // fouls crank!
-translate([axle2X-2.5,-gridSpacing*10+2.5+1,21]) squareBarY(gridSpacing*8-3-3.5);
-translate([0,-gridSpacing*2-2.5-3-2.5,0]) leg();
-translate([0,-gridSpacing*10+2.5+1,0]) leg();
-translate([gridSpacing*10,-gridSpacing*2-2.5-3-2.5,0]) leg();
-translate([gridSpacing*10,-gridSpacing*10+2.5+1,0]) leg();
-
+    translate([axle2X-2.5,-gridSpacing*10+2.5+1,21]) squareBarY(gridSpacing*8-3-3.5);
+    translate([0,-gridSpacing*2-2.5-3-2.5,0]) leg();
+    translate([0,-gridSpacing*10+2.5+1,0]) leg();
+    translate([gridSpacing*10,-gridSpacing*2-2.5-3-2.5,0]) leg();
+    translate([gridSpacing*10,-gridSpacing*10+2.5+1,0]) leg();
+    
 // This is a little plate to stop output balls travelling too far
-translate([gridSpacing*2-5,-gridSpacing*11-2,1.9]) rotate([0,0,0])cube([10,1,24]);
-}
-
+    translate([gridSpacing*2-5,-gridSpacing*11-2,1.9]) rotate([0,0,0])cube([10,1,24]);
+  } 
 }
 
 module wheels()
 {
-translate([axle1X,-gridSpacing*2+gridHoleSize/2+0.5,axleHeight]) wheel();
-translate([axle1X,-gridSpacing*10+gridHoleSize/2,axleHeight]) wheel();
-translate([axle2X,-gridSpacing*2+gridHoleSize/2+1,axleHeight]) wheel();
-translate([axle2X,-gridSpacing*10+gridHoleSize/2,axleHeight]) wheel();
+  translate([axle1X,-gridSpacing*2+gridHoleSize/2+0.5,axleHeight]) wheel();
+  translate([axle1X,-gridSpacing*10+gridHoleSize/2,axleHeight]) wheel();
+  translate([axle2X,-gridSpacing*2+gridHoleSize/2+1,axleHeight]) wheel();
+  translate([axle2X,-gridSpacing*10+gridHoleSize/2,axleHeight]) wheel();
 }
 
 module leverGuide(){
-difference() {
-translate([0,-30,25]) cube([5,35,20]);
-translate([-1,-27,35]) cube([10,30,2+2*clearance]);
-translate([-1,-27,40]) cube([10,30,2+2*clearance]);
-translate([-1,-27,30]) cube([10,30,3]);
-for(x=[0:6]){
-translate([2.5,-27.5+5*x,24]) cylinder(r=1.5,h=30);
-}
-	// Extra drain holes 
-	translate([-1,1,26]) cube([30,3,3]);
-	translate([-1,-29,26]) cube([30,3,3]);
-
-}
+  difference() {
+    translate([0,-30,25]) cube([5,35,20]);
+    translate([-1,-27,35]) cube([10,30,2+2*clearance]);
+    translate([-1,-27,40]) cube([10,30,2+2*clearance]);
+    translate([-1,-27,30]) cube([10,30,3]);
+    for(x=[0:6]){
+      translate([2.5,-27.5+5*x,24]) cylinder(r=1.5,h=30);
+    }
+    // Extra drain holes 
+    translate([-1,1,26]) cube([30,3,3]);
+    translate([-1,-29,26]) cube([30,3,3]);
+    
+  }
 }
 
 
