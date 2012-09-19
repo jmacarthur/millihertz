@@ -54,7 +54,7 @@ module clipSleeveA()
 
 
 
-include <c:\Users\Jim\Documents\cam1.scad>;
+include <cam1.scad>;
 // A simple cam
 
 //linear_extrude(height = 10, center = true, convexity = 10, twist = 0)
