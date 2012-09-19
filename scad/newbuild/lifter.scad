@@ -102,7 +102,8 @@ module lifter2(startX)
     difference() {
       translate([dropBarX-5,-raiser2Length,-raiser2Drop-10]) cube(size=[80,raiser2Length-raiser1Length+10,raiserWallWidth]);
       for(x=[0:4]) {
-        translate([row1x+gridSpacing*2*x,magnetY,-raiser2Drop-11]) cylinder(r=3,h=5);
+        translate([row1x+gridSpacing*2*x,magnetY,-raiser2Drop-10-thin]) cylinder(r=3,h=5);
+        translate([row1x+gridSpacing*2*x-3,magnetY,-raiser2Drop-10-thin]) cube(size=[6,50,raiserWallWidth+thin*2]);
       }
 
       for(x=[0:3]) {
