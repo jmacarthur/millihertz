@@ -331,10 +331,19 @@ module bedFrame()
 
 module wheels()
 {
-  translate([axle1X,-gridSpacing*2+gridHoleSize/2+0.5,axleHeight]) wheel();
-  translate([axle1X,-gridSpacing*10+gridHoleSize/2,axleHeight]) wheel();
-  translate([axle2X,-gridSpacing*2+gridHoleSize/2+1,axleHeight]) wheel();
-  translate([axle2X,-gridSpacing*10+gridHoleSize/2,axleHeight]) wheel();
+  translate([0, -gridSpacing*2+gridHoleSize/2, axleHeight]) {
+    translate([axle1X,0.5,0]) wheel();
+    translate([axle1X,-gridSpacing*8,0]) wheel();
+    translate([axle2X,1,0]) wheel();
+    translate([axle2X,-gridSpacing*8,0]) wheel();
+  }
+  // Axles:
+  for(x=[axle1X,axle2X]) {
+    translate([x, -gridSpacing*2+gridHoleSize/2, axleHeight]) {
+      rotate([90,0,0])
+        cylinder(r=1.5,h=100);
+    }
+  }
 }
 
 module leverGuide(){
