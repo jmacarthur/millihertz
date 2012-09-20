@@ -339,8 +339,9 @@ module wheels()
   }
   // Axles:
   for(x=[axle1X,axle2X]) {
-    translate([x, -gridSpacing*2+gridHoleSize/2, axleHeight]) {
+    translate([x, gridHoleSize/2, axleHeight]) {
       rotate([90,0,0])
+        color([1.0,0.5,0])
         cylinder(r=1.5,h=100);
     }
   }
@@ -610,18 +611,19 @@ module camShaftSupport()
 
 module bellCrankBody(crankSize)
 {
-	union() {
-	difference() {
-		cylinder(r=crankSize,h=5);
-		translate([0,0,-1]) cylinder(r=crankSize-5,h=7);
-		translate([-crankSize-1,0,-1]) cube([crankSize*2+2,crankSize*2+2,7]);
-	}
-	translate([-crankSize+2.5,-2.5,0]) squareBarX(crankSize);
-	rotate([0,0,-45]) translate([-2.5,-2.5,0]) squareBarX(crankSize);
-	translate([crankSize-5,-2.5,0]) cube([5,2.5,5]);
-	translate([15,0,2.5]) rotate([0,90,0]) cylinder(r=1.5,h=10);
-	//	translate([20,0,2.5])rotate([0,90,0]) smallBearing();
-		}
+  union() {
+    difference() {
+      cylinder(r=crankSize,h=5);
+      translate([0,0,-1]) cylinder(r=crankSize-5,h=7);
+      translate([-crankSize-1,0,-1]) cube([crankSize*2+2,crankSize*2+2,7]);
+      translate([-crankSize-1,-crankSize-1,-1]) cube([crankSize+1-2.5-1,crankSize*2+2,7]);
+    }
+    translate([-crankSize+2.5,-2.5,0]) squareBarX(crankSize);
+    rotate([0,0,-45]) translate([-2.5,-2.5,0]) squareBarX(crankSize);
+    translate([crankSize-5,-2.5,0]) cube([5,2.5,5]);
+    translate([15,0,2.5]) rotate([0,90,0]) cylinder(r=1.5,h=10);
+    translate([20,0,2.5])rotate([0,90,0]) smallBearing();
+  }
 }
 
 module bellCrank()
@@ -655,12 +657,12 @@ sweeperPos = lookup($t, [ [0.0,1], [0.1, 0], [0.9,0], [1,1] ]);
 
 module clevis()
 {
-	difference() {
-		translate([-25,-5,-2.5]) cube([30,10,5]);
-		translate([-15,-3,-3.5]) cube([25,6,7]);
-		translate([0,10,0]) rotate([90,0,0]) cylinder(r=1.5,h=20,$fn=20);
-		translate([-26,0,0]) rotate([0,90,0]) cylinder(r=1.5,h=9,$fn=20);
-		}
+  difference() {
+    translate([-25,-5,-2.5]) cube([30,10,5]);
+    translate([-15,-3,-3.5]) cube([25,6,7]);
+    translate([0,10,0]) rotate([90,0,0]) cylinder(r=1.5,h=20,$fn=20);
+    translate([-26,0,0]) rotate([0,90,0]) cylinder(r=1.5,h=9,$fn=20);
+  }
 }
 
 crankPushX = 17.5*sin(crankRotate);
@@ -670,10 +672,10 @@ echo("$t=",$t);
 wheels();
 data();
 translate([ -10,-30,18]) raiser(); 
-grid();
+//grid();
 
 translate([-10+2.5,camShaftY+2.5,21]) rotate([0,crankRotate,0]) bellCrank();
-translate([-10+2.5-crankPushX,camShaftY ,7.5]) clevis();
+//translate([-10+2.5-crankPushX,camShaftY ,7.5]) clevis();
 body();
 translate([0,sweeperPos*gridSpacing*2-18,-5]) sweeper();
 translate([leverAxisX,leverAxisY,35]) rotate([0,0,10*(1-engage1)]) lever();
