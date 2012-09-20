@@ -46,7 +46,7 @@ module smallBearing()
 
 ballHeight = sqrt(ballRadius*ballRadius - (gridHoleSize/2)*(gridHoleSize/2));
 
-pattern = 4;
+pattern = 0;
 bit2 = (pattern>=4)?1:0;
 pattern2 = pattern -(bit2*4);
 bit1 = (pattern2>=2)?1:0;
@@ -167,15 +167,22 @@ module bellCrank()
 module reader1()
 {
   reach = gridSpacing*5.8;
-  color([1.0,0.8,0.8]) {
+  
   translate([0,-gridSpacing,-25]) {
-    translate([gridSpacing*2,-1.5+reach,0])
-      cube(size=[gridSpacing*2,3,30]);
+    color([1.0,0.8,0.8]) {
+      difference() {
+        translate([gridSpacing*2,-1.5+reach,0])
+          cube(size=[gridSpacing*2,3,30]);
+        translate([gridSpacing*2-thin,-1.5+reach-thin,20])
+          cube(size=[wallWidth+thin,50,10+thin]);
+        translate([gridSpacing*4-wallWidth,-1.5+reach-thin,20])
+          cube(size=[wallWidth+thin,50,10+thin]);
+      }
+    }
     translate([gridSpacing*2,1.5,20])    
       cube(size=[3,reach,10]);
     translate([gridSpacing*4-3,1.5,20])    
       cube(size=[3,reach,10]);
-  }
   }
 }
 
@@ -186,62 +193,88 @@ module reader2()
   reach = gridSpacing*6.9;
   color([0.8,1.0,0.8]) {
     translate([0,-gridSpacing*1,-25]) {
-      translate([0,-1.5+reach,0])
-        cube(size=[gridSpacing*4+3,3,30]);
+      difference() {
+        translate([0,-1.5+reach,0])
+          cube(size=[gridSpacing*4+3,3,30]);
+        translate([-thin,-1.5+reach-thin,21])
+          cube(size=[wallWidth+thin,50,10+thin]);
+        translate([gridSpacing*4,-1.5+reach-thin,21])
+          cube(size=[wallWidth+thin,50,10+thin]);
+      }
       translate([0,1.5,21])    
         cube(size=[3,reach+10,9]);
       translate([gridSpacing*4,1.5,21])    
         cube(size=[3,reach+10,9]);
-      translate([0,-1.5+reach+10,21])   // This bit is to glue ball bearings to
-        cube(size=[gridSpacing*4+3,3,9]); 
+      translate([wallWidth,-1.5+reach+10,21])   // This bit is to glue ball bearings to
+        cube(size=[gridSpacing*4+3-wallWidth*2,3,9]); 
     }
   }
 }
+
+drawLiftingBar = true;
+drawFollowerAxle = true;
 
 module pusher()
 {
   rodZ = 23.3;
   translate([4,-gridSpacing*1,-25]) {
-    for(x=[0,gridSpacing*3-4]) {
-      difference() {
-        translate([x,1.5-gridSpacing*6,20])    
-          cube(size=[3,gridSpacing*10.5,10]);
-        translate([-1+gridSpacing*5,50,25])  
-          rotate([0,90,0])
-          cylinder(r=1.5,h=5);
-        translate([-1,30,rodZ])  
-          rotate([0,90,0])
-          cylinder(r=1.5,h=5);
-        translate([-1,1.5-gridSpacing*8,19])  
-          cube(size=[50,40,6]);
+    union() {
+      for(x=[0,gridSpacing*3-4]) {
+        difference() {
+          translate([x,1.5-gridSpacing*6,20])    
+            cube(size=[3,gridSpacing*10.5,10]);
+          translate([-1+gridSpacing*5,50,25])  
+            rotate([0,90,0])
+            cylinder(r=1.5,h=5);
+          translate([-1,30,rodZ])  
+            rotate([0,90,0])
+            cylinder(r=1.5,h=25);
+          translate([-1,1.5-gridSpacing*8,19])  
+            cube(size=[50,40,6]);
+          translate([-thin,-15,25])  
+            rotate([0,90,0])
+            cylinder(r=1.5,h=22);
+          
+        }
       }
+      // Drop bars
+      translate([0,3,1.5])    
+        cube(size=[3,3,20]);
+      translate([gridSpacing*3-4,3,1.5])    
+        cube(size=[3,3,20]);
     }
-        // Drop bar
-    translate([0,3,1.5])    
-      cube(size=[3,3,20]);
-    translate([0,3,1.5])    
-      cube(size=[30,3,10]);
-    translate([gridSpacing*3-4,3,1.5])    
-      cube(size=[3,3,20]);
+    // The web which actually pushes the ball bearing
+    difference() {
+      translate([wallWidth,3,1.5])    
+        cube(size=[gridSpacing*3-4-wallWidth,3,10]);
+      translate([3,-5,4])    
+      cube(size=[3,12,5]);
+    translate([16,-5,4])    
+      cube(size=[3,12,5]);
+    }
     // Guides
     translate([3,-5,4])    
-      cube(size=[3,8,5]);
+     cube(size=[3,11,5]);
     translate([16,-5,4])    
-      cube(size=[3,8,5]);
+      cube(size=[3,11,5]);
     
   
     // Lifting bar
-    translate([-5,30,rodZ])  
-    rotate([0,90,0])
-      color([1.0,0.5,0])
-    cylinder(r=1.5,h=35);
+    if(drawLiftingBar) {
+      translate([-5,30,rodZ])  
+        rotate([0,90,0])
+        color([1.0,0.5,0])
+        cylinder(r=1.5,h=35);
+    }
 
     // Cam follower axle
-    translate([0,-15,25])  
-    rotate([0,90,0])
-      color([1.0,0.5,0])
-      cylinder(r=1.5,h=22);
-    translate([10-5,-15,25])rotate([0,90,0]) smallBearing();
+    if(drawFollowerAxle) {
+      translate([0,-15,25])  
+        rotate([0,90,0])
+        color([1.0,0.5,0])
+        cylinder(r=1.5,h=22);
+      translate([10-5,-15,25])rotate([0,90,0]) smallBearing();
+    }
 
   }
 }
@@ -265,14 +298,7 @@ module wheel()
 }
 
 
-module wheels()
-{
-  translate([0, -gridSpacing*2+gridHoleSize/2, axleHeight]) {
-    translate([axle1X,0,0]) wheel();
-    translate([axle1X,-gridSpacing*8,0]) wheel();
-    translate([axle2X,0,0]) wheel();
-    translate([axle2X,-gridSpacing*8,0]) wheel();
-  }
+module axles() {
   // Axles:
   for(x=[axle1X,axle2X]) {
     translate([x, gridHoleSize/2, axleHeight]) {
@@ -281,6 +307,17 @@ module wheels()
         cylinder(r=1.5,h=100);
     }
   }
+}
+
+module wheels()
+{
+  translate([0, -gridSpacing*2+gridHoleSize/2, axleHeight]) {
+    translate([axle1X,0,0]) wheel();
+    translate([axle1X,-gridSpacing*8,0]) wheel();
+    translate([axle2X,0,0]) wheel();
+    translate([axle2X,-gridSpacing*8,0]) wheel();
+  }
+  axles();
 }
 
 camShaftY = -8*gridSpacing;
@@ -294,14 +331,14 @@ echo("Movement= ",crankPushX);
 echo("$t=",$t);
 wheels();
 data();
-translate([ -10,-30,18]) raiser(); 
-grid();
+//grid();
 
+if(drawBellCrank) {
 translate([-30+2.5,camShaftY+2.5,21]) rotate([0,crankRotate,0]) bellCrank();
 translate([-30+2.5,-gridSpacing*4+2.5,21]) rotate([0,crankRotate,0]) bellCrank();
 // Bellcrank fixed axle
-translate([-30+2.5,-gridSpacing*3+2.5,21]) rotate([90,0,0]) color([1.0,0.5,0]) cylinder(r=1.5,h=100);
-
+translate([-30+2.5,-gridSpacing*3+2.5,21]) rotate([90,0,0]) color([1.0,0.5,0]) cylinder(r=1.5,h=50);
+}
 
 //translate([-10+2.5-crankPushX,camShaftY ,7.5]) clevis();
 
@@ -310,34 +347,43 @@ reader2Down = 0;
 reader1Up = 12.5;
 reader2Up = 10.3;
 pushed = -9.9;
-reader1Ang = reader1Up;
+reader1Ang = 12.5;
 reader2Ang = 0;
 pusherAng = 25;
-translate([0,-gridSpacing*5,25]) {
-  difference() {
-    rotate([reader1Ang,0,0])
-    reader1();
-    translate([-1,0,0])     rotate([0,90,0]) cylinder(r=1.5,h=100);
-  }
-  difference() {
-    rotate([reader2Ang,0,0])
-    reader2();
-    translate([-1,0,0])     rotate([0,90,0]) cylinder(r=1.5,h=100);
+
+drawReaderPusher = true;
+drawPusher = true;
+drawCamShaft = true;
+drawReaders = true;
+if(drawReaderPusher) {
+  translate([0,-gridSpacing*5,25]) {
+    if(drawReaders) {
+      difference() {
+        rotate([reader1Ang,0,0])
+          reader1();
+        translate([-1,0,0])     rotate([0,90,0]) cylinder(r=1.5,h=100);
+      }
+      difference() {
+        rotate([reader2Ang,0,0])
+          reader2();
+        translate([-1,0,0])     rotate([0,90,0]) cylinder(r=1.5,h=100);
+      }
+    }
+    if(drawPusher) {
+      difference() {
+        rotate([pusherAng,0,0])
+          pusher();
+        translate([-25,0,0])     rotate([0,90,0]) cylinder(r=1.5,h=100);
+      }
+    }
   }
 
-  difference() {
-   rotate([pusherAng,0,0])
-    pusher();
-    translate([-25,0,0])     rotate([0,90,0]) cylinder(r=1.5,h=100);
+  // Balance axle
+
+  translate([-15,-gridSpacing*5,25]) {
+    rotate([0,90,0]) cylinder(r=1.5,h=70);
   }
 }
-
-// Balance axle
-
-translate([-15,-gridSpacing*5,25]) {
-  rotate([0,90,0]) cylinder(r=1.5,h=70);
-}
-
 //clipSleeve();
 
 //translate([20,0,0]) clipSleeveA();
@@ -346,53 +392,55 @@ translate([gridSpacing*4,-gridSpacing*6-5.3,ballRadius]) sphere(r=ballRadius, $f
 translate([gridSpacing*2,-gridSpacing*6-1.8,ballHeight]) sphere(r=ballRadius, $fn=30);
 
 moverCamPhase = -15;
+
+if(drawCamShaft) {
 // Another cam
-translate([-5,camShaftY,40])rotate([camShaftRotate+moverCamPhase,0,0]) rotate([0,90,0])
-union() {
-  difference() {
-    movercam();
-    translate([0,0,-5-thin]) cylinder(r=14,h=10+thin*2);
-    translate([0,0,-1]) cylinder(r=1.5,h=10);
+  translate([-5,camShaftY,40])rotate([camShaftRotate+moverCamPhase,0,0]) rotate([0,90,0])
+    union() {
+    difference() {
+      movercam();
+      translate([0,0,-5-thin]) cylinder(r=14,h=10+thin*2);
+      translate([0,0,-1]) cylinder(r=1.5,h=10);
+    }
+    difference() {
+      translate([0,0,-1]) cylinder(r=14,h=2);
+      for(r=[0:5])
+        rotate([0,0,r*60])
+          translate([10,0,-1-thin]) cylinder(r=4,h=2+2*thin);
+      
+    }
   }
-  difference() {
-    translate([0,0,-1]) cylinder(r=14,h=2);
-    for(r=[0:5])
-      rotate([0,0,r*60])
-        translate([10,0,-1-thin]) cylinder(r=4,h=2+2*thin);
-
-  }
-}
-
-
+  
+  
 // Another cam
-translate([10,camShaftY,40])rotate([camShaftRotate,0,0]) rotate([0,90,0])
-union() {
-  difference() {
-    liftercam();
-    translate([0,0,-thin])
-      scale([1.0,1.0,1.2]) liftercamCutout();
-    translate([0,0,-1]) cylinder(r=1.5,h=10);
+  translate([10,camShaftY,40])rotate([camShaftRotate,0,0]) rotate([0,90,0])
+    union() {
+    difference() {
+      liftercam();
+      translate([0,0,-thin])
+        scale([1.0,1.0,1.2]) liftercamCutout();
+      translate([0,0,-1]) cylinder(r=1.5,h=10);
+    }
+    scale([1.0,1.0,0.2]) liftercam();
   }
-  scale([1.0,1.0,0.2]) liftercam();
-}
 
 //Cam axle
-translate([-15,camShaftY,40]) rotate([0,90,0])
-cylinder(r=1.5,h=60);
-
+  translate([-15,camShaftY,40]) rotate([0,90,0])
+    cylinder(r=1.5,h=60);
+}
 // Cam axle adapter
 
-translate([50,camShaftY,40]) rotate([0,90,0])
+translate([-12,camShaftY,40]) rotate([0,270,0])
 difference() {
   cylinder(r=4,h=10);
-  motorOutputShaft();
+  translate([0,0,5]) motorOutputShaft();
   translate([0,0,-thin])
   cylinder(r=1.5,h=10+2*thin);
 }
 
 module motorOutputShaft()
 {  
-  translate([0,0,5])
+  translate([0,0,0])
     difference() {
     cylinder(r=(5.5/2),h=9);
     for(flat=[0,180]) {
@@ -403,48 +451,98 @@ module motorOutputShaft()
   }
 }
 
+drawChassis = true;
+beam1 = drawChassis;
+beam2 = drawChassis;
+crossBeam1 = drawChassis;
+crossBeam2 = drawChassis;
 
 // The chassis beams
-color([0.5,0.5,1.0])
-difference() {
-  translate([-45,-gridSpacing*9,1])
-    cube(size=[100,3,25]);
-  translate([-10,-gridSpacing*9-1,10])
-    cube(size=[70,3+2,32]);
-}  
+if(beam1) {
+  color([0.5,0.0,1.0])
+    difference() {
+    translate([-45,-gridSpacing*9,1])
+      cube(size=[105,3,25]);
+    translate([-12+wallWidth,-gridSpacing*9-1,10])
+      cube(size=[35+12-wallWidth,3+2,32]);
+    axles();
+  }  
+}
 
-color([0.5,0.5,1.0])
-difference() {
-  translate([-45,-gridSpacing*3,1])
-    cube(size=[100,3,25]);
-  translate([-25,-gridSpacing*3-1,10])
-    cube(size=[60,3+2,32]);
-}  
+if(beam2)
+{
+  color([0.5,0.5,0.5])
+    difference() {
+    translate([-45,-gridSpacing*3,1])
+      cube(size=[105,3,31]);
+    translate([-12+wallWidth,-gridSpacing*3-1,10])
+      cube(size=[35+12-wallWidth,3+2,32]);
+    axles();
+  }  
+}
 
 wallWidth = 3;
 chassisWidth = gridSpacing*6+wallWidth;
 
 // Cross members
-color([0.5,0.5,1.0])
-union() {
-  difference() {
-    translate([-12,-gridSpacing*9,1])
-      cube(size=[wallWidth,chassisWidth,50]);
-    translate([-12-thin,-gridSpacing*9+wallWidth,1-thin])
-      cube(size=[5,40,30+thin]);
+if(crossBeam1) {
+  color([0.5,0.5,1.0])
+    difference() {
+    union() {
+      difference() {
+        translate([-12,-gridSpacing*9-5,1])
+          cube(size=[wallWidth,chassisWidth+5,50]);
+        translate([-12-thin,-gridSpacing*9+wallWidth-thin,1-thin])
+          cube(size=[5,40+thin,23+thin]);
+      }
+      translate([-12,-gridSpacing*6,20]) cube(size=[3,12,20]);
+    }
+    translate([-15,-gridSpacing*5,25]) {
+      rotate([0,90,0]) cylinder(r=1.5,h=70);
+    }
+    translate([-15,camShaftY,40]) rotate([0,90,0])
+      cylinder(r=1.5,h=60);
+    translate([-12-thin,-gridSpacing*9-thin,1-thin]) 
+      cube(size=[wallWidth+thin*2,wallWidth+thin,25]);
+    translate([-12-thin,-gridSpacing*9+chassisWidth-wallWidth-thin,1-thin]) 
+      cube(size=[wallWidth+thin*2,wallWidth+thin*2,31+thin]);
+   
   }
-  translate([-12,-gridSpacing*6,20]) cube(size=[3,10,20]);
+
 }
 
-
-color([0.5,0.5,1.0])
-difference() {
-  translate([45,-gridSpacing*9,1])
+if(crossBeam2) {
+  color([0.5,0.5,1.0])
+    difference() {
+    translate([35,-gridSpacing*9,1])
       cube(size=[wallWidth,chassisWidth,50]);
-  translate([45-thin,-gridSpacing*9+10,1-thin])
-    cube(size=[5,30,10+thin]);
+    translate([35-thin,-gridSpacing*9+10,1-thin])
+      cube(size=[5,30,10+thin]);
+    translate([-15,-gridSpacing*5,25]) {
+      rotate([0,90,0]) cylinder(r=1.5,h=70);
+    }
+    translate([-15,camShaftY,40]) rotate([0,90,0])
+      cylinder(r=1.5,h=60);
+    translate([35-thin,-gridSpacing*9+chassisWidth-wallWidth-thin,1-thin]) 
+      cube(size=[wallWidth+thin*2,wallWidth+thin*2,31+thin]);
+    translate([35-thin,-gridSpacing*9-thin,1-thin]) 
+      cube(size=[wallWidth+thin*2,wallWidth+thin,25]);
+    
+  }
 }
 
 
+// The motor - technobots order code 1400-034
+// datum is the end of the motor shaft
+module motor()
+{
+  union()  {
+    rotate([0,90,0]) motorOutputShaft();
+    
+    translate([9,-11,-11]) cube(size=[20,68,22]);
+    translate([9+8,-16,-3]) cube(size=[2,6,6]);
+  }
+}
 
-// The motor
+
+translate([-15,camShaftY,40]) rotate([-5,180,0]) motor();
