@@ -28,6 +28,7 @@ module grid()
 
 
 include <cam1.scad>;
+include <liftercam.scad>;
 // A simple cam
 
 // Small model bearing from Technobots, stock code 4255-020
@@ -340,27 +341,7 @@ translate([gridSpacing*4,-gridSpacing*6-5.3,ballRadius]) sphere(r=ballRadius, $f
 
 translate([gridSpacing*2,-gridSpacing*6-1.8,ballHeight]) sphere(r=ballRadius, $fn=30);
 
-// A cam
-translate([35,camShaftY,40])
-rotate([camShaftRotate,0,0])
-difference() {
-  rotate([0,90,0])
-    color([1.0,0.5,0])
-    cylinder(r=22,h=5, $fn=40);
-
-  translate([-1,-25,-29]) {
-    cube(size=[7,50,21]);
-  }
-  rotate([0,0,0])
-  translate([-1,0,-29])
-  rotate([0,90,0])
-    cylinder(r=21,h=7);
-  translate([-1,0,0])
-  rotate([0,90,0])
-    cylinder(r=1.5,h=7);
-}
-
-moverCamPhase = 90;
+moverCamPhase = -15;
 // Another cam
 translate([-5,camShaftY,40])rotate([moverCamPhase,0,0]) rotate([0,90,0])
 difference() {
@@ -368,6 +349,12 @@ difference() {
   translate([0,0,-1]) cylinder(r=1.5,h=10);
 }
 
+// Another cam
+translate([38,camShaftY,40])rotate([0,0,0]) rotate([0,90,0])
+difference() {
+  liftercam();
+  translate([0,0,-1]) cylinder(r=1.5,h=10);
+}
 
 //Cam axle
 translate([-15,camShaftY,40])rotate([moverCamPhase,0,0]) rotate([0,90,0])
