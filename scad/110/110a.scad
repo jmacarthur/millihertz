@@ -5,7 +5,7 @@ gridHoleSize = 6; // Size of the holes in it.
 ballDiameter=9.52;
 ballRadius = ballDiameter/2;
 wheelRadius = 15;
-
+laserCut = true;
 clearance = 0.2;
 thin = 0.01;
 // Calculated constants
@@ -13,6 +13,65 @@ gridLineWidth = gridSpacing - gridHoleSize;
 gridThickness = 1;
 $fn=20;
 $t=(1-$t);
+// Place a ball on the grid
+
+// Calculate the recess into the grid...
+
+ballHeight = sqrt(ballRadius*ballRadius - (gridHoleSize/2)*(gridHoleSize/2));
+
+pattern = 0;
+bit2 = (pattern>=4)?1:0;
+pattern2 = pattern -(bit2*4);
+bit1 = (pattern2>=2)?1:0;
+pattern3 = pattern2 - (bit1*2);
+bit0 = (pattern3>=1)?1:0;
+// Now add three 'reader rods'
+
+ballTopZ = ballHeight+(ballRadius);
+// Calculations to do with wheels
+
+wheelIngressAngle = asin((gridHoleSize/2)/wheelRadius);
+
+echo("Calculated wheel ingress angle = ",wheelIngressAngle);
+
+axleHeight = wheelRadius*cos(wheelIngressAngle);
+
+echo("Calculated axleHeight=",axleHeight);
+axle1X = -gridSpacing*5;
+axle2X = gridSpacing*7;
+
+drawLiftingBar = true;
+drawFollowerAxle = true;
+camShaftY = -8*gridSpacing;
+camShaftRotate = -90;
+camShaftZ = 45;
+
+
+crankPushX = 17.5*sin(crankRotate);
+
+reader1Down = 0;
+reader2Down = 0;
+reader1Up = 12.5;
+reader2Up = 10.3;
+pushed = -9.9;
+reader1Ang = 12.5;
+reader2Ang = 0;
+pusherAng = 25;
+
+drawReaderPusher = true;
+drawPusher = true;
+drawCamShaft = true;
+drawReaders = true;
+
+moverCamPhase = -15;
+drawChassis = true;
+beam1 = drawChassis;
+beam2 = drawChassis;
+crossBeam1 = drawChassis;
+crossBeam2 = drawChassis;
+
+wallWidth = 3;
+chassisWidth = gridSpacing*6+wallWidth;
 
 // The grid
 module grid()
@@ -40,18 +99,6 @@ module smallBearing()
   }
 }
 
-// Place a ball on the grid
-
-// Calculate the recess into the grid...
-
-ballHeight = sqrt(ballRadius*ballRadius - (gridHoleSize/2)*(gridHoleSize/2));
-
-pattern = 0;
-bit2 = (pattern>=4)?1:0;
-pattern2 = pattern -(bit2*4);
-bit1 = (pattern2>=2)?1:0;
-pattern3 = pattern2 - (bit1*2);
-bit0 = (pattern3>=1)?1:0;
 
 module data()
 {
@@ -61,9 +108,6 @@ module data()
    
 }
 
-// Now add three 'reader rods'
-
-ballTopZ = ballHeight+(ballRadius);
 
 // Rule 110: 
 // Current pattern 111: write 0
@@ -89,17 +133,6 @@ module wheel()
   }
 }
 
-// Calculations to do with wheels
-
-wheelIngressAngle = asin((gridHoleSize/2)/wheelRadius);
-
-echo("Calculated wheel ingress angle = ",wheelIngressAngle);
-
-axleHeight = wheelRadius*cos(wheelIngressAngle);
-
-echo("Calculated axleHeight=",axleHeight);
-axle1X = -gridSpacing*5;
-axle2X = gridSpacing*7;
 // bed-frame on top of axles (union with body)
 
 module squareBarX(size)
@@ -211,54 +244,71 @@ module reader2()
   }
 }
 
-drawLiftingBar = true;
-drawFollowerAxle = true;
+module lifterArms() 
+{
+  union() {
+    for(x=[0,gridSpacing*3-4]) {
+      difference() {
+        translate([x,1.5-gridSpacing*6,20])    
+          cube(size=[3,gridSpacing*10.5,10]);
+        translate([-1+gridSpacing*5,50,25])  
+          rotate([0,90,0])
+          cylinder(r=1.5,h=5);
+        translate([-1,30,rodZ])  
+          rotate([0,90,0])
+          cylinder(r=1.5,h=25);
+        translate([-1,1.5-gridSpacing*8,19])  
+          cube(size=[50,40,6]);
+        translate([-thin,-15,25])  
+          rotate([0,90,0])
+          cylinder(r=1.5,h=22);
+          
+      }
+    }
+    // Drop bars
+    translate([0,3,1.5])    
+      cube(size=[3,3,20]);
+    translate([gridSpacing*3-4,3,1.5])    
+      cube(size=[3,3,20]);
+  }
+}
+
+module pusherParts()
+{
+  // The web which actually pushes the ball bearing
+  difference() {
+    translate([wallWidth,3,1.5])    
+      cube(size=[gridSpacing*3-4-wallWidth,3,10]);
+    translate([3,-5,4])    
+      cube(size=[3,12,5]);
+    translate([16,-5,4])    
+      cube(size=[3,12,5]);
+  }
+
+  // Guides
+  translate([3,-5,4])    
+    cube(size=[3,11,5]);
+  translate([16,-5,4])    
+    cube(size=[3,11,5]);
+}
 
 module pusher()
 {
   rodZ = 23.3;
   translate([4,-gridSpacing*1,-25]) {
-    union() {
-      for(x=[0,gridSpacing*3-4]) {
-        difference() {
-          translate([x,1.5-gridSpacing*6,20])    
-            cube(size=[3,gridSpacing*10.5,10]);
-          translate([-1+gridSpacing*5,50,25])  
-            rotate([0,90,0])
-            cylinder(r=1.5,h=5);
-          translate([-1,30,rodZ])  
-            rotate([0,90,0])
-            cylinder(r=1.5,h=25);
-          translate([-1,1.5-gridSpacing*8,19])  
-            cube(size=[50,40,6]);
-          translate([-thin,-15,25])  
-            rotate([0,90,0])
-            cylinder(r=1.5,h=22);
-          
-        }
+
+    if(laserCut) {
+      lifterArms();
+      pusherParts();
+    }
+    else
+    {
+      union() {
+        lifterArms();
+        pusherParts();
       }
-      // Drop bars
-      translate([0,3,1.5])    
-        cube(size=[3,3,20]);
-      translate([gridSpacing*3-4,3,1.5])    
-        cube(size=[3,3,20]);
     }
-    // The web which actually pushes the ball bearing
-    difference() {
-      translate([wallWidth,3,1.5])    
-        cube(size=[gridSpacing*3-4-wallWidth,3,10]);
-      translate([3,-5,4])    
-      cube(size=[3,12,5]);
-    translate([16,-5,4])    
-      cube(size=[3,12,5]);
-    }
-    // Guides
-    translate([3,-5,4])    
-     cube(size=[3,11,5]);
-    translate([16,-5,4])    
-      cube(size=[3,11,5]);
-    
-  
+
     // Lifting bar
     if(drawLiftingBar) {
       translate([-5,30,rodZ])  
@@ -320,17 +370,12 @@ module wheels()
   axles();
 }
 
-camShaftY = -8*gridSpacing;
-camShaftRotate = -90;
-camShaftZ = 45;
-
-
-crankPushX = 17.5*sin(crankRotate);
 //$t = 0.40;
 echo("Movement= ",crankPushX);
 echo("$t=",$t);
 wheels();
 data();
+
 //grid();
 
 if(drawBellCrank) {
@@ -342,19 +387,6 @@ translate([-30+2.5,-gridSpacing*3+2.5,21]) rotate([90,0,0]) color([1.0,0.5,0]) c
 
 //translate([-10+2.5-crankPushX,camShaftY ,7.5]) clevis();
 
-reader1Down = 0;
-reader2Down = 0;
-reader1Up = 12.5;
-reader2Up = 10.3;
-pushed = -9.9;
-reader1Ang = 12.5;
-reader2Ang = 0;
-pusherAng = 25;
-
-drawReaderPusher = true;
-drawPusher = true;
-drawCamShaft = true;
-drawReaders = true;
 if(drawReaderPusher) {
   translate([0,-gridSpacing*5,25]) {
     if(drawReaders) {
@@ -391,37 +423,47 @@ translate([gridSpacing*4,-gridSpacing*6-5.3,ballRadius]) sphere(r=ballRadius, $f
 
 translate([gridSpacing*2,-gridSpacing*6-1.8,ballHeight]) sphere(r=ballRadius, $fn=30);
 
-moverCamPhase = -15;
-
 if(drawCamShaft) {
 // Another cam
   translate([-5,camShaftY,40])rotate([camShaftRotate+moverCamPhase,0,0]) rotate([0,90,0])
-    union() {
-    difference() {
-      movercam();
-      translate([0,0,-5-thin]) cylinder(r=14,h=10+thin*2);
-      translate([0,0,-1]) cylinder(r=1.5,h=10);
+    if(laserCut) {
+      movercam(wallWidth);
     }
-    difference() {
-      translate([0,0,-1]) cylinder(r=14,h=2);
-      for(r=[0:5])
-        rotate([0,0,r*60])
-          translate([10,0,-1-thin]) cylinder(r=4,h=2+2*thin);
-      
+    else
+    {
+      union() {
+        difference() {
+          movercam(wallWidth);
+          translate([0,0,-5-thin]) cylinder(r=14,h=10+thin*2);
+          translate([0,0,-1]) cylinder(r=1.5,h=10);
+        }
+        difference() {
+          translate([0,0,-1]) cylinder(r=14,h=2);
+          for(r=[0:5])
+            rotate([0,0,r*60])
+              translate([10,0,-1-thin]) cylinder(r=4,h=2+2*thin);
+          
+        }
+      }
     }
-  }
   
   
 // Another cam
   translate([10,camShaftY,40])rotate([camShaftRotate,0,0]) rotate([0,90,0])
     union() {
-    difference() {
-      liftercam();
-      translate([0,0,-thin])
-        scale([1.0,1.0,1.2]) liftercamCutout();
-      translate([0,0,-1]) cylinder(r=1.5,h=10);
+    if(laserCut) {
+      liftercam(wallWidth);
     }
-    scale([1.0,1.0,0.2]) liftercam();
+    else
+    {
+      difference() {
+        liftercam(wallWidth);
+        translate([0,0,-thin])
+          scale([1.0,1.0,1.2]) liftercamCutout(wallWidth);
+        translate([0,0,-1]) cylinder(r=1.5,h=10);
+      }
+      scale([1.0,1.0,0.2]) liftercam(wallWidth);
+    }
   }
 
 //Cam axle
@@ -451,11 +493,6 @@ module motorOutputShaft()
   }
 }
 
-drawChassis = true;
-beam1 = drawChassis;
-beam2 = drawChassis;
-crossBeam1 = drawChassis;
-crossBeam2 = drawChassis;
 
 // The chassis beams
 if(beam1) {
@@ -480,9 +517,6 @@ if(beam2)
     axles();
   }  
 }
-
-wallWidth = 3;
-chassisWidth = gridSpacing*6+wallWidth;
 
 // Cross members
 if(crossBeam1) {
@@ -538,7 +572,6 @@ module motor()
 {
   union()  {
     rotate([0,90,0]) motorOutputShaft();
-    
     translate([9,-11,-11]) cube(size=[20,68,22]);
     translate([9+8,-16,-3]) cube(size=[2,6,6]);
   }
