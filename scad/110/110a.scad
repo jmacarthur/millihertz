@@ -189,9 +189,11 @@ module reader2()
       translate([0,-1.5+reach,0])
         cube(size=[gridSpacing*4+3,3,30]);
       translate([0,1.5,21])    
-        cube(size=[3,reach,9]);
+        cube(size=[3,reach+10,9]);
       translate([gridSpacing*4,1.5,21])    
-        cube(size=[3,reach,9]);
+        cube(size=[3,reach+10,9]);
+      translate([0,-1.5+reach+10,21])   // This bit is to glue ball bearings to
+        cube(size=[gridSpacing*4+3,3,9]); 
     }
   }
 }
@@ -228,16 +230,18 @@ module pusher()
       cube(size=[3,8,5]);
     
   
-    translate([-10,30,rodZ])  
+    // Lifting bar
+    translate([-5,30,rodZ])  
     rotate([0,90,0])
       color([1.0,0.5,0])
-    cylinder(r=1.5,h=50);
+    cylinder(r=1.5,h=35);
 
-    translate([-10,-15,25])  
+    // Cam follower axle
+    translate([0,-15,25])  
     rotate([0,90,0])
       color([1.0,0.5,0])
-    cylinder(r=1.5,h=50);
-    translate([33,-15,25])rotate([0,90,0]) smallBearing();
+      cylinder(r=1.5,h=22);
+    translate([10-5,-15,25])rotate([0,90,0]) smallBearing();
 
   }
 }
@@ -280,7 +284,7 @@ module wheels()
 }
 
 camShaftY = -8*gridSpacing;
-camShaftRotate = 180;
+camShaftRotate = -90;
 camShaftZ = 45;
 
 
@@ -308,7 +312,7 @@ reader2Up = 10.3;
 pushed = -9.9;
 reader1Ang = reader1Up;
 reader2Ang = 0;
-pusherAng = pushed;
+pusherAng = 25;
 translate([0,-gridSpacing*5,25]) {
   difference() {
     rotate([reader1Ang,0,0])
@@ -330,8 +334,8 @@ translate([0,-gridSpacing*5,25]) {
 
 // Balance axle
 
-translate([-20,-gridSpacing*5,25]) {
-  rotate([0,90,0]) cylinder(r=1.5,h=100);
+translate([-15,-gridSpacing*5,25]) {
+  rotate([0,90,0]) cylinder(r=1.5,h=70);
 }
 
 //clipSleeve();
@@ -343,29 +347,69 @@ translate([gridSpacing*2,-gridSpacing*6-1.8,ballHeight]) sphere(r=ballRadius, $f
 
 moverCamPhase = -15;
 // Another cam
-translate([-5,camShaftY,40])rotate([moverCamPhase,0,0]) rotate([0,90,0])
-difference() {
-  movercam();
-  translate([0,0,-1]) cylinder(r=1.5,h=10);
+translate([-5,camShaftY,40])rotate([camShaftRotate+moverCamPhase,0,0]) rotate([0,90,0])
+union() {
+  difference() {
+    movercam();
+    translate([0,0,-5-thin]) cylinder(r=14,h=10+thin*2);
+    translate([0,0,-1]) cylinder(r=1.5,h=10);
+  }
+  difference() {
+    translate([0,0,-1]) cylinder(r=14,h=2);
+    for(r=[0:5])
+      rotate([0,0,r*60])
+        translate([10,0,-1-thin]) cylinder(r=4,h=2+2*thin);
+
+  }
 }
 
+
 // Another cam
-translate([38,camShaftY,40])rotate([0,0,0]) rotate([0,90,0])
-difference() {
-  liftercam();
-  translate([0,0,-1]) cylinder(r=1.5,h=10);
+translate([10,camShaftY,40])rotate([camShaftRotate,0,0]) rotate([0,90,0])
+union() {
+  difference() {
+    liftercam();
+    translate([0,0,-thin])
+      scale([1.0,1.0,1.2]) liftercamCutout();
+    translate([0,0,-1]) cylinder(r=1.5,h=10);
+  }
+  scale([1.0,1.0,0.2]) liftercam();
 }
 
 //Cam axle
-translate([-15,camShaftY,40])rotate([moverCamPhase,0,0]) rotate([0,90,0])
-cylinder(r=1.5,h=100);
+translate([-15,camShaftY,40]) rotate([0,90,0])
+cylinder(r=1.5,h=60);
+
+// Cam axle adapter
+
+translate([50,camShaftY,40]) rotate([0,90,0])
+difference() {
+  cylinder(r=4,h=10);
+  motorOutputShaft();
+  translate([0,0,-thin])
+  cylinder(r=1.5,h=10+2*thin);
+}
+
+module motorOutputShaft()
+{  
+  translate([0,0,5])
+    difference() {
+    cylinder(r=(5.5/2),h=9);
+    for(flat=[0,180]) {
+      rotate([0,0,flat])
+      translate([1.9,-5,-thin])
+        cube(size=[5,10,8+thin]);
+    }
+  }
+}
+
 
 // The chassis beams
 color([0.5,0.5,1.0])
 difference() {
   translate([-45,-gridSpacing*9,1])
     cube(size=[100,3,25]);
-  translate([-25,-gridSpacing*9-1,10])
+  translate([-10,-gridSpacing*9-1,10])
     cube(size=[70,3+2,32]);
 }  
 
@@ -377,18 +421,30 @@ difference() {
     cube(size=[60,3+2,32]);
 }  
 
-// Cross members
+wallWidth = 3;
+chassisWidth = gridSpacing*6+wallWidth;
 
+// Cross members
 color([0.5,0.5,1.0])
-for(x=[-12,45]) {
-  union() {
-    difference() {
-      translate([x,-gridSpacing*9,1])
-        cube(size=[3,50,50]);
-      translate([x-thin,-gridSpacing*9+3,1-thin])
-        cube(size=[5,40,30+thin]);
-    }
-    translate([x,-gridSpacing*6,20]) cube(size=[3,10,20]);
+union() {
+  difference() {
+    translate([-12,-gridSpacing*9,1])
+      cube(size=[wallWidth,chassisWidth,50]);
+    translate([-12-thin,-gridSpacing*9+wallWidth,1-thin])
+      cube(size=[5,40,30+thin]);
   }
+  translate([-12,-gridSpacing*6,20]) cube(size=[3,10,20]);
 }
 
+
+color([0.5,0.5,1.0])
+difference() {
+  translate([45,-gridSpacing*9,1])
+      cube(size=[wallWidth,chassisWidth,50]);
+  translate([45-thin,-gridSpacing*9+10,1-thin])
+    cube(size=[5,30,10+thin]);
+}
+
+
+
+// The motor
