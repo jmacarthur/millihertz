@@ -30,8 +30,8 @@ for my $i (0..359)
     push @coords, "[$xt, $yt]"
 }
 
-print "module movercam() {\n";
-print "linear_extrude(height = 5, center = true, convexity = 10, twist = 0)\n";
+print "module movercam(hh) {\n";
+print "linear_extrude(height = hh, center = true, convexity = 10, twist = 0)\n";
 
 print "polygon(points=[";
 #[0,0],[100,0],[0,100],[10,10],[80,10],[10,80]], paths=[[0,1,2],[3,4,5]]);

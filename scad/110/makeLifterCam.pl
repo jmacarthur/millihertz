@@ -47,8 +47,8 @@ sub makeCoords
 my $coords = makeCoords(0);
 my $innercoords = makeCoords(1);
 
-print "module liftercam() {\n";
-print "linear_extrude(height = 5, center = true, convexity = 10, twist = 0)\n";
+print "module liftercam(hh) {\n";
+print "linear_extrude(height = hh, center = true, convexity = 10, twist = 0)\n";
 
 print "polygon(points=[";
 print join(",",@$coords);
@@ -57,8 +57,8 @@ print join(",",(0..359));
 print "]]);\n";
 print "}\n";
 
-print "module liftercamCutout() {\n";
-print "linear_extrude(height = 5, center = true, convexity = 10, twist = 0)\n";
+print "module liftercamCutout(hh) {\n";
+print "linear_extrude(height = hh, center = true, convexity = 10, twist = 0)\n";
 
 print "polygon(points=[";
 print join(",",@$innercoords);
