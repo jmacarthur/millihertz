@@ -19,7 +19,12 @@ $t=(1-$t);
 
 ballHeight = sqrt(ballRadius*ballRadius - (gridHoleSize/2)*(gridHoleSize/2));
 
-pattern = 0;
+// Rule 110: 
+// Current pattern 111: write 0
+// Current pattern X00: write 0
+// Otherwise write 1
+
+pattern = 6;
 bit2 = (pattern>=4)?1:0;
 pattern2 = pattern -(bit2*4);
 bit1 = (pattern2>=2)?1:0;
@@ -42,7 +47,7 @@ axle2X = gridSpacing*7;
 camShaftY = -8*gridSpacing;
 camShaftRotate = $t*360;
 camShaftZ = 45;
-
+axleRadius = 1.5;
 
 crankPushX = 17.5*sin(crankRotate);
 
@@ -51,9 +56,9 @@ reader2Down = 0;
 reader1Up = 12.5;
 reader2Up = 10.3;
 pushed = -9.9;
-reader1Ang = 12.5;
-reader2Ang = 0;
-pusherAng = 25;
+pusherAng = ($t>0.25 && $t<0.75)?25:(pattern==7 ||pattern==6|| pattern==0)?pushed:0;
+reader1Ang = (pusherAng>0)?pusherAng+reader1Up:(pattern==7 || pattern==6)?0:reader1Up;
+reader2Ang = (pusherAng>0)?pusherAng+reader2Up:(pattern==0)?0:reader2Up;
 
 moverCamPhase = -15;
 
@@ -67,18 +72,23 @@ drawCamShaft = true;
 drawReaders = true;
 drawChassis = true;
 drawBalanceAxle = false;
-drawMotor = true;
+drawMotor = false;
 drawData = true;
 drawWheels = true;
-beam1 = drawChassis;
-beam2 = drawChassis;
-crossBeam1 = drawChassis;
+drawResetPlate = true;
+reverse = false;
+
+beam1 = drawChassis;//drawChassis;
+beam2 = drawChassis;//drawChassis;
+crossBeam1 = drawChassis;//drawChassis;
 crossBeam2 = drawChassis;
 
-wallWidth = 3;
+
+wallWidth = (laserCut)?3:2;
 chassisWidth = gridSpacing*6+wallWidth;
 rodZ = 23.3;
 crankSize=20;
+crankRotate=($t>0.5 && $t<0.6)?30:0;
 
 // The grid
 module grid()
@@ -116,10 +126,6 @@ module data()
 }
 
 
-// Rule 110: 
-// Current pattern 111: write 0
-// Current pattern X00: write 0
-// Otherwise write 1
 
 // Wheel
 module wheel()
@@ -228,21 +234,26 @@ module reader1()
     color([1.0,0.8,0.8]) {
       difference() {
         translate([gridSpacing*2,-1.5+reach,0])
-          cube(size=[gridSpacing*2,3,30]);
+          cube(size=[gridSpacing*2,wallWidth,30]);
         translate([gridSpacing*2-thin,-1.5+reach-thin,20])
           cube(size=[wallWidth+thin,50,10+thin]);
         translate([gridSpacing*4-wallWidth,-1.5+reach-thin,20])
           cube(size=[wallWidth+thin,50,10+thin]);        
+        if(!laserCut) {
+          translate([gridSpacing*2+wallWidth,-1.5+reach-thin,wallWidth])
+            cube(size=[gridSpacing*2-wallWidth*2,wallWidth+thin*2,30-wallWidth*2]);
+        }
+
       }
     }
     difference() {
       translate([gridSpacing*2,1.5,20])    
-        cube(size=[3,reach,10]);
+        cube(size=[wallWidth,reach,10]);
       translate([-1,gridSpacing,25])     rotate([0,90,0]) cylinder(r=1.5,h=100);
     }
     difference() {
-    translate([gridSpacing*4-3,1.5,20])    
-      cube(size=[3,reach,10]);
+    translate([gridSpacing*4-wallWidth,1.5,20])    
+      cube(size=[wallWidth,reach,10]);
       translate([-1,gridSpacing,25])     rotate([0,90,0]) cylinder(r=1.5,h=100);
     }
   }
@@ -253,28 +264,36 @@ module reader1()
 module reader2()
 {
   reach = gridSpacing*6.9;
+  
+  width =(reverse)?gridSpacing*4+6: gridSpacing*4+3;
   color([0.8,1.0,0.8]) {
     translate([0,-gridSpacing*1,-25]) {
       difference() {
         translate([0,-1.5+reach,0])
-          cube(size=[gridSpacing*4+3,3,30]);
+          cube(size=[width,wallWidth,30]);
         translate([-thin,-1.5+reach-thin,21])
           cube(size=[wallWidth+thin,50,10+thin]);
-        translate([gridSpacing*4+1,-1.5+reach-thin,21])
+        translate([width-wallWidth,-1.5+reach-thin,21])
           cube(size=[wallWidth+thin,50,10+thin]);
+        if(!laserCut) {
+          translate([wallWidth,-1.5+reach-thin,wallWidth])
+            cube(size=[width-wallWidth*2,wallWidth+thin*2,30-wallWidth*2]);
+        }
+
       }
       difference() {
         translate([0,1.5,21])    
-          cube(size=[3,reach+10,9]);
-        translate([-1,gridSpacing,25])     rotate([0,90,0]) cylinder(r=1.5,h=100);
+          cube(size=[wallWidth,reach+10,9]);
+        translate([-1,gridSpacing,25])     
+          rotate([0,90,0]) cylinder(r=1.5,h=100);
       }
       difference() {
-      translate([gridSpacing*4+1,1.5,21])    
-        cube(size=[3,reach+10,9]);
+      translate([width-wallWidth,1.5,21])    
+        cube(size=[wallWidth,reach+10,9]);
         translate([-1,gridSpacing,25])     rotate([0,90,0]) cylinder(r=1.5,h=100);
       }
       translate([wallWidth,-1.5+reach+10,21])   // This bit is to glue ball bearings to
-        cube(size=[gridSpacing*4+4-wallWidth*2,3,9]); 
+        cube(size=[width-wallWidth+4-wallWidth*2,wallWidth,9]); 
     }
   }
 }
@@ -285,7 +304,7 @@ module lifterArms()
     union() {
       difference() {
         translate([x,1.5-gridSpacing*6,20])    
-          cube(size=[3,gridSpacing*10.5,10]);
+          cube(size=[wallWidth,gridSpacing*10.5,10]);
         translate([-1,30,rodZ])  
           rotate([0,90,0])
           cylinder(r=1.5,h=25);
@@ -304,7 +323,7 @@ module lifterArms()
       }
       // Drop bars
       translate([x,3,1.5])    
-        cube(size=[3,4,20]);
+        cube(size=[wallWidth,4,20]);
     }
   }
 }
@@ -316,16 +335,16 @@ module pusherParts()
     translate([wallWidth,3,1.5])    
       cube(size=[gridSpacing*3-4-wallWidth,3,10]);
     translate([3,-5,4])    
-      cube(size=[3,12,5]);
+      cube(size=[wallWidth,12,5]);
     translate([16,-5,4])    
-      cube(size=[3,12,5]);
+      cube(size=[wallWidth,12,5]);
   }
 
   // Guides
   translate([3,-5,4])    
-   cube(size=[3,11,5]);
+   cube(size=[wallWidth,11,5]);
   translate([16,-5,4])    
-   cube(size=[3,11,5]);
+   cube(size=[wallWidth,11,5]);
 }
 
 module pusher()
@@ -389,7 +408,7 @@ module axles() {
     translate([x, gridHoleSize/2, axleHeight]) {
       rotate([90,0,0])
         color([1.0,0.5,0])
-        cylinder(r=1.5,h=100);
+        cylinder(r=axleRadius,h=100);
     }
   }
 }
@@ -402,7 +421,7 @@ module wheels()
     translate([axle2X,0,0]) wheel();
     translate([axle2X,-gridSpacing*8,0]) wheel();
   }
-  axles();
+  //axles();
 }
 
 //$t = 0.40;
@@ -411,7 +430,7 @@ echo("$t=",$t);
 if(drawWheels) wheels();
 if(drawData) data();
 
-grid();
+if(drawGrid) { grid(); }
 
 if(drawBellCrank) {
   translate([-30+2.5,0,21]) {
@@ -421,8 +440,8 @@ if(drawBellCrank) {
     }
     else
     {
-      translate([0,camShaftY+2.5,0]) rotate([0,crankRotate,0]) bellCrank();
-      translate([0,-gridSpacing*4+2.5,0]) rotate([0,crankRotate,0]) bellCrank();
+      translate([0,camShaftY+2.5,0]) rotate([0,crankRotate,0]) bellCrankPrinted();
+      translate([0,-gridSpacing*4+2.5,0]) rotate([0,crankRotate,0]) bellCrankPrinted();
     }
 // Bellcrank fixed axle
     translate([0,-gridSpacing*3+2.5,0 ]) rotate([90,0,0]) color([1.0,0.5,0]) cylinder(r=1.5,h=50);
@@ -436,9 +455,22 @@ if(drawReaderPusher) {
   translate([0,-gridSpacing*5,25]) {
     if(drawReaders) {
       rotate([reader1Ang,0,0])
-        reader1();
+        if(reverse) {
+          translate([-gridSpacing*2,0,0])
+            reader1();
+        }
+        else
+        {
+          reader1();
+        }
       rotate([reader2Ang,0,0])
-        reader2();
+        if(reverse) {
+          translate([-wallWidth-1,0,0]) 
+            reader2();
+        }
+        else{
+          reader2();
+        }
     }
     if(drawPusher) {
       rotate([pusherAng,0,0])
@@ -460,6 +492,7 @@ if(drawData) {
   //translate([gridSpacing*4,-gridSpacing*6-5.3,ballRadius]) sphere(r=ballRadius, $fn=30);
 
   translate([gridSpacing*4,-gridSpacing*6-1.8,ballHeight]) sphere(r=ballRadius, $fn=30);
+  translate([gridSpacing*7,-gridSpacing*7-1.8,ballHeight]) sphere(r=ballRadius, $fn=30);
 }
 
 if(drawCamShaft) {
@@ -543,15 +576,29 @@ if(beam1) {
   color([0.5,0.0,1.0])
     difference() {
     translate([-45,-gridSpacing*9,1])
-      cube(size=[105,3,25]);
+      cube(size=[105,wallWidth,25]);
     translate([-12+wallWidth,-gridSpacing*9-1,10])
-      cube(size=[35+12-wallWidth,3+2,32]);
+      cube(size=[35+12-wallWidth,wallWidth+2,32]);
+
     axles();
+    for(x=[axle1X,axle2X]) {
+      translate([x-axleRadius,-gridSpacing*9-thin,0]) {
+        cube([axleRadius*2,wallWidth+thin*2,axleHeight]);
+      }
+    }
+
+    // Reducing height of front member
+    translate([35+wallWidth,-gridSpacing*9-1,20])
+      cube(size=[35+12-wallWidth,3+2,32]);
     
     // Holes for the bell crank axles
     translate([-30+2.5, -gridSpacing*9-thin,21])
       rotate([270,0,0])
       cylinder(r=1.5,h=100);
+    // Facet rear edge
+    translate([-45,-gridSpacing*9-thin,10])
+      rotate([0,15+90,0])
+      cube(size=[20,wallWidth+thin*2,50]);
   }  
 }
 
@@ -560,13 +607,29 @@ if(beam2)
   color([0.5,0.5,0.5])
     difference() {
     translate([-45,-gridSpacing*3,1])
-      cube(size=[105,3,31]);
+      cube(size=[105,wallWidth,31]);
     translate([-12+wallWidth,-gridSpacing*3-1,10])
-      cube(size=[35+12-wallWidth,3+2,32]);
+      cube(size=[35+12-wallWidth,wallWidth+2,32]);
     translate([-30+2.5, -gridSpacing*9-thin,21])
       rotate([270,0,0])
       cylinder(r=1.5,h=100);
+
+    // Reducing height of front member
+    translate([30+wallWidth,-gridSpacing*3-1,20])
+      cube(size=[35+12-wallWidth,3+2,32]);
+
     axles();
+    for(x=[axle1X,axle2X]) {
+      translate([x-axleRadius,-gridSpacing*3-thin,0]) {
+        cube([axleRadius*2,wallWidth+thin*2,axleHeight]);
+      }
+    }
+
+    // Facet rear edge
+    translate([-45,-gridSpacing*3-thin,10])
+      rotate([0,15+90,0])
+      cube(size=[20,wallWidth+thin*2,50]);
+
   }  
 }
 
@@ -576,7 +639,11 @@ if(crossBeam1) {
       union() {
         difference() {
           translate([-12,-gridSpacing*9-5,1])
-            cube(size=[wallWidth,chassisWidth+5,50]);
+            cube(size=[wallWidth,chassisWidth+5,45]);
+          translate([-12-thin,-gridSpacing*9-5,46])
+            rotate([-10,0,0])
+            cube(size=[wallWidth+thin*2,chassisWidth+5+5,45]);
+
           translate([-12-thin,-gridSpacing*9+wallWidth-thin,1-thin])
             cube(size=[5,10+thin,28+thin]);
           translate([-12-thin,-gridSpacing*9+wallWidth-thin+32,1-thin])
@@ -603,18 +670,26 @@ if(crossBeam2) {
     difference() {
     translate([35,-gridSpacing*9,1])
       cube(size=[wallWidth,chassisWidth,50]);
+    translate([35-thin,-gridSpacing*9-5,46])
+      rotate([-10,0,0])
+      cube(size=[wallWidth+thin*2,chassisWidth+5+5,45]);
+    translate([35-thin,10-gridSpacing*9-5,46])
+      rotate([-30,0,0])
+      cube(size=[wallWidth+thin*2,chassisWidth+5+5,45]);
     translate([35-thin,-gridSpacing*9+10,1-thin])
       cube(size=[5,30,10+thin]);
     translate([-15,-gridSpacing*5,25]) {
       rotate([0,90,0]) cylinder(r=1.5,h=70);
+    }
+    translate([-15,-gridSpacing*7,25]) {
+      rotate([0,90,0]) cylinder(r=8,h=70);
     }
     translate([-15,camShaftY,40]) rotate([0,90,0])
       cylinder(r=1.5,h=60);
     translate([35-thin,-gridSpacing*9+chassisWidth-wallWidth-thin,1-thin]) 
       cube(size=[wallWidth+thin*2,wallWidth+thin*2,31+thin]);
     translate([35-thin,-gridSpacing*9-thin,1-thin]) 
-      cube(size=[wallWidth+thin*2,wallWidth+thin,25]);
-    
+      cube(size=[wallWidth+thin*2,wallWidth+thin,25]);    
   }
 }
 
@@ -640,22 +715,26 @@ module resetPlate()
   translate([-45+105-30,-gridSpacing*9+wallWidth,2])
   {
     difference() {
-      cube([30,13,wallWidth]);
+      cube([20,13,wallWidth]);
       translate([0,0,-thin])
         translate([0,13,0])
-        rotate([0,0,-15])
+        rotate([0,0,-23])
         cube([40,13,wallWidth+thin*2]);
-      translate([5,0,-thin])
+      if(laserCut) {
+        translate([5,0,-thin])
         cube([wallWidth,7,wallWidth+thin*2]);
+      }
     }
   }
 
   translate([-45+105-30,-gridSpacing*9+chassisWidth-wallWidth,2])
   difference() {
     translate([0,-19,0])
-      cube([30,19,wallWidth]);
-    translate([5,-5,-thin])
-      cube([wallWidth,7,wallWidth+thin*2]);
+      cube([20,19,wallWidth]);
+    if(laserCut) {
+      translate([5,-5,-thin])
+        cube([wallWidth,7,wallWidth+thin*2]);
+    }
   }
 }
-resetPlate();
+if(drawResetPlate) {resetPlate();}
