@@ -76,8 +76,8 @@ drawMotor = false;
 drawData = true;
 drawWheels = true;
 drawResetPlate = true;
-reverse = false;
-
+reverse = true;
+drawGrid = true;
 beam1 = drawChassis;//drawChassis;
 beam2 = drawChassis;//drawChassis;
 crossBeam1 = drawChassis;//drawChassis;
@@ -265,7 +265,7 @@ module reader2()
 {
   reach = gridSpacing*6.9;
   
-  width =(reverse)?gridSpacing*4+6: gridSpacing*4+3;
+  width =gridSpacing*4+6;
   color([0.8,1.0,0.8]) {
     translate([0,-gridSpacing*1,-25]) {
       difference() {
@@ -435,8 +435,8 @@ if(drawGrid) { grid(); }
 if(drawBellCrank) {
   translate([-30+2.5,0,21]) {
     if(laserCut) {
-      translate([0,camShaftY+2.5,0]) rotate([0,crankRotate,0]) laserBellCrank();
-      translate([0,-gridSpacing*4+2.5,0]) rotate([0,crankRotate,0]) laserBellCrank();
+      translate([0,camShaftY,0]) rotate([0,crankRotate,0]) laserBellCrank();
+      translate([0,-gridSpacing*4,0]) rotate([0,crankRotate,0]) laserBellCrank();
     }
     else
     {
@@ -464,13 +464,8 @@ if(drawReaderPusher) {
           reader1();
         }
       rotate([reader2Ang,0,0])
-        if(reverse) {
-          translate([-wallWidth-1,0,0]) 
+          translate([-wallWidth,0,0]) 
             reader2();
-        }
-        else{
-          reader2();
-        }
     }
     if(drawPusher) {
       rotate([pusherAng,0,0])
