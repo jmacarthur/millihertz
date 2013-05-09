@@ -7,19 +7,19 @@ my @coords = ();
 for my $i (0..359)
 {
     my $base = 16;
-    my $max = 22; # Base-max needs to be about 7.5
+    my $max = 25; # Base-max needs to be about 7.5
     my $h;
-    if($i<150 || $i>220) {
+    if($i<150 || $i>240) {
         $h = $base;
     }
     else
     {
-        my $deadBand = 15;
-        my $cycle = ($i-150)%35; # 0-35
+        my $deadBand = 25;
+        my $cycle = ($i-150)%45; # 0-35
         if($cycle<$deadBand) {$h = $base; }
         else
         {
-            $h = ($max-$base)/(35-$deadBand)*($cycle-$deadBand)+$base;
+            $h = ($max-$base)/(45-$deadBand)*($cycle-$deadBand)+$base;
         }
     }
     my $x = cos(2*$pi*$i/360)*$h;
@@ -34,8 +34,6 @@ print "module movercam(hh) {\n";
 print "linear_extrude(height = hh, center = true, convexity = 10, twist = 0)\n";
 
 print "polygon(points=[";
-#[0,0],[100,0],[0,100],[10,10],[80,10],[10,80]], paths=[[0,1,2],[3,4,5]]);
-
 
 print join(",",@coords);
 print "], paths=[[";
