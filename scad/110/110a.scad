@@ -656,8 +656,11 @@ if(crossBeam1) {
             cube(size=[wallWidth,chassisWidth+5,45]);
           translate([-12-thin,-gridSpacing*9-5,46])
             rotate([-10,0,0])
-            cube(size=[wallWidth+thin*2,chassisWidth+5+5,45]);
-
+      difference() {
+      cube(size=[wallWidth+thin*2,chassisWidth+5+5,45]);
+      translate([-thin, 15,0])
+      cube(size=[wallWidth+thin*4,10,wallWidth]);
+          }
           translate([-12-thin,-gridSpacing*9+wallWidth-thin,1-thin])
             cube(size=[5,10+thin,28+thin]);
           translate([-12-thin,-gridSpacing*9+wallWidth-thin+32,1-thin])
@@ -686,7 +689,11 @@ if(crossBeam2) {
       cube(size=[wallWidth,chassisWidth,50]);
     translate([35-thin,-gridSpacing*9-5,46])
       rotate([-10,0,0])
+      difference() {
       cube(size=[wallWidth+thin*2,chassisWidth+5+5,45]);
+      translate([-thin, 15,0])
+      cube(size=[wallWidth+thin*4,10,wallWidth]);
+    }
     translate([35-thin,-gridSpacing*9+10,1-thin])
       cube(size=[5,30,10+thin]);
     translate([-15,-gridSpacing*5,25]) {
@@ -703,6 +710,20 @@ if(crossBeam2) {
       cube(size=[wallWidth+thin*2,wallWidth+thin,25]);    
   }
 }
+
+// Top plate to locate the cams
+translate([-12,-gridSpacing*9-5,46])
+rotate([-10,0,0])
+difference() {
+
+  cube(size=[35+12+wallWidth,45,wallWidth]);
+      translate([-thin, 15,-thin])
+      cube(size=[wallWidth+thin,10,wallWidth+thin*2]);
+      translate([35+12, 15,-thin])
+      cube(size=[wallWidth+thin,10,wallWidth+thin*2]);
+
+}
+
 
 
 // The motor - technobots order code 1400-034
