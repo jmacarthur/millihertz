@@ -721,7 +721,12 @@ difference() {
       cube(size=[wallWidth+thin,10,wallWidth+thin*2]);
       translate([35+12, 15,-thin])
       cube(size=[wallWidth+thin,10,wallWidth+thin*2]);
-
+// Slots for cams
+      translate([-5+12-wallWidth/2, -45,-thin])
+      cube(size=[wallWidth+thin,80,wallWidth+thin*2]);
+      
+      translate([10+12-wallWidth/2, -45,-thin])
+      cube(size=[wallWidth+thin,81,wallWidth+thin*2]);
 }
 
 
