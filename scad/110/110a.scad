@@ -210,12 +210,9 @@ module bellCrankPrinted()
 
 module laserBellCrank()
 {
+  union () {
   difference() {
-    union() {
-      rotate([270,0,0]) cylinder(h=wallWidth,r=crankSize);
-      translate([5,0,-wallWidth/2])
-        cube(size=[crankSize,wallWidth,wallWidth]);
-    }
+    rotate([270,0,0]) cylinder(h=wallWidth,r=crankSize);
     translate([-crankSize-thin,-thin,-crankSize-thin]) 
       cube(size=[crankSize-3,wallWidth+thin*2,crankSize-3]);
     translate([-crankSize-thin,-thin,3]) 
@@ -224,7 +221,34 @@ module laserBellCrank()
     translate([0,0,-crankSize+3])
     rotate([270,0,0]) translate([0,0,-3]) cylinder(r=1.5,h=11,$fn=30);
   }
+  translate([5,0,-wallWidth/2]) {
+    cube(size=[crankSize,wallWidth,wallWidth]);
+  }
+  translate([-crankSize+10,0,-wallWidth/2]) {
+    cube(size=[10,wallWidth,wallWidth*2]);
+  }
+  }
 }
+
+module bellCrankJoiner()
+{
+  difference() {
+    translate([-crankSize,-4,wallWidth/2]) {
+      cube(size=[30,gridSpacing*4+wallWidth+8,wallWidth]);
+    }
+    translate([-crankSize+10,-thin,-wallWidth/2-thin]) {
+      cube(size=[10,wallWidth+thin,wallWidth*2+thin*2]);
+    }
+    translate([-crankSize+10,gridSpacing*4,-wallWidth/2-thin]) {
+      cube(size=[10,wallWidth+thin,wallWidth*2+thin*2]);
+    }
+    // Hole to glue in a ball bearing for weight
+    translate([-crankSize+5,gridSpacing*2+wallWidth/2,-wallWidth/2+thin]) {
+      cylinder(r=3,h=wallWidth*2);
+    }
+  } 
+}
+
 
 littleReaderWidth = gridSpacing*2;
 // Reader 1
@@ -439,6 +463,7 @@ if(drawBellCrank) {
     if(laserCut) {
       translate([0,camShaftY,0]) rotate([0,crankRotate,0]) laserBellCrank();
       translate([0,-gridSpacing*4,0]) rotate([0,crankRotate,0]) laserBellCrank();
+      translate([0,camShaftY,wallWidth/2]) rotate([0,crankRotate,0]) bellCrankJoiner();
     }
     else
     {
@@ -584,10 +609,6 @@ if(beam1) {
       }
     }
 
-    // Reducing height of front member
-    translate([35+wallWidth,-gridSpacing*9-1,20])
-      cube(size=[35+12-wallWidth,3+2,32]);
-    
     // Holes for the bell crank axles
     translate([-30+2.5, -gridSpacing*9-thin,21])
       rotate([270,0,0])
@@ -610,13 +631,13 @@ if(beam2)
   color([0.5,0.5,0.5])
     difference() {
     translate([-45,-gridSpacing*3,1])
-      cube(size=[105,wallWidth,31]);
+      cube(size=[130,wallWidth,31]);
     translate([-30+2.5, -gridSpacing*9-thin,21])
       rotate([270,0,0])
       cylinder(r=1.5,h=100);
 
     // Reducing height of front member
-    translate([35+wallWidth,-gridSpacing*3-1,20])
+    translate([35+wallWidth,-gridSpacing*3-1,30])
       cube(size=[35+12-wallWidth,3+2,32]);
 
     // Cut slots for readers/lifters...
@@ -723,21 +744,21 @@ if(crossBeam2) {
 }
 
 // Top plate to locate the cams
+  f = 27;
 if(topPlate) {
-  translate([-12,-gridSpacing*9-5-30*cos(10),46+30*sin(10)])
+  translate([-12,-gridSpacing*9-5-f*cos(10),46+f*sin(10)])
     rotate([-10,0,0])
     difference() {
-    cube(size=[35+12+wallWidth,45+30,wallWidth]);
-    translate([-thin, 15+30,-thin])
+    cube(size=[35+12+wallWidth,45+f,wallWidth]);
+    translate([-thin, 15+f,-thin])
       cube(size=[wallWidth+thin,10,wallWidth+thin*2]);
-    translate([35+12, 15+30,-thin])
+    translate([35+12, 15+f,-thin])
       cube(size=[wallWidth+thin,10,wallWidth+thin*2]);
 // Slots for cams
     translate([-5+12-wallWidth/2, 15,-thin])
-      cube(size=[wallWidth+thin,130,wallWidth+thin*2]);
-    
+      cube(size=[wallWidth+thin,50,wallWidth+thin*2]);    
     translate([10+12-wallWidth/2, 15,-thin])
-      cube(size=[wallWidth+thin,131,wallWidth+thin*2]);
+      cube(size=[wallWidth+thin,50,wallWidth+thin*2]);
   }
 }
 
