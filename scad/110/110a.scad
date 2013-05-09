@@ -73,10 +73,10 @@ drawReaders = true;
 drawChassis = true;
 drawBalanceAxle = false;
 drawMotor = false;
-drawData = true;
-drawWheels = true;
+drawData = false;
+drawWheels = false;
 drawResetPlate = true;
-reverse = true;
+reverse = false;
 drawGrid = true;
 beam1 = drawChassis;//drawChassis;
 beam2 = drawChassis;//drawChassis;
@@ -97,7 +97,7 @@ module grid()
     translate([-50,gridSpacing*i+gridHoleSize/2,-gridThickness]) cube([100,gridLineWidth,gridThickness]);
   }
     
-  for (i=[-5:5]) {
+  for (i=[-8:8]) {
     translate([-gridSpacing*i+gridHoleSize/2,-120,-gridThickness]) cube([gridLineWidth,150,gridThickness]);
   }
 }
@@ -225,6 +225,7 @@ module laserBellCrank()
   }
 }
 
+littleReaderWidth = gridSpacing*2;
 // Reader 1
 module reader1()
 {
@@ -260,24 +261,24 @@ module reader1()
 }
 
 
+bigReaderWidth = gridSpacing*4+6;
 // Reader 1
 module reader2()
 {
   reach = gridSpacing*6.9;
   
-  width =gridSpacing*4+6;
   color([0.8,1.0,0.8]) {
     translate([0,-gridSpacing*1,-25]) {
       difference() {
         translate([0,-1.5+reach,0])
-          cube(size=[width,wallWidth,30]);
+          cube(size=[bigReaderWidth,wallWidth,30]);
         translate([-thin,-1.5+reach-thin,21])
           cube(size=[wallWidth+thin,50,10+thin]);
-        translate([width-wallWidth,-1.5+reach-thin,21])
+        translate([bigReaderWidth-wallWidth,-1.5+reach-thin,21])
           cube(size=[wallWidth+thin,50,10+thin]);
         if(!laserCut) {
           translate([wallWidth,-1.5+reach-thin,wallWidth])
-            cube(size=[width-wallWidth*2,wallWidth+thin*2,30-wallWidth*2]);
+            cube(size=[bigReaderWidth-wallWidth*2,wallWidth+thin*2,30-wallWidth*2]);
         }
 
       }
@@ -288,12 +289,12 @@ module reader2()
           rotate([0,90,0]) cylinder(r=1.5,h=100);
       }
       difference() {
-      translate([width-wallWidth,1.5,21])    
+      translate([bigReaderWidth-wallWidth,1.5,21])    
         cube(size=[wallWidth,reach+10,9]);
         translate([-1,gridSpacing,25])     rotate([0,90,0]) cylinder(r=1.5,h=100);
       }
       translate([wallWidth,-1.5+reach+10,21])   // This bit is to glue ball bearings to
-        cube(size=[width-wallWidth+4-wallWidth*2,wallWidth,9]); 
+        cube(size=[bigReaderWidth-wallWidth+4-wallWidth*2,wallWidth,9]); 
     }
   }
 }
@@ -603,15 +604,33 @@ if(beam2)
     difference() {
     translate([-45,-gridSpacing*3,1])
       cube(size=[105,wallWidth,31]);
-    translate([-12+wallWidth,-gridSpacing*3-1,10])
-      cube(size=[35+12-wallWidth,wallWidth+2,32]);
     translate([-30+2.5, -gridSpacing*9-thin,21])
       rotate([270,0,0])
       cylinder(r=1.5,h=100);
 
     // Reducing height of front member
-    translate([30+wallWidth,-gridSpacing*3-1,20])
+    translate([35+wallWidth,-gridSpacing*3-1,20])
       cube(size=[35+12-wallWidth,3+2,32]);
+
+    // Cut slots for readers/lifters...
+    // Big Reader
+    translate([bigReaderWidth-wallWidth*2,-gridSpacing*3-1,10])
+      cube(size=[wallWidth,wallWidth+2,32]);
+    translate([-wallWidth,-gridSpacing*3-1,10])
+      cube(size=[wallWidth,wallWidth+2,32]);
+
+    // Little Reader
+    translate([bigReaderWidth-wallWidth*3,-gridSpacing*3-1,10])
+      cube(size=[wallWidth+thin,wallWidth+2,32]); // 'thin' is necessary to avoid a manifold edge with the Big Reader
+    translate([bigReaderWidth-littleReaderWidth-wallWidth*2,-gridSpacing*3-1,10])
+      cube(size=[wallWidth,wallWidth+2,32]);
+
+    // Pusher
+    translate([4,-gridSpacing*3-1,10])
+      cube(size=[wallWidth,wallWidth+2,32]);
+    translate([gridSpacing*3,-gridSpacing*3-1,10])
+      cube(size=[wallWidth,wallWidth+2,32]);
+    
 
     axles();
     for(x=[axle1X,axle2X]) {
@@ -667,9 +686,6 @@ if(crossBeam2) {
       cube(size=[wallWidth,chassisWidth,50]);
     translate([35-thin,-gridSpacing*9-5,46])
       rotate([-10,0,0])
-      cube(size=[wallWidth+thin*2,chassisWidth+5+5,45]);
-    translate([35-thin,10-gridSpacing*9-5,46])
-      rotate([-30,0,0])
       cube(size=[wallWidth+thin*2,chassisWidth+5+5,45]);
     translate([35-thin,-gridSpacing*9+10,1-thin])
       cube(size=[5,30,10+thin]);
