@@ -78,6 +78,7 @@ drawWheels = false;
 drawResetPlate = true;
 reverse = false;
 drawGrid = true;
+topPlate = true;
 beam1 = drawChassis;//drawChassis;
 beam2 = drawChassis;//drawChassis;
 crossBeam1 = drawChassis;//drawChassis;
@@ -595,6 +596,12 @@ if(beam1) {
     translate([-45,-gridSpacing*9-thin,10])
       rotate([0,15+90,0])
       cube(size=[20,wallWidth+thin*2,50]);
+
+    // Facet front edge
+    translate([45,-gridSpacing*9-thin,1])
+      rotate([0,90-15,0])
+      cube(size=[20,wallWidth+thin*2,50]);
+
   }  
 }
 
@@ -642,6 +649,10 @@ if(beam2)
     // Facet rear edge
     translate([-45,-gridSpacing*3-thin,10])
       rotate([0,15+90,0])
+      cube(size=[20,wallWidth+thin*2,50]);
+    // Facet front edge
+    translate([45,-gridSpacing*3-thin,1])
+      rotate([0,90-15,0])
       cube(size=[20,wallWidth+thin*2,50]);
 
   }  
@@ -712,21 +723,22 @@ if(crossBeam2) {
 }
 
 // Top plate to locate the cams
-translate([-12,-gridSpacing*9-5,46])
-rotate([-10,0,0])
-difference() {
-
-  cube(size=[35+12+wallWidth,45,wallWidth]);
-      translate([-thin, 15,-thin])
+if(topPlate) {
+  translate([-12,-gridSpacing*9-5-30*cos(10),46+30*sin(10)])
+    rotate([-10,0,0])
+    difference() {
+    cube(size=[35+12+wallWidth,45+30,wallWidth]);
+    translate([-thin, 15+30,-thin])
       cube(size=[wallWidth+thin,10,wallWidth+thin*2]);
-      translate([35+12, 15,-thin])
+    translate([35+12, 15+30,-thin])
       cube(size=[wallWidth+thin,10,wallWidth+thin*2]);
 // Slots for cams
-      translate([-5+12-wallWidth/2, -45,-thin])
-      cube(size=[wallWidth+thin,80,wallWidth+thin*2]);
-      
-      translate([10+12-wallWidth/2, -45,-thin])
-      cube(size=[wallWidth+thin,81,wallWidth+thin*2]);
+    translate([-5+12-wallWidth/2, 15,-thin])
+      cube(size=[wallWidth+thin,130,wallWidth+thin*2]);
+    
+    translate([10+12-wallWidth/2, 15,-thin])
+      cube(size=[wallWidth+thin,131,wallWidth+thin*2]);
+  }
 }
 
 
