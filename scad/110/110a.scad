@@ -260,7 +260,7 @@ module reader1()
     color([1.0,0.8,0.8]) {
       difference() {
         translate([gridSpacing*2,-1.5+reach,0])
-          cube(size=[gridSpacing*2,wallWidth,30]);
+          cube(size=[gridSpacing*2,wallWidth,30+wallWidth]);
         translate([gridSpacing*2-thin,-1.5+reach-thin,20])
           cube(size=[wallWidth+thin,50,10+thin]);
         translate([gridSpacing*4-wallWidth,-1.5+reach-thin,20])
@@ -283,6 +283,17 @@ module reader1()
       translate([-1,gridSpacing,25])     rotate([0,90,0]) cylinder(r=1.5,h=100);
     }
   }
+
+  // Top section to square everything
+/*  difference() {
+    translate([0,-1.5+reach-wallWidth,21+9])
+      cube(size=[littleReaderWidth,10+wallWidth*2,wallWidth]); 
+    translate([wallWidth,-1.5+reach+10,21])
+      cube(size=[littleReaderWidth-wallWidth*2,wallWidth+thin,9+wallWidth+thin]); 
+    
+  }
+*/
+
 }
 
 
@@ -305,7 +316,6 @@ module reader2()
           translate([wallWidth,-1.5+reach-thin,wallWidth])
             cube(size=[bigReaderWidth-wallWidth*2,wallWidth+thin*2,30-wallWidth*2]);
         }
-
       }
       difference() {
         translate([0,1.5,21])    
@@ -318,8 +328,17 @@ module reader2()
         cube(size=[wallWidth,reach+10,9]);
         translate([-1,gridSpacing,25])     rotate([0,90,0]) cylinder(r=1.5,h=100);
       }
-      translate([wallWidth,-1.5+reach+10,21])   // This bit is to glue ball bearings to
-        cube(size=[bigReaderWidth-wallWidth+4-wallWidth*2,wallWidth,9]); 
+      translate([wallWidth,-1.5+reach+10,21])
+        cube(size=[bigReaderWidth-wallWidth,wallWidth,9+wallWidth]);
+
+      // Top section to square everything
+      difference() {
+        translate([0,-1.5+reach-wallWidth,21+9])
+          cube(size=[bigReaderWidth,10+wallWidth*2,wallWidth]); 
+        translate([wallWidth,-1.5+reach+10,21])
+          cube(size=[bigReaderWidth-wallWidth*2,wallWidth+thin,9+wallWidth+thin]); 
+      
+          }
     }
   }
 }
