@@ -24,6 +24,8 @@ ballHeight = sqrt(ballRadius*ballRadius - (gridHoleSize/2)*(gridHoleSize/2));
 // Current pattern X00: write 0
 // Otherwise write 1
 
+
+// Specify the pattern currently on the grid
 pattern = 6;
 bit2 = (pattern>=4)?1:0;
 pattern2 = pattern -(bit2*4);
@@ -645,6 +647,9 @@ if(beam1) {
   }  
 }
 
+//Clearance for the finger gaps in the left beam, and the cam holes in the top plate.
+clearance = 0.1;
+
 if(beam2)
 {
   color([0.5,0.5,0.5])
@@ -660,24 +665,10 @@ if(beam2)
       cube(size=[35+12-wallWidth,3+2,32]);
 
     // Cut slots for readers/lifters...
-    // Big Reader
-    translate([bigReaderWidth-wallWidth*2,-gridSpacing*3-1,10])
-      cube(size=[wallWidth,wallWidth+2,32]);
-    translate([-wallWidth,-gridSpacing*3-1,10])
-      cube(size=[wallWidth,wallWidth+2,32]);
-
-    // Little Reader
-    translate([bigReaderWidth-wallWidth*3,-gridSpacing*3-1,10])
-      cube(size=[wallWidth+thin,wallWidth+2,32]); // 'thin' is necessary to avoid a manifold edge with the Big Reader
-    translate([bigReaderWidth-littleReaderWidth-wallWidth*2,-gridSpacing*3-1,10])
-      cube(size=[wallWidth,wallWidth+2,32]);
-
-    // Pusher
-    translate([4,-gridSpacing*3-1,10])
-      cube(size=[wallWidth,wallWidth+2,32]);
-    translate([gridSpacing*3,-gridSpacing*3-1,10])
-      cube(size=[wallWidth,wallWidth+2,32]);
-    
+    for(x=[bigReaderWidth-wallWidth*2, -wallWidth, bigReaderWidth-wallWidth*3, bigReaderWidth-littleReaderWidth-wallWidth*2, 4, gridSpacing*3]) {
+    translate([x-clearance,-gridSpacing*3-1,10])
+      cube(size=[wallWidth+clearance*2,wallWidth+2,32]);
+      }    
 
     axles();
     for(x=[axle1X,axle2X]) {
@@ -774,10 +765,10 @@ if(topPlate) {
     translate([35+12, 15+f,-thin])
       cube(size=[wallWidth+thin,10,wallWidth+thin*2]);
 // Slots for cams
-    translate([-5+12-wallWidth/2, 15,-thin])
-      cube(size=[wallWidth+thin,50,wallWidth+thin*2]);    
-    translate([10+12-wallWidth/2, 15,-thin])
-      cube(size=[wallWidth+thin,50,wallWidth+thin*2]);
+    translate([-5+12-wallWidth/2-clearance, 15,-thin])
+      cube(size=[wallWidth+thin+clearance*2,50,wallWidth+thin*2]);    
+    translate([10+12-wallWidth/2-clearance, 15,-thin])
+      cube(size=[wallWidth+thin+clearance*2,50,wallWidth+thin*2]);
   }
 }
 
