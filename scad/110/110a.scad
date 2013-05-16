@@ -35,7 +35,6 @@ bit0 = (pattern3>=1)?1:0;
 
 ballTopZ = ballHeight+(ballRadius);
 // Calculations to do with wheels
-
 wheelIngressAngle = asin((gridHoleSize/2)/wheelRadius);
 
 echo("Calculated wheel ingress angle = ",wheelIngressAngle);
@@ -51,6 +50,7 @@ camShaftRotate = $t*360;
 camShaftZ = 45;
 axleRadius = 1.5;
 
+crankRotate=($t>0.5 && $t<0.6)?30:0;
 crankPushX = 17.5*sin(crankRotate);
 
 reader1Down = 0;
@@ -63,6 +63,11 @@ reader1Ang = (pusherAng>0)?pusherAng+reader1Up:(pattern==7 || pattern==6)?0:read
 reader2Ang = (pusherAng>0)?pusherAng+reader2Up:(pattern==0)?0:reader2Up;
 
 moverCamPhase = -15;
+
+// Drive shaft - hexagonal; 3mm across flats. A 3mm hex key can be used.
+driveShaftAF = 3;
+driveShaftMaxRadius = (driveShaftAF/2)/cos(30);
+
 
 // All the draw options
 drawBellCrank = true;
@@ -91,7 +96,18 @@ wallWidth = (laserCut)?3:2;
 chassisWidth = gridSpacing*6+wallWidth;
 rodZ = 23.3;
 crankSize=20;
-crankRotate=($t>0.5 && $t<0.6)?30:0;
+
+
+module hexagonPrism()
+{
+  linear_extrude(height=1) {
+    polygon(points = [ [ 0.5, 0.5*sin(30) ], [0, 0.5/cos(30) ], 
+                     [ -0.5, 0.5*sin(30) ], [ -0.5, -0.5*sin(30) ], 
+                     [ 0, -0.5/cos(30) ], [ 0.5, -0.5*sin(30)] ],
+                       paths = [ [ 5, 4, 3, 2, 1, 0] ] );
+  }
+
+}
 
 // The grid
 module grid()
@@ -541,10 +557,11 @@ if(drawData) {
 if(drawCamShaft) {
 // Another cam
   translate([-5,camShaftY,40])rotate([camShaftRotate+moverCamPhase,0,0]) rotate([0,90,0])
+    
     if(laserCut) {
       difference() {
         movercam(wallWidth);
-        translate([0,0,-wallWidth]) cylinder(r=1.5,h=10);
+        translate([0,0,-wallWidth]) scale([3,3,10]) rotate([0,0,-moverCamPhase]) hexagonPrism();
       }
     }
     else
@@ -553,7 +570,7 @@ if(drawCamShaft) {
         difference() {
           movercam(wallWidth);
           translate([0,0,-5-thin]) cylinder(r=14,h=10+thin*2);
-          translate([0,0,-1]) cylinder(r=1.5,h=10);
+          translate([0,0,-wallWidth]) scale([3,3,10]) hexagonPrism();
         }
         difference() {
           translate([0,0,-1]) cylinder(r=14,h=2);
@@ -572,7 +589,7 @@ if(drawCamShaft) {
     if(laserCut) {
       difference() {
         liftercam(wallWidth);
-        translate([0,0,-wallWidth+thin]) cylinder(r=1.5,h=10);
+        translate([0,0,-wallWidth]) scale([3,3,10]) hexagonPrism();
       }
     }
     else
@@ -588,8 +605,8 @@ if(drawCamShaft) {
   }
 
   //Cam axle
-  translate([-15,camShaftY,40]) rotate([0,90,0])
-    cylinder(r=1.5,h=60);
+  //translate([-15,camShaftY,40]) rotate([0,90,0])
+  //scale([3,3,100]) hexagonPrism();
 }
 // Cam axle adapter
 if(drawShaftAdapter) {
@@ -691,7 +708,7 @@ if(beam2)
 
 // Cross members
 if(crossBeam1) {
-  color([0.5,0.5,1.0]) {
+  color([0.5,0.7,1.0]) {
       union() {
         difference() {
           translate([-12,-gridSpacing*9-5,1])
@@ -710,7 +727,7 @@ if(crossBeam1) {
           translate([-12-thin,-gridSpacing*9+wallWidth-thin,1-thin])
             cube(size=[5,40+thin,20+thin]);
           translate([-15,camShaftY,40]) rotate([0,90,0])
-            cylinder(r=1.5,h=60);
+            cylinder(r=driveShaftMaxRadius,h=60);
           translate([-12-thin,-gridSpacing*9-thin,1-thin]) 
             cube(size=[wallWidth+thin*2,wallWidth+thin,25]);
           translate([-12-thin,-gridSpacing*9+chassisWidth-wallWidth-thin,1-thin]) 
@@ -718,7 +735,6 @@ if(crossBeam1) {
           translate([-15,-gridSpacing*5,25]) {
             rotate([0,90,0]) cylinder(r=1.5,h=70);
           }
-
         }
       }
   }
@@ -745,7 +761,7 @@ if(crossBeam2) {
       rotate([0,90,0]) cylinder(r=8,h=70);
     }
     translate([-15,camShaftY,40]) rotate([0,90,0])
-      cylinder(r=1.5,h=60);
+      cylinder(r=driveShaftMaxRadius,h=60);
     translate([35-thin,-gridSpacing*9+chassisWidth-wallWidth-thin,1-thin]) 
       cube(size=[wallWidth+thin*2,wallWidth+thin*2,31+thin]);
     translate([35-thin,-gridSpacing*9-thin,1-thin]) 
@@ -818,3 +834,4 @@ module resetPlate()
   }
 }
 if(drawResetPlate) {resetPlate();}
+
