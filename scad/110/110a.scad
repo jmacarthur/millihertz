@@ -36,7 +36,6 @@ bit0 = (pattern3>=1)?1:0;
 ballTopZ = ballHeight+(ballRadius);
 // Calculations to do with wheels
 wheelIngressAngle = asin((gridHoleSize/2)/wheelRadius);
-
 echo("Calculated wheel ingress angle = ",wheelIngressAngle);
 
 axleHeight = wheelRadius*cos(wheelIngressAngle);
@@ -70,13 +69,13 @@ driveShaftMaxRadius = (driveShaftAF/2)/cos(30);
 
 
 // All the draw options
-drawBellCrank = true;
-drawLiftingBar = true;
-drawFollowerAxle = true;
-drawReaderPusher = true;
-drawPusher = true;
-drawCamShaft = true;
-drawReaders = true;
+drawBellCrank = false;
+drawLiftingBar = false;
+drawFollowerAxle = false;
+drawReaderPusher = false;
+drawPusher = false;
+drawCamShaft = false;
+drawReaders = false;
 drawChassis = true;
 drawBalanceAxle = false;
 drawMotor = false;
@@ -84,8 +83,8 @@ drawData = false;
 drawWheels = false;
 drawResetPlate = true;
 reverse = false;
-drawGrid = true;
-topPlate = true;
+drawGrid = false;
+topPlate = false;
 beam1 = drawChassis;//drawChassis;
 beam2 = drawChassis;//drawChassis;
 crossBeam1 = drawChassis;//drawChassis;
@@ -710,16 +709,17 @@ if(beam2)
 if(crossBeam1) {
   color([0.5,0.7,1.0]) {
       union() {
+
+        translate([-12-thin,-gridSpacing*9-5,46])
+          rotate([-10,0,0])
+          translate([-thin, 15,0])
+          cube(size=[wallWidth+thin*4,10,wallWidth]);
         difference() {
           translate([-12,-gridSpacing*9-5,1])
             cube(size=[wallWidth,chassisWidth+5,45]);
           translate([-12-thin,-gridSpacing*9-5,46])
             rotate([-10,0,0])
-      difference() {
-      cube(size=[wallWidth+thin*2,chassisWidth+5+5,45]);
-      translate([-thin, 15,0])
-      cube(size=[wallWidth+thin*4,10,wallWidth]);
-          }
+            cube(size=[wallWidth+thin*2,chassisWidth+5+5,45]);
           translate([-12-thin,-gridSpacing*9+wallWidth-thin,1-thin])
             cube(size=[5,10+thin,28+thin]);
           translate([-12-thin,-gridSpacing*9+wallWidth-thin+32,1-thin])
@@ -742,31 +742,34 @@ if(crossBeam1) {
 
 if(crossBeam2) {
   color([0.5,0.5,1.0])
-    difference() {
-    translate([35,-gridSpacing*9,1])
-      cube(size=[wallWidth,chassisWidth,50]);
+    union() {
     translate([35-thin,-gridSpacing*9-5,46])
       rotate([-10,0,0])
-      difference() {
-      cube(size=[wallWidth+thin*2,chassisWidth+5+5,45]);
       translate([-thin, 15,0])
       cube(size=[wallWidth+thin*4,10,wallWidth]);
+    
+      difference() {
+        translate([35,-gridSpacing*9,1])
+          cube(size=[wallWidth,chassisWidth,50]);
+        translate([35-thin,-gridSpacing*9-5,46])
+          rotate([-10,0,0])
+          cube(size=[wallWidth+thin*2,chassisWidth+5+5,45]);
+        translate([35-thin,-gridSpacing*9+10,1-thin])
+          cube(size=[5,30,10+thin]);
+        translate([-15,-gridSpacing*5,25]) {
+          rotate([0,90,0]) cylinder(r=1.5,h=70);
+        }
+        translate([-15,-gridSpacing*7,25]) {
+          rotate([0,90,0]) cylinder(r=8,h=70);
+        }
+        translate([-15,camShaftY,40]) rotate([0,90,0])
+          cylinder(r=driveShaftMaxRadius,h=60);
+        translate([35-thin,-gridSpacing*9+chassisWidth-wallWidth-thin,1-thin]) 
+          cube(size=[wallWidth+thin*2,wallWidth+thin*2,31+thin]);
+        translate([35-thin,-gridSpacing*9-thin,1-thin]) 
+          cube(size=[wallWidth+thin*2,wallWidth+thin,25]);    
+      }
     }
-    translate([35-thin,-gridSpacing*9+10,1-thin])
-      cube(size=[5,30,10+thin]);
-    translate([-15,-gridSpacing*5,25]) {
-      rotate([0,90,0]) cylinder(r=1.5,h=70);
-    }
-    translate([-15,-gridSpacing*7,25]) {
-      rotate([0,90,0]) cylinder(r=8,h=70);
-    }
-    translate([-15,camShaftY,40]) rotate([0,90,0])
-      cylinder(r=driveShaftMaxRadius,h=60);
-    translate([35-thin,-gridSpacing*9+chassisWidth-wallWidth-thin,1-thin]) 
-      cube(size=[wallWidth+thin*2,wallWidth+thin*2,31+thin]);
-    translate([35-thin,-gridSpacing*9-thin,1-thin]) 
-      cube(size=[wallWidth+thin*2,wallWidth+thin,25]);    
-  }
 }
 
 // Top plate to locate the cams
