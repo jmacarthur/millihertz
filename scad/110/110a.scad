@@ -710,7 +710,7 @@ if(crossBeam1) {
   color([0.5,0.7,1.0]) {
       union() {
 
-        translate([-12-thin,-gridSpacing*9-5,46])
+        translate([-12,-gridSpacing*9-5,46-thin])
           rotate([-10,0,0])
           translate([0, 15,-thin])
           cube(size=[wallWidth,10,wallWidth+thin]);
@@ -743,7 +743,7 @@ if(crossBeam1) {
 if(crossBeam2) {
   color([0.5,0.5,1.0])
     union() {
-    translate([35-thin,-gridSpacing*9-5,46])
+    translate([35,-gridSpacing*9-5,46-thin])
       rotate([-10,0,0])
       translate([0, 15,-thin])
       cube(size=[wallWidth,10,wallWidth+thin]);
