@@ -99,10 +99,10 @@ crankSize=20;
 
 module hexagonPrism()
 {
-  linear_extrude(height=1) {
-    polygon(points = [ [ 0.5, 0.5*sin(30) ], [0, 0.5/cos(30) ], 
-                     [ -0.5, 0.5*sin(30) ], [ -0.5, -0.5*sin(30) ], 
-                     [ 0, -0.5/cos(30) ], [ 0.5, -0.5*sin(30)] ],
+  linear_extrude(height=30) {
+    polygon(points = [ [ 1.5, 1.5*sin(30) ], [0, 1.5/cos(30) ], 
+                     [ -1.5, 1.5*sin(30) ], [ -1.5, -1.5*sin(30) ], 
+                     [ 0, -1.5/cos(30) ], [ 1.5, -1.5*sin(30)] ],
                        paths = [ [ 5, 4, 3, 2, 1, 0] ] );
   }
 
