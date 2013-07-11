@@ -560,7 +560,7 @@ if(drawCamShaft) {
     if(laserCut) {
       difference() {
         movercam(wallWidth);
-        translate([0,0,-wallWidth]) scale([3,3,10]) rotate([0,0,-moverCamPhase]) hexagonPrism();
+        translate([0,0,-wallWidth]) rotate([0,0,-moverCamPhase]) hexagonPrism();
       }
     }
     else
@@ -569,7 +569,7 @@ if(drawCamShaft) {
         difference() {
           movercam(wallWidth);
           translate([0,0,-5-thin]) cylinder(r=14,h=10+thin*2);
-          translate([0,0,-wallWidth]) scale([3,3,10]) hexagonPrism();
+          translate([0,0,-wallWidth]) hexagonPrism();
         }
         difference() {
           translate([0,0,-1]) cylinder(r=14,h=2);
@@ -588,7 +588,7 @@ if(drawCamShaft) {
     if(laserCut) {
       difference() {
         liftercam(wallWidth);
-        translate([0,0,-wallWidth]) scale([3,3,10]) hexagonPrism();
+        translate([0,0,-wallWidth]) hexagonPrism();
       }
     }
     else
