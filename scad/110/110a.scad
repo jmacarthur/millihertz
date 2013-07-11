@@ -712,8 +712,8 @@ if(crossBeam1) {
 
         translate([-12-thin,-gridSpacing*9-5,46])
           rotate([-10,0,0])
-          translate([-thin, 15,0])
-          cube(size=[wallWidth+thin*4,10,wallWidth]);
+          translate([0, 15,-thin])
+          cube(size=[wallWidth,10,wallWidth+thin]);
         difference() {
           translate([-12,-gridSpacing*9-5,1])
             cube(size=[wallWidth,chassisWidth+5,45]);
@@ -745,8 +745,8 @@ if(crossBeam2) {
     union() {
     translate([35-thin,-gridSpacing*9-5,46])
       rotate([-10,0,0])
-      translate([-thin, 15,0])
-      cube(size=[wallWidth+thin*4,10,wallWidth]);
+      translate([0, 15,-thin])
+      cube(size=[wallWidth,10,wallWidth+thin]);
     
       difference() {
         translate([35,-gridSpacing*9,1])
