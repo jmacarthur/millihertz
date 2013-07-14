@@ -99,10 +99,12 @@ crankSize=20;
 
 module hexagonPrism()
 {
+  hexRodAF = 1.5;
+  hexRodSize = hexRodAF/cos(30); // Maximum Radius
   linear_extrude(height=30) {
-    polygon(points = [ [ 1.5, 1.5*sin(30) ], [0, 1.5/cos(30) ], 
-                     [ -1.5, 1.5*sin(30) ], [ -1.5, -1.5*sin(30) ], 
-                     [ 0, -1.5/cos(30) ], [ 1.5, -1.5*sin(30)] ],
+    polygon(points = [ [ hexRodSize, hexRodSize*sin(30) ], [0, hexRodSize/cos(30) ], 
+                     [ -hexRodSize, hexRodSize*sin(30) ], [ -hexRodSize, -hexRodSize*sin(30) ], 
+                     [ 0, -hexRodSize/cos(30) ], [ hexRodSize, -hexRodSize*sin(30)] ],
                        paths = [ [ 5, 4, 3, 2, 1, 0] ] );
   }
 
