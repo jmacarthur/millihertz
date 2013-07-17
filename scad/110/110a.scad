@@ -317,13 +317,34 @@ module reader1()
 
 
 bigReaderWidth = gridSpacing*4+6;
-// Reader 1
+reach = gridSpacing*6.9;
+  
+// Reader 2
+ module reader2arm() {
+      union() {
+        translate([0,1.5+40,21+9-thin])    
+	  cube(size=[wallWidth,10,wallWidth+thin]);
+      difference() {
+        translate([0,1.5,21])    
+          cube(size=[wallWidth,reach+10,9]);
+          translate([-1,gridSpacing,25])     
+          rotate([0,90,0]) cylinder(r=1.5,h=100);
+	  translate([-thin,reach+10+1.5-wallWidth,21-thin])
+	  cube(size=[wallWidth+thin*2,wallWidth+thin*2,wallWidth+thin]);
+      }
+      }
+        
+      }
+
+
 module reader2()
 {
-  reach = gridSpacing*6.9;
-  
-  color([0.8,1.0,0.8]) {
+  {
     translate([0,-gridSpacing*1,-25]) {
+    color([1.0,0,0]) {
+    union() {
+        translate([10,-1.5+reach,0])
+          cube(size=[10,wallWidth,30+wallWidth]);
       difference() {
         translate([0,-1.5+reach,0])
           cube(size=[bigReaderWidth,wallWidth,30]);
@@ -335,27 +356,39 @@ module reader2()
           translate([wallWidth,-1.5+reach-thin,wallWidth])
             cube(size=[bigReaderWidth-wallWidth*2,wallWidth+thin*2,30-wallWidth*2]);
         }
+	}
       }
-      difference() {
-        translate([0,1.5,21])    
-          cube(size=[wallWidth,reach+10,9]);
-        translate([-1,gridSpacing,25])     
-          rotate([0,90,0]) cylinder(r=1.5,h=100);
       }
-      difference() {
-      translate([bigReaderWidth-wallWidth,1.5,21])    
-        cube(size=[wallWidth,reach+10,9]);
-        translate([-1,gridSpacing,25])     rotate([0,90,0]) cylinder(r=1.5,h=100);
-      }
+      // First arm
+
+      color([1.0,1.0,0])
+      reader2arm();
+      // Second arm
+      translate([bigReaderWidth-wallWidth,0,0])    
+      reader2arm();
+
+      color([0,1.0,0])
       translate([wallWidth,-1.5+reach+10,21])
-        cube(size=[bigReaderWidth-wallWidth,wallWidth,9+wallWidth]);
+      union() {
+
+        cube(size=[bigReaderWidth-wallWidth*2,wallWidth,9+wallWidth]);
+	translate([-wallWidth,0,0])      
+        cube(size=[bigReaderWidth,wallWidth,wallWidth]);
+	}
 
       // Top section to square everything
+      color([0,0,1])
       difference() {
         translate([0,-1.5+reach-wallWidth,21+9])
           cube(size=[bigReaderWidth,10+wallWidth*2,wallWidth]); 
         translate([wallWidth,-1.5+reach+10,21])
-          cube(size=[bigReaderWidth-wallWidth*2,wallWidth+thin,9+wallWidth+thin]); 
+          cube(size=[bigReaderWidth-wallWidth*2,wallWidth+thin,9+wallWidth+thin]);         
+	  translate([-thin,1.5+40,30-thin])
+	     cube(size=[wallWidth+thin,10,9+wallWidth+thin]); 
+	  translate([bigReaderWidth-wallWidth,1.5+40,30-thin])
+	     cube(size=[wallWidth+thin,10,9+wallWidth+thin]); 
+	  translate([10,1.5+reach-wallWidth,30-thin])
+	     cube(size=[10,wallWidth,9+wallWidth+thin]); 
       
           }
     }
