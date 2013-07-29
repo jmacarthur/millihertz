@@ -72,11 +72,12 @@ driveShaftMaxRadius = (driveShaftAF/2)/cos(30);
 drawBellCrank = false;
 drawLiftingBar = false;
 drawFollowerAxle = false;
-drawReaderPusher = false;
-drawPusher = false;
+drawReaderPusher = true;
+drawPusher = true;
 drawCamShaft = false;
-drawReaders = false;
-drawChassis = true;
+drawBigReader = true; // Requires drawReaderPusher
+drawSmallReader = true; // Requires drawReaderPusher
+drawChassis = false;
 drawBalanceAxle = false;
 drawMotor = false;
 drawData = false;
@@ -99,7 +100,7 @@ crankSize=20;
 
 module hexagonPrism()
 {
-  hexRodAF = 1.5;
+  hexRodAF = 1.45;
   hexRodSize = hexRodAF/cos(30); // Maximum Radius
   linear_extrude(height=30) {
     polygon(points = [ [ hexRodSize, hexRodSize*sin(30) ], [0, hexRodSize/cos(30) ], 
@@ -551,7 +552,7 @@ if(drawBellCrank) {
 
 if(drawReaderPusher) {
   translate([0,-gridSpacing*5,25]) {
-    if(drawReaders) {
+    if(drawSmallReader) {
       rotate([reader1Ang,0,0])
         if(reverse) {
           translate([-gridSpacing*2,0,0])
@@ -561,6 +562,8 @@ if(drawReaderPusher) {
         {
           reader1();
         }
+    }
+    if(drawBigReader) {
       rotate([reader2Ang,0,0])
           translate([-wallWidth,0,0]) 
             reader2();
