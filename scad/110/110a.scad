@@ -75,7 +75,7 @@ drawFollowerAxle = false;
 drawReaderPusher = true;
 drawPusher = true;
 drawCamShaft = false;
-drawBigReader = true; // Requires drawReaderPusher
+drawBigReader = false; // Requires drawReaderPusher
 drawSmallReader = true; // Requires drawReaderPusher
 drawChassis = false;
 drawBalanceAxle = false;
@@ -302,18 +302,25 @@ module reader1()
       cube(size=[wallWidth,reach,10]);
       translate([-1,gridSpacing,25])     rotate([0,90,0]) cylinder(r=1.5,h=100);
     }
-  }
+    /*
+    // Cross bar to provide structural support
+    difference() {
+      translate([gridSpacing*2,1.5,25-wallWidth/2])    
+        cube(size=[gridSpacing*2,reach,wallWidth]);
+      translate([gridSpacing*2+wallWidth*2,1.5,25-wallWidth/2-thin])    
+        cube(size=[wallWidth,reach-5,wallWidth+thin*2]);
+        }*/
 
   // Top section to square everything
-/*  difference() {
-    translate([0,-1.5+reach-wallWidth,21+9])
+  difference() {
+    translate([gridSpacing*2,reach-10,30])
       cube(size=[littleReaderWidth,10+wallWidth*2,wallWidth]); 
-    translate([wallWidth,-1.5+reach+10,21])
-      cube(size=[littleReaderWidth-wallWidth*2,wallWidth+thin,9+wallWidth+thin]); 
+    translate([gridSpacing*2+wallWidth,reach,30-thin])
+      #cube(size=[littleReaderWidth-wallWidth*2,wallWidth+thin,wallWidth+2*thin]); 
     
   }
-*/
 
+  }
 }
 
 
