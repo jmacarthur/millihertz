@@ -419,6 +419,7 @@ module reader2()
 module lifterArms() 
 {
   for(x=[0,gridSpacing*3-4]) {
+    color([0.8,0.2,0.5]) {
     union() {
       difference() {
         translate([x,1.5-gridSpacing*6,20])    
@@ -440,9 +441,14 @@ module lifterArms()
 
       }
       // Drop bars
-      translate([x,3,1.5])    
-        cube(size=[wallWidth,4,20]);
+      difference() {
+        translate([x,0,1.5])    
+          cube(size=[wallWidth,wallWidth*3,20]);
+        translate([x-thin,wallWidth,1.5-thin])    
+          cube(size=[wallWidth+thin*2,wallWidth,10+thin]);
+      }
     }
+  }
   }
 }
 
@@ -450,8 +456,8 @@ module pusherParts()
 {
   // The web which actually pushes the ball bearing
   difference() {
-    translate([wallWidth,3,1.5])    
-      cube(size=[gridSpacing*3-4-wallWidth,3,10]);
+    translate([0,3,1.5])    
+      cube(size=[gridSpacing*3-4+wallWidth,3,10]);
     translate([3,-5,4])    
       cube(size=[wallWidth,12,5]);
     translate([16,-5,4])    
@@ -459,10 +465,12 @@ module pusherParts()
   }
 
   // Guides
+  color([0.7,0.7,0.7]) {
   translate([3,-5,4])    
    cube(size=[wallWidth,11,5]);
   translate([16,-5,4])    
    cube(size=[wallWidth,11,5]);
+  }
 }
 
 module pusher()
