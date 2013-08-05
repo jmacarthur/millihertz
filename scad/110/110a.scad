@@ -283,6 +283,8 @@ module smallReaderArm()
         translate([0,1.5,20])    
           cube(size=[wallWidth,reach,10]);
         translate([-thin,gridSpacing,25]) rotate([0,90,0]) cylinder(r=1.5,h=100);
+        translate([-thin,reach-1.5,30-wallWidth])    
+          cube(size=[wallWidth+thin*2,10,10]);
       }
     }
   }
@@ -294,24 +296,29 @@ littleReaderWidth = gridSpacing*2;
 module reader1()
 {
   reach = gridSpacing*5.8;
-  
+
+  // This is the dropped part, the actual reader
   translate([0,-gridSpacing,-25]) {
-    color([1.0,0.8,0.8]) {
+    color([1.0,0.5,0.5]) {
       
       difference() {
         translate([gridSpacing*2,-1.5+reach,0])
           cube(size=[gridSpacing*2,wallWidth,30+wallWidth]);
         translate([gridSpacing*2-thin,-1.5+reach-thin,20])
-          cube(size=[wallWidth+thin,50,15+thin]);
+          cube(size=[wallWidth+thin,50,10-wallWidth]);
         translate([gridSpacing*4-wallWidth,-1.5+reach-thin,20])
-          cube(size=[wallWidth+thin,50,15+thin]);        
+          cube(size=[wallWidth+thin,50,10-wallWidth]);        
+        translate([gridSpacing*2-thin,-1.5+reach-thin,30])
+          cube(size=[wallWidth+thin,50,10]);
+        translate([gridSpacing*4-wallWidth,-1.5+reach-thin,30])
+          cube(size=[wallWidth+thin,50,10]);        
         if(!laserCut) {
           translate([gridSpacing*2+wallWidth,-1.5+reach-thin,wallWidth])
             cube(size=[gridSpacing*2-wallWidth*2,wallWidth+thin*2,30-wallWidth*2]);
         }
         
       }
-    }
+      }
 
     translate([0,0,0]) {
       smallReaderArm();
