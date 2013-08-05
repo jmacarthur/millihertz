@@ -270,6 +270,25 @@ module bellCrankJoiner()
 }
 
 
+module smallReaderArm() 
+{
+  reach = gridSpacing*5.8; // TODO: Duplicated below - why doesn't it work at file level?
+  translate([gridSpacing*2,0,0]) {
+    union() {
+      translate([0,reach-7,30-thin]) {
+        cube(size=[3,wallWidth,wallWidth+thin]);
+      }
+      
+      difference() {
+        translate([0,1.5,20])    
+          cube(size=[wallWidth,reach,10]);
+        translate([-thin,gridSpacing,25]) rotate([0,90,0]) cylinder(r=1.5,h=100);
+      }
+    }
+  }
+
+}
+
 littleReaderWidth = gridSpacing*2;
 // Reader 1
 module reader1()
@@ -278,47 +297,41 @@ module reader1()
   
   translate([0,-gridSpacing,-25]) {
     color([1.0,0.8,0.8]) {
+      
       difference() {
         translate([gridSpacing*2,-1.5+reach,0])
           cube(size=[gridSpacing*2,wallWidth,30+wallWidth]);
         translate([gridSpacing*2-thin,-1.5+reach-thin,20])
-          cube(size=[wallWidth+thin,50,10+thin]);
+          cube(size=[wallWidth+thin,50,15+thin]);
         translate([gridSpacing*4-wallWidth,-1.5+reach-thin,20])
-          cube(size=[wallWidth+thin,50,10+thin]);        
+          cube(size=[wallWidth+thin,50,15+thin]);        
         if(!laserCut) {
           translate([gridSpacing*2+wallWidth,-1.5+reach-thin,wallWidth])
             cube(size=[gridSpacing*2-wallWidth*2,wallWidth+thin*2,30-wallWidth*2]);
         }
-
+        
       }
     }
-    difference() {
-      translate([gridSpacing*2,1.5,20])    
-        cube(size=[wallWidth,reach,10]);
-      translate([-1,gridSpacing,25])     rotate([0,90,0]) cylinder(r=1.5,h=100);
+
+    translate([0,0,0]) {
+      smallReaderArm();
     }
-    difference() {
-    translate([gridSpacing*4-wallWidth,1.5,20])    
-      cube(size=[wallWidth,reach,10]);
-      translate([-1,gridSpacing,25])     rotate([0,90,0]) cylinder(r=1.5,h=100);
+    translate([gridSpacing*2-wallWidth,0,0]) {
+      smallReaderArm();
     }
-    /*
-    // Cross bar to provide structural support
-    difference() {
-      translate([gridSpacing*2,1.5,25-wallWidth/2])    
-        cube(size=[gridSpacing*2,reach,wallWidth]);
-      translate([gridSpacing*2+wallWidth*2,1.5,25-wallWidth/2-thin])    
-        cube(size=[wallWidth,reach-5,wallWidth+thin*2]);
-        }*/
 
   // Top section to square everything
   difference() {
     translate([gridSpacing*2,reach-10,30])
-      cube(size=[littleReaderWidth,10+wallWidth*2,wallWidth]); 
-    translate([gridSpacing*2+wallWidth,reach,30-thin])
-      #cube(size=[littleReaderWidth-wallWidth*2,wallWidth+thin,wallWidth+2*thin]); 
+      cube(size=[littleReaderWidth,10-1.5+wallWidth,wallWidth]); 
+    translate([gridSpacing*2+wallWidth,reach-1.5,30-thin])
+      cube(size=[littleReaderWidth-wallWidth*2,wallWidth+thin,wallWidth+2*thin]); 
+    translate([gridSpacing*2-thin,reach-7,30-thin])
+      cube(size=[wallWidth+thin,wallWidth+thin,wallWidth+2*thin]); 
+    translate([gridSpacing*2+littleReaderWidth-wallWidth,reach-7,30-thin])
+      cube(size=[wallWidth+thin,wallWidth+thin,wallWidth+2*thin]); 
     
-  }
+      }
 
   }
 }
