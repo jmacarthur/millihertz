@@ -100,7 +100,7 @@ crankSize=20;
 
 module hexagonPrism()
 {
-  hexRodAF = 1.45;
+  hexRodAF = 1.43;
   hexRodSize = hexRodAF/cos(30); // Maximum Radius
   linear_extrude(height=30) {
     polygon(points = [ [ hexRodSize, hexRodSize*sin(30) ], [0, hexRodSize/cos(30) ], 
@@ -245,7 +245,7 @@ module laserBellCrank()
     cube(size=[crankSize,wallWidth,wallWidth]);
   }
   translate([-crankSize+10,0,-wallWidth/2]) {
-    cube(size=[10,wallWidth,wallWidth*2]);
+      cube(size=[10,wallWidth,wallWidth*2.5]);
   }
   }
 }
