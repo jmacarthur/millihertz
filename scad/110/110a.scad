@@ -8,6 +8,7 @@ wheelRadius = 15;
 laserCut = true;
 clearance = 0.2;
 thin = 0.01;
+
 // Calculated constants
 gridLineWidth = gridSpacing - gridHoleSize;
 gridThickness = 1;
@@ -16,7 +17,6 @@ $t=(1-$t);
 // Place a ball on the grid
 
 // Calculate the recess into the grid...
-
 ballHeight = sqrt(ballRadius*ballRadius - (gridHoleSize/2)*(gridHoleSize/2));
 
 // Rule 110: 
@@ -736,7 +736,7 @@ if(beam1) {
   }  
 }
 
-//Clearance for the finger gaps in the left beam, and the cam holes in the top plate.
+// Clearance for the finger gaps in the left beam, and the cam holes in the top plate.
 clearance = 0.1;
 clearance2 = 0.3;
 
