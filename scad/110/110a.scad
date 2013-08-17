@@ -285,6 +285,8 @@ module smallReaderArm()
         translate([-thin,gridSpacing,25]) rotate([0,90,0]) cylinder(r=1.5,h=100);
         translate([-thin,reach-1.5,30-wallWidth])    
           cube(size=[wallWidth+thin*2,10,10]);
+        // Cutout to avoid colliding with top plate
+        translate([-thin,reach/2,40]) rotate([0,90,0]) cylinder(r=15,h=100,$fn=20);
       }
     }
   }
@@ -429,13 +431,11 @@ module lifterArms()
     color([0.8,0.2,0.5]) {
     union() {
       difference() {
-        translate([x,1.5-gridSpacing*6,20])    
-          cube(size=[wallWidth,gridSpacing*10.5,10]);
+        translate([x,1.5-gridSpacing*3,20])    
+          cube(size=[wallWidth,gridSpacing*7.5,10]);
         translate([-1,30,rodZ])  
           rotate([0,90,0])
           cylinder(r=1.5,h=25);
-        translate([-1,1.5-gridSpacing*8,19])  
-          cube(size=[50,40,6]);
         translate([-thin,-15,25])  
           rotate([0,90,0])
           cylinder(r=1.5,h=22);
@@ -909,5 +909,17 @@ module resetPlate()
     }
   }
 }
+
 if(drawResetPlate) {resetPlate();}
 
+module antiTristateBar()
+{
+  color([0.6,0.6,1.0])
+  translate([-45+105-30-50,-gridSpacing*9+wallWidth,2])
+  {
+      cube([50,6,wallWidth]);
+  }
+  
+}
+
+antiTristateBar();
