@@ -350,21 +350,22 @@ bigReaderWidth = gridSpacing*4+6;
 reach = gridSpacing*6.9;
   
 // Reader 2
- module reader2arm() {
-      union() {
-        translate([0,1.5+40,21+9-thin])    
-	  cube(size=[wallWidth,10,wallWidth+thin]);
-      difference() {
-        translate([0,1.5,21])    
-          cube(size=[wallWidth,reach+10,9]);
-          translate([-1,gridSpacing,25])     
-          rotate([0,90,0]) cylinder(r=1.5,h=100);
-	  translate([-thin,reach+10+1.5-wallWidth,21-thin])
-	  cube(size=[wallWidth+thin*2,wallWidth+thin*2,wallWidth+thin]);
-      }
-      }
-        
-      }
+module reader2arm() {
+  union() {
+    translate([0,1.5+40,21+9-thin])    
+      cube(size=[wallWidth,10,wallWidth+thin]);
+    difference() {
+      translate([0,1.5,21])    
+        cube(size=[wallWidth,reach+10,9]);
+      translate([-1,gridSpacing,25])     
+        rotate([0,90,0]) cylinder(r=1.5,h=100);
+      translate([-thin,reach+10+1.5-wallWidth,21-thin])
+        cube(size=[wallWidth+thin*2,wallWidth+thin*2,wallWidth+thin]);
+      // Cutout to avoid colliding with top plate
+      translate([-thin,reach/2,40]) rotate([0,90,0]) cylinder(r=15,h=100,$fn=20);      
+    }
+  }
+}
 
 
 module reader2()
@@ -733,7 +734,7 @@ if(beam1) {
       rotate([0,90-15,0])
       cube(size=[20,wallWidth+thin*2,50]);
 
-  }  
+  }
 }
 
 // Clearance for the finger gaps in the left beam, and the cam holes in the top plate.
