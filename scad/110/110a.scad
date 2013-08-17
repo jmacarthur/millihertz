@@ -339,6 +339,9 @@ module reader1()
       cube(size=[wallWidth+thin,wallWidth+thin,wallWidth+2*thin]); 
     translate([gridSpacing*2+littleReaderWidth-wallWidth,reach-7,30-thin])
       cube(size=[wallWidth+thin,wallWidth+thin,wallWidth+2*thin]); 
+          translate([23,reach-10+4,30-thin]) {
+            cylinder(r=3,h=10);
+          }
     
       }
 
@@ -420,7 +423,12 @@ module reader2()
 	     cube(size=[wallWidth+thin,10,9+wallWidth+thin]); 
 	  translate([10,1.5+reach-wallWidth,30-thin])
 	     cube(size=[10,wallWidth,9+wallWidth+thin]); 
-      
+          translate([7,3+reach,30-thin]) {
+            cylinder(r=3,h=10);
+          }
+          translate([27,3+reach,30-thin]) {
+            cylinder(r=3,h=10);
+          }
           }
     }
   }
