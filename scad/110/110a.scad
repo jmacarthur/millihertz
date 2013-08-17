@@ -8,6 +8,7 @@ wheelRadius = 15;
 laserCut = true;
 clearance = 0.2;
 thin = 0.01;
+
 // Calculated constants
 gridLineWidth = gridSpacing - gridHoleSize;
 gridThickness = 1;
@@ -16,7 +17,6 @@ $t=(1-$t);
 // Place a ball on the grid
 
 // Calculate the recess into the grid...
-
 ballHeight = sqrt(ballRadius*ballRadius - (gridHoleSize/2)*(gridHoleSize/2));
 
 // Rule 110: 
@@ -100,7 +100,7 @@ crankSize=20;
 
 module hexagonPrism()
 {
-  hexRodAF = 1.45;
+  hexRodAF = 1.43;
   hexRodSize = hexRodAF/cos(30); // Maximum Radius
   linear_extrude(height=30) {
     polygon(points = [ [ hexRodSize, hexRodSize*sin(30) ], [0, hexRodSize/cos(30) ], 
@@ -245,7 +245,7 @@ module laserBellCrank()
     cube(size=[crankSize,wallWidth,wallWidth]);
   }
   translate([-crankSize+10,0,-wallWidth/2]) {
-    cube(size=[10,wallWidth,wallWidth*2]);
+      cube(size=[10,wallWidth,wallWidth*2.5]);
   }
   }
 }
@@ -736,8 +736,9 @@ if(beam1) {
   }  
 }
 
-//Clearance for the finger gaps in the left beam, and the cam holes in the top plate.
+// Clearance for the finger gaps in the left beam, and the cam holes in the top plate.
 clearance = 0.1;
+clearance2 = 0.3;
 
 if(beam2)
 {
@@ -754,10 +755,15 @@ if(beam2)
       cube(size=[35+12-wallWidth,3+2,32]);
 
     // Cut slots for readers/lifters...
-    for(x=[bigReaderWidth-wallWidth*2, -wallWidth, bigReaderWidth-wallWidth*3, bigReaderWidth-littleReaderWidth-wallWidth*2, 4, gridSpacing*3]) {
+    for(x=[bigReaderWidth-wallWidth*3]) {
     translate([x-clearance,-gridSpacing*3-1,10])
       cube(size=[wallWidth+clearance*2,wallWidth+2,32]);
-      }    
+    }
+    // Some slots need to be a bit wider (found due to experiment)
+    for(x=[bigReaderWidth-wallWidth*2, -wallWidth, bigReaderWidth-littleReaderWidth-wallWidth*2, 4, gridSpacing*3]) {
+    translate([x-clearance2,-gridSpacing*3-1,10])
+      cube(size=[wallWidth+clearance2*2,wallWidth+2,32]);
+    }
 
     axles();
     for(x=[axle1X,axle2X]) {

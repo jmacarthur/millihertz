@@ -7,7 +7,7 @@ my @coords = ();
 for my $i (0..359)
 {
     my $base = 16;
-    my $max = 25; # Base-max needs to be about 7.5
+    my $max = 28; # Base-max needs to be about 7.5
     my $h;
     if($i<150 || $i>240) {
         $h = $base;
