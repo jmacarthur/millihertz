@@ -802,11 +802,6 @@ if(beam2)
 if(crossBeam1) {
   color([0.5,0.7,1.0]) {
       union() {
-
-        translate([-12,-gridSpacing*9-5,46-thin])
-          rotate([-10,0,0])
-          translate([0, 15,-thin])
-          cube(size=[wallWidth,10,wallWidth+thin]);
         difference() {
           translate([-12,-gridSpacing*9-5,1])
             cube(size=[wallWidth,chassisWidth+5,45]);
@@ -829,6 +824,10 @@ if(crossBeam1) {
             rotate([0,90,0]) cylinder(r=1.5,h=70);
           }
         }
+        translate([-12,-gridSpacing*9-5,46])
+          rotate([-10,0,0])
+          translate([0, 15,-1])
+          cube(size=[wallWidth,10,wallWidth+1]);
       }
   }
 }
@@ -836,11 +835,6 @@ if(crossBeam1) {
 if(crossBeam2) {
   color([0.5,0.5,1.0])
     union() {
-    translate([35,-gridSpacing*9-5,46-thin])
-      rotate([-10,0,0])
-      translate([0, 15,-thin])
-      cube(size=[wallWidth,10,wallWidth+thin]);
-    
       difference() {
         translate([35,-gridSpacing*9,1])
           cube(size=[wallWidth,chassisWidth,50]);
@@ -862,6 +856,10 @@ if(crossBeam2) {
         translate([35-thin,-gridSpacing*9-thin,1-thin]) 
           cube(size=[wallWidth+thin*2,wallWidth+thin,25]);    
       }
+      translate([35,-gridSpacing*9-5,46])
+        rotate([-10,0,0])
+        translate([0, 15,-1])
+        cube(size=[wallWidth,10,wallWidth+1]);    
     }
 }
 
