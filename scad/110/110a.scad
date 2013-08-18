@@ -741,6 +741,10 @@ if(beam1) {
     translate([45,-gridSpacing*9-thin,1])
       rotate([0,90-15,0])
       cube(size=[20,wallWidth+thin*2,50]);
+    translate([-45+105-30-20,-gridSpacing*9-thin,2])  
+    {
+      cube(size=[10,wallWidth+2*thin,wallWidth]);
+    }
 
   }
 }
@@ -751,46 +755,47 @@ clearance2 = 0.3;
 
 if(beam2)
 {
-  color([0.5,0.5,0.5])
+  color([0.5,0.5,0.5]) {
     difference() {
-    translate([-45,-gridSpacing*3,1])
-      cube(size=[130,wallWidth,31]);
-    translate([-30+2.5, -gridSpacing*9-thin,21])
-      rotate([270,0,0])
-      cylinder(r=1.5,h=100);
-
-    // Reducing height of front member
-    translate([35+wallWidth,-gridSpacing*3-1,30])
-      cube(size=[35+12-wallWidth,3+2,32]);
-
-    // Cut slots for readers/lifters...
-    for(x=[bigReaderWidth-wallWidth*3]) {
-    translate([x-clearance,-gridSpacing*3-1,10])
-      cube(size=[wallWidth+clearance*2,wallWidth+2,32]);
-    }
-    // Some slots need to be a bit wider (found due to experiment)
-    for(x=[bigReaderWidth-wallWidth*2, -wallWidth, bigReaderWidth-littleReaderWidth-wallWidth*2, 4, gridSpacing*3]) {
+      translate([-45,-gridSpacing*3,1])
+        cube(size=[130,wallWidth,31]);
+      translate([-30+2.5, -gridSpacing*9-thin,21])
+        rotate([270,0,0])
+        cylinder(r=1.5,h=100);
+      
+      // Reducing height of front member
+      translate([35+wallWidth,-gridSpacing*3-1,30])
+        cube(size=[35+12-wallWidth,3+2,32]);
+      
+      // Cut slots for readers/lifters...
+      for(x=[bigReaderWidth-wallWidth*3]) {
+        translate([x-clearance,-gridSpacing*3-1,10])
+          cube(size=[wallWidth+clearance*2,wallWidth+2,32]);
+      }
+      // Some slots need to be a bit wider (found due to experiment)
+      for(x=[bigReaderWidth-wallWidth*2, -wallWidth, bigReaderWidth-littleReaderWidth-wallWidth*2, 4, gridSpacing*3]) {
     translate([x-clearance2,-gridSpacing*3-1,10])
       cube(size=[wallWidth+clearance2*2,wallWidth+2,32]);
-    }
-
-    axles();
-    for(x=[axle1X,axle2X]) {
-      translate([x-axleRadius,-gridSpacing*3-thin,0]) {
-        cube([axleRadius*2,wallWidth+thin*2,axleHeight]);
       }
-    }
+      
+      axles();
+      for(x=[axle1X,axle2X]) {
+        translate([x-axleRadius,-gridSpacing*3-thin,0]) {
+          cube([axleRadius*2,wallWidth+thin*2,axleHeight]);
+        }
+      }
+      
+      // Facet rear edge
+      translate([-45,-gridSpacing*3-thin,10])
+        rotate([0,15+90,0])
+        cube(size=[20,wallWidth+thin*2,50]);
+      // Facet front edge
+      translate([45,-gridSpacing*3-thin,1])
+        rotate([0,90-15,0])
+        cube(size=[20,wallWidth+thin*2,50]);
 
-    // Facet rear edge
-    translate([-45,-gridSpacing*3-thin,10])
-      rotate([0,15+90,0])
-      cube(size=[20,wallWidth+thin*2,50]);
-    // Facet front edge
-    translate([45,-gridSpacing*3-thin,1])
-      rotate([0,90-15,0])
-      cube(size=[20,wallWidth+thin*2,50]);
-
-  }  
+    } 
+  } // color
 }
 
 // Cross members
@@ -930,9 +935,15 @@ if(drawResetPlate) {resetPlate();}
 module antiTristateBar()
 {
   color([0.6,0.6,1.0])
-  translate([-45+105-30-50,-gridSpacing*9+wallWidth,2])
+  translate([-45+105-30-40,-gridSpacing*9+wallWidth,2])  
   {
-      cube([50,6,wallWidth]);
+    union() {
+      cube([40,6,wallWidth]);
+      translate([20,-wallWidth,0]) {
+        cube([10,wallWidth,wallWidth]);
+      }
+       
+    }
   }
   
 }
