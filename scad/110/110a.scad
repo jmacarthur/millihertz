@@ -5,7 +5,7 @@ gridHoleSize = 6; // Size of the holes in it.
 ballDiameter=9.52;
 ballRadius = ballDiameter/2;
 wheelRadius = 15;
-laserCut = true;
+laserCut = false;
 clearance = 0.2;
 thin = 0.01;
 
@@ -69,25 +69,25 @@ driveShaftMaxRadius = (driveShaftAF/2)/cos(30);
 
 
 // All the draw options
-drawBellCrank = false;
-drawLiftingBar = false;
-drawFollowerAxle = false;
+drawBellCrank = true;
+drawLiftingBar = true;
+drawFollowerAxle = true;
 drawReaderPusher = true;
-drawPusher = true;
+drawPusher = false;
 drawCamShaft = false;
-drawBigReader = false; // Requires drawReaderPusher
+drawBigReader = true; // Requires drawReaderPusher
 drawSmallReader = true; // Requires drawReaderPusher
-drawChassis = false;
-drawBalanceAxle = false;
+drawChassis = true;
+drawBalanceAxle = true;
 drawMotor = false;
 drawData = false;
 drawWheels = false;
-drawResetPlate = true;
+drawResetPlate = false;
 reverse = false;
 drawGrid = false;
 topPlate = false;
-beam1 = drawChassis;//drawChassis;
-beam2 = drawChassis;//drawChassis;
+beam1 = drawChassis;
+beam2 = drawChassis;
 crossBeam1 = drawChassis;//drawChassis;
 crossBeam2 = drawChassis;
 
@@ -190,11 +190,6 @@ module squareBarZ(size)
   translate([0,0,size]) rotate([0,90,0]) squareBarX(size);
 }
 
-
-
-
-
-
 module bellCrankBody(crankSize)
 {
   union() {
@@ -214,18 +209,18 @@ module bellCrankBody(crankSize)
 
 module bellCrankPrinted()
 {
-	rotate([90,0,0])
-	
-	difference() {
-		union()
-		{
-                  bellCrankBody(crankSize);
-                  translate([0,0,5]) cylinder(r=2.5,h=1,$fn=30);
-                  translate([0,0,-1]) cylinder(r=2.5,h=1,$fn=30);
-		}
-                translate([0,0,-3]) cylinder(r=1.5,h=11,$fn=30);
-                translate([0,-crankSize+2.5,-1]) cylinder(r=1.5,h=7,$fn=20);
-	}
+  rotate([90,0,0])
+    
+    difference() {
+    union()
+    {
+      bellCrankBody(crankSize);
+      translate([0,0,5]) cylinder(r=2.5,h=1,$fn=30);
+      translate([0,0,-1]) cylinder(r=2.5,h=1,$fn=30);
+    }
+    translate([0,0,-3]) cylinder(r=1.5,h=11,$fn=30);
+    translate([0,-crankSize+2.5,-1]) cylinder(r=1.5,h=7,$fn=20);
+  }
 }
 
 module laserBellCrank()
@@ -377,8 +372,10 @@ module reader2()
     translate([0,-gridSpacing*1,-25]) {
     color([1.0,0,0]) {
     union() {
+      if(lasercut) {
         translate([10,-1.5+reach,0])
           cube(size=[10,wallWidth,30+wallWidth]);
+      }
       difference() {
         translate([0,-1.5+reach,0])
           cube(size=[bigReaderWidth,wallWidth,30]);
@@ -405,7 +402,9 @@ module reader2()
       translate([wallWidth,-1.5+reach+10,21])
       union() {
 
+        if(laserCut) {
         cube(size=[bigReaderWidth-wallWidth*2,wallWidth,9+wallWidth]);
+        }
 	translate([-wallWidth,0,0])      
         cube(size=[bigReaderWidth,wallWidth,wallWidth]);
 	}
@@ -420,9 +419,11 @@ module reader2()
 	  translate([-thin,1.5+40,30-thin])
 	     cube(size=[wallWidth+thin,10,9+wallWidth+thin]); 
 	  translate([bigReaderWidth-wallWidth,1.5+40,30-thin])
-	     cube(size=[wallWidth+thin,10,9+wallWidth+thin]); 
-	  translate([10,1.5+reach-wallWidth,30-thin])
-	     cube(size=[10,wallWidth,9+wallWidth+thin]); 
+	    cube(size=[wallWidth+thin,10,9+wallWidth+thin]); 
+          if(lasercut) {
+            translate([10,1.5+reach-wallWidth,30-thin])
+              cube(size=[10,wallWidth,9+wallWidth+thin]); 
+          }
           translate([7,3+reach,30-thin]) {
             cylinder(r=3,h=10);
           }
@@ -604,7 +605,7 @@ if(drawReaderPusher) {
         }
         else
         {
-          reader1();
+          translate([0,0,0]) reader1();
         }
     }
     if(drawBigReader) {
@@ -946,4 +947,4 @@ module antiTristateBar()
   
 }
 
-antiTristateBar();
+//antiTristateBar();
