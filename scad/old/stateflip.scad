@@ -32,9 +32,10 @@ module stateflip()
 	color([0.5,0.5,0.5]){
 	difference() {
 	union() {
+          translate([0,5,0])
 	   rotate([270,0,0])
 		{
-		cylinder(h=90,r=2,$fn=40);
+		cylinder(h=78,r=2.5,$fn=40);
 	}
 
 	// The top flippers which guide the ball
@@ -54,37 +55,14 @@ module stateflip()
 	translate([0,wallWidth+gridSeparation*x*2+spacing/2,0]) rotate([0,90,0]) 	translate([0,0,-0.5]) cube(size=[descent,cellWidth,1],center=false);
 	}
 
-	// Location bits
-	translate([0,wallWidth,0])
-	 rotate([270,0,0])
-		{
-		cylinder(h=1,r=3);
-	}
-	translate([0,wallWidth+gridSeparation*10-1,0])
-	 rotate([270,0,0])
-		{
-			cylinder(h=1,r=3);
-	}
 
 	} // union
 	translate([0,-1,0])
 	   rotate([270,0,0])
 		{
-			#cylinder(h=92,r=1.5);
+                  cylinder(h=92,r=1.5,$fn=30);
 	}
 	
-	rotate([0,-45,0])
-	translate([0,0,4])
-	rotate([270,0,0])
-	{
-		#cylinder(h=92,r=0.8);
-	}
-	rotate([0,-45,0])
-	translate([0,0,6])
-	rotate([270,0,0])
-	{
-		#cylinder(h=92,r=0.5);
-	}
 
 	} // difference
 	} // colour

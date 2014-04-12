@@ -27,11 +27,11 @@ wheel2X = gridSpacing*19*1;
 
 // Toggle top level elements on and off
 // Some elements are commented on/off at the bottom of this file.
-drawWheels = false;
+drawWheels = true;
 drawLifters = true;
 drawMazeAndLifters = true;
-drawDirAmp = true;
-drawData = false;
+drawDirAmp = false;
+drawData = True;
 drawStateFlip = false;
 drawMaze = true;
 
@@ -61,6 +61,7 @@ lifterHolePos=18.0; // See lifter.scad
 lifterPullReq = lifterHolePos*(1+sin(maxLifterAngle-90));
 echo("lifter pull requires ",lifterPullReq,"mm");
 echo("Maze starts at ",mazeStartX,",",mazeStartY,",",chassisTop);
+echo("Axleheight+axleradius = ",axleHeight+axleRadius,"mm");
 
 if(drawMazeAndLifters) {
   translate([0,mazeStartY,chassisTop]) {
@@ -68,7 +69,7 @@ if(drawMazeAndLifters) {
     translate([mazeStartX,0,0]) maze();
     }
     
-    translate([chassisStartX+supportWallWidth*0,mazeHoleOffsetY,mazeHoleOffsetZ]) lifterSupport();
+    //translate([chassisStartX+supportWallWidth*0,mazeHoleOffsetY,mazeHoleOffsetZ]) lifterSupport();
     
     if(drawLifters) {
       translate([0,mazeHoleOffsetY,mazeHoleOffsetZ]) rotate([-x,0,0]) lifter1(-raiserWallWidth*2-(raiserWallWidth+raiserSeparation)*1+chassisStartX+supportWallWidth);
@@ -109,7 +110,7 @@ cams(camsYoffset);
 //reducerPulley(305);
 translate([dirBoxOffsetX,dirBoxOffsetY,mazeTop]) dirbox();
 translate([dirBoxOffsetX,dirBoxOffsetY,chassisTop+mazeHeight+dirBoxHeight]) statebox();
-//translate([chassisStartX,0,axleHeight+axleRadius]) chassis();
+//translate([chassisStartX,0,axleHeight+axleRadius]) chassis()
 translate([chassisStartX,0,axleHeight+axleRadius]) acrylicChassis();
-//grid();
+grid();
 //pulleyBlock();

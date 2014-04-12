@@ -11,7 +11,7 @@ thin = 0.01;
 // Calculated constants
 gridLineWidth = gridSpacing - gridHoleSize;
 gridThickness = 1;
-$fn=20;
+$fn=50;
 $t=(1-$t);
 // Place a ball on the grid
 
@@ -78,18 +78,19 @@ drawPusher = true;
 drawCamShaft = true;
 drawReaders = true;
 drawChassis = true;
+
 drawBalanceAxle = false;
 drawMotor = false;
 drawData = false;
 drawWheels = false;
 drawResetPlate = true;
 reverse = false;
-drawGrid = true;
-topPlate = true;
+drawGrid = false;
+topPlate = false;
 beam1 = drawChassis;//drawChassis;
 beam2 = drawChassis;//drawChassis;
-crossBeam1 = drawChassis;//drawChassis;
-crossBeam2 = drawChassis;
+crossBeam1 = true;//drawChassis;
+crossBeam2 = true;
 
 
 wallWidth = (laserCut)?3:2;
@@ -605,8 +606,8 @@ if(drawCamShaft) {
   }
 
   //Cam axle
-  //translate([-15,camShaftY,40]) rotate([0,90,0])
-  //scale([3,3,100]) hexagonPrism();
+  translate([-15,camShaftY,40]) rotate([0,90,0])
+    scale([3,3,100]) hexagonPrism();
 }
 // Cam axle adapter
 if(drawShaftAdapter) {
@@ -715,11 +716,10 @@ if(crossBeam1) {
             cube(size=[wallWidth,chassisWidth+5,45]);
           translate([-12-thin,-gridSpacing*9-5,46])
             rotate([-10,0,0])
-      difference() {
-      cube(size=[wallWidth+thin*2,chassisWidth+5+5,45]);
-      translate([-thin, 15,0])
-      cube(size=[wallWidth+thin*4,10,wallWidth]);
-          }
+            cube(size=[wallWidth+thin*2,chassisWidth+5+5,45]);
+
+
+
           translate([-12-thin,-gridSpacing*9+wallWidth-thin,1-thin])
             cube(size=[5,10+thin,28+thin]);
           translate([-12-thin,-gridSpacing*9+wallWidth-thin+32,1-thin])
@@ -736,22 +736,30 @@ if(crossBeam1) {
             rotate([0,90,0]) cylinder(r=1.5,h=70);
           }
         }
+
+        translate([-12-thin,-gridSpacing*9-5,46])
+          rotate([-10,0,0])
+          
+        {          
+          translate([0, 15,-thin])
+            cube(size=[wallWidth,10,wallWidth+thin]);
+        }
+
+
       }
   }
 }
 
 if(crossBeam2) {
   color([0.5,0.5,1.0])
+    union() {
     difference() {
     translate([35,-gridSpacing*9,1])
       cube(size=[wallWidth,chassisWidth,50]);
     translate([35-thin,-gridSpacing*9-5,46])
       rotate([-10,0,0])
-      difference() {
       cube(size=[wallWidth+thin*2,chassisWidth+5+5,45]);
-      translate([-thin, 15,0])
-      cube(size=[wallWidth+thin*4,10,wallWidth]);
-    }
+
     translate([35-thin,-gridSpacing*9+10,1-thin])
       cube(size=[5,30,10+thin]);
     translate([-15,-gridSpacing*5,25]) {
@@ -766,6 +774,13 @@ if(crossBeam2) {
       cube(size=[wallWidth+thin*2,wallWidth+thin*2,31+thin]);
     translate([35-thin,-gridSpacing*9-thin,1-thin]) 
       cube(size=[wallWidth+thin*2,wallWidth+thin,25]);    
+    }
+    translate([35-thin,-gridSpacing*9-5,46])
+      rotate([-10,0,0])
+     {
+      translate([0, 15,-thin])
+      cube(size=[wallWidth,10,wallWidth+thin]);
+    }
   }
 }
 

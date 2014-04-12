@@ -20,11 +20,9 @@ module dirFlipper()
 	        translate([gridSpacing*i*2+dirBoxWallWidth+gap,-10,-0.5])	cube(size=[10,20,1]);
 	    }  
 	    difference() {
-	    	    translate([-8,0,0]) rotate([0,90,0]) cylinder(r=10,h=3);
-		    rotate([0,0,0]) translate([-9,3,-1.5]) cube(size=[5,20,3]);
-		    rotate([90,0,0]) translate([-9,8,-1.5]) cube(size=[5,20,3]);
-		    rotate([180,0,0]) translate([-9,3,-1.5]) cube(size=[5,20,3]);
-		    rotate([270,0,0]) translate([-9,8,-1.5]) cube(size=[5,20,3]);
+	    	    translate([-10,0,0]) rotate([0,90,0]) cylinder(r=10,h=5);
+		    rotate([0,0,0]) translate([-11,3,-1.5]) cube(size=[7,20,3]);
+		    rotate([180,0,0]) translate([-11,3,-1.5]) cube(size=[7,20,3]);
 		    }
 	}
 }

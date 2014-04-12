@@ -35,13 +35,13 @@ module dirSelector()
       linear_extrude(height=3) {
       polygon(points=[[0,0],[5,5],[10,5],[10,10],[15,15],[20,10],[20,5],[25,5],[30,0]], paths=[[0,1,2,3,4,5,6,7,8]]);
       }
-      translate([15,7.5,-1]) cylinder(r=selectorRadius,h=7);
+      translate([15,7.5,-1]) cylinder(r=selectorRadius,h=7,$fn=20);
       }
 }
 
-drawBasePlate = true;
-drawAngleBracket1 = true;
-drawAngleBracket2 = true;
+drawBasePlate = false;
+drawAngleBracket1 = false;
+drawAngleBracket2 = false;
 module punt(yOffset)
 {
   if(drawAngleBracket1) {
@@ -109,6 +109,7 @@ module punt(yOffset)
 
 // The punt itself
   puntDescend = -chassisTop-1;
+  if(drawPunt) {
   translate([puntPosX-puntWidth,yOffset+puntAxleY+10,puntAxleZ+chassisTop-5]) {
     translate([0,0,-100])     color([1,0,0]) cylinder(r=1,h=1000);
     rotate([puntAngle,0,0])
@@ -129,6 +130,8 @@ module punt(yOffset)
     }
     
   }
+  }
+
   // This is the grading plate on the bottom
   if(drawBasePlate) {
     difference() {
@@ -165,6 +168,7 @@ module punt(yOffset)
   }
 
       // Selector rail
+  if(drawSelectorRail) {
       union() {
       translate([row1x+gridSpacing*3-puntWidth/2-6,yOffset+10,rideHeight])
       cube(size=[puntMaterialThickness,100,puntMaterialThickness]);
@@ -173,30 +177,35 @@ module punt(yOffset)
       translate([row1x+gridSpacing*3-puntWidth/2-6,yOffset+puntAxleY+10-15+30,rideHeight-puntMaterialThickness])
       cube(size=[puntMaterialThickness,10,puntMaterialThickness]); // TAB
       }
-
+  }
       // Mover guide thing
-      translate([row1x+gridSpacing*3-puntWidth/2-3,yOffset+puntAxleY+10-15,rideHeight])
-      {
-      rotate([90,0,0])
+  translate([row1x+gridSpacing*3-puntWidth/2-3,yOffset+puntAxleY+10-15,rideHeight])
+  {
+    rotate([90,0,0])
       rotate([0,90,0])
       color([0.5,0.5,0.5])
-      union() {
-
-            dirSelector();
-	    translate([0,0,-puntMaterialThickness*2])            dirSelector();
-	    }
-	    translate([-30,15,selectorRodHeight])
-	    rotate([0,90,0])
-	    color([0.8,0.8,0.2])
-	    cylinder(r=selectorRadius,h=30);
-  // Slider - vertical guide
-  translate([-puntMaterialThickness*3,-30,-puntMaterialThickness])
-  difference() {
-    cube(size=[puntMaterialThickness,80,20]);
-    translate([-1,5,selectorRodHeight-selectorRadius+puntMaterialThickness])
-    cube(size=[puntMaterialThickness+2,70,selectorRadius*2]);
-    translate([-1,10,-1])
-    cube(size=[puntMaterialThickness+2,50,puntMaterialThickness+1]);
+      dirSelector();
+    rotate([90,0,0])
+      rotate([0,90,0])
+      color([0.5,0.5,0.5])
+      translate([0,0,-puntMaterialThickness*2])            dirSelector();
+    
+    // Draw the selector 
+    translate([-30,15,selectorRodHeight])
+      rotate([0,90,0])
+      color([0.8,0.8,0.2])
+      cylinder(r=selectorRadius,h=30);
+    
+    // Slider - vertical guide
+    if(drawVertGuide) {
+      translate([-puntMaterialThickness*3,-30,-puntMaterialThickness])
+        difference() {
+        cube(size=[puntMaterialThickness,80,20]);
+        translate([-1,5,selectorRodHeight-selectorRadius+puntMaterialThickness])
+          cube(size=[puntMaterialThickness+2,70,selectorRadius*2]);
+        translate([-1,10,-1])
+          cube(size=[puntMaterialThickness+2,50,puntMaterialThickness+1]);
+      }
     }
   }
 }
