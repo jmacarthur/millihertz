@@ -78,6 +78,25 @@ module xBar(slotStart, leftSide) {
   }
 }
 
+module outputComb() {
+  color([0.5,0.5,0.5]) {
+    translate([0,3,0]) 
+    rotate([90,0,0]) 
+    linear_extrude(height=3) {
+      difference() {
+	union() {
+	  translate([5,0]) square([323,30]);	
+	}
+	translate([0,-1]) square([8,26]);
+	translate([323,-1]) square([8,26]);
+	for(i=[0:31]) {
+	  translate([11+i*10,-1]) square([3,20]);	
+	}
+      }
+    }
+  }
+}
+
 module yComb() {
   rotate([90,0,0]) rotate([0,90,0]) 
   linear_extrude(height=3) {
@@ -99,6 +118,7 @@ module yComb() {
   }
 }
 
+translate([0,5,30]) outputComb();
 translate([0,45,0]) xBar(5,0);
 translate([0,100,0]) xBar(5,0);
 
@@ -176,6 +196,8 @@ module inner_end_plate()
 	square([5,11]);
       translate([145,-1])
 	square([3,21]);
+      translate([40,45])
+	square([3,11]);
     }
   }
 }
