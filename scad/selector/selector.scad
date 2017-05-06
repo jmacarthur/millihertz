@@ -1,7 +1,7 @@
 include <globs.scad>;
 
 output_positions = [ 1, 0, 1, 1, 0, 1 ];
-input_data = [ 0, 0, 1, 1, 0 ];
+input_data = [ 0, 0, 0, 0, 1 ];
 
 raise_position = 31-(input_data[0] + input_data[1]*2+input_data[2]*4+
 		     input_data[3]*8+input_data[4]*16);
@@ -15,6 +15,9 @@ for(s=[0:4]) {
     difference() {
     union() {
       cube(size=[370,3,10]);
+      // End stops
+      translate([10,0,0]) cube(size=[5,3,12]);
+      translate([343,0,0]) cube(size=[5,3,12]);
       for(i=[0:31]) {
 	align = 1-(floor(i/pow(2,s)) % 2);
 	translate([20+seesaw_spacing*i+(seesaw_spacing/2)*align,0,10-thin]) cube(size=[(seesaw_spacing/2)+thin,3,seesaw_spacing+thin]);
@@ -68,7 +71,30 @@ module xBar(slotStart, leftSide) {
 	}
 	translate([45,-5]) circle(d=3);
 	translate([335,-5]) circle(d=3);
+	translate([65,-11]) square([3,6]);
+	translate([225,-11]) square([3,6]);
       }
+    }
+  }
+}
+
+module yComb() {
+  rotate([90,0,0]) rotate([0,90,0]) 
+  linear_extrude(height=3) {
+    difference() {
+      union() {
+     
+	square([65,10]);
+	for(i=[0:4]) {
+	  translate([13+i*10,9])
+	    square([7,11]);	
+	}
+	translate([8,9])
+	square([2,6]);	
+
+      }
+      translate([5,5]) square([3,6]);
+      translate([60,5]) square([3,6]);
     }
   }
 }
@@ -77,6 +103,8 @@ translate([0,45,0]) xBar(5,0);
 translate([0,100,0]) xBar(5,0);
 
 translate([0,110,10]) cube([350,3,20]);
+translate([65,40,-10]) yComb();
+translate([225,40,-10]) yComb();
 
 // Reader levers
 module crank(output_map) {
