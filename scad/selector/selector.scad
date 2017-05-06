@@ -96,21 +96,25 @@ module xBar(slotStart, slotHeight, height, hooks) {
   }
 }
 
+module outputComb_2d() {
+  difference() {
+    union() {
+      translate([5,0]) square([323,30]);	
+    }
+    translate([0,-1]) square([8,26]);
+    translate([323,-1]) square([8,26]);
+    for(i=[0:31]) {
+      translate([11+i*10,-1]) square([3,20]);	
+    }
+  }  
+}
+
 module outputComb() {
   color([0.5,0.5,0.5]) {
     translate([0,3,0]) 
     rotate([90,0,0]) 
     linear_extrude(height=3) {
-      difference() {
-	union() {
-	  translate([5,0]) square([323,30]);	
-	}
-	translate([0,-1]) square([8,26]);
-	translate([323,-1]) square([8,26]);
-	for(i=[0:31]) {
-	  translate([11+i*10,-1]) square([3,20]);	
-	}
-      }
+      outputComb_2d();
     }
   }
 }
@@ -269,16 +273,21 @@ color([0,0,1.0]) {
   outer_end_plate();
 }
 
+module lifter_bar_2d()
+{
+  difference() {
+    square([350,10]);
+    translate([17,5]) circle(d=3);
+    translate([307,5]) circle(d=3);
+  }
+}
+
 // Lifting bars
 module lifter_bar()
 {
   rotate([90,0,0])
   linear_extrude(height=3) {
-    difference() {
-      square([350,10]);
-      translate([17,5]) circle(d=3);
-      translate([307,5]) circle(d=3);
-    }
+    lifter_bar_2d();
   }
 }
 
@@ -333,14 +342,18 @@ for(y=[-45,0]) {
 }
 
 
+module output_lifter_bar_2d() {
+  difference() {
+    square([330,20]);
+    translate([17,5]) circle(d=3);
+    translate([307,5]) circle(d=3);
+  }
+}
+
 module output_lifter_bar() {
   rotate([90,0,0]) 
     linear_extrude(height=3) {
-    difference() {
-      square([330,20]);
-      translate([17,5]) circle(d=3);
-      translate([307,5]) circle(d=3);
-    }
+    output_lifter_bar_2d();
   }
 }
 
