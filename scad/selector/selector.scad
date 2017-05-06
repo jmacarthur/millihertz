@@ -28,23 +28,17 @@ for(s=[0:4]) {
 module lever()
 {
   union() {
-    cube(size=[3,220,10]);
-    translate([0,0,0]) cube(size=[3,5,15]);
-    translate([0,10,0]) cube(size=[3,5,15]);
-    translate([0,15,0]) cube(size=[3,5,15]);
+    cube(size=[3,80,10]);
   }
 }
 
 // The seesaw levers
 color([0.5,0,0]) {
   for(i=[0:31]) {
-    rot = (i==raise_position?-6:0);
-    translate([0,0,20])  rotate([rot,0,0]) translate([10+10*i+1,-100,00]) lever();
+    drop = (i==raise_position?-10:0);
+    translate([10+10*i+1,30,20+drop]) lever();
   }
 }
-
-// Seesaw axis
-translate([0,0,20+5]) rotate([0,90,0]) cylinder(r=1.5,h=350);
 
 // These are writer arms - they push ball bearings in both directions
 tineSpacing = gridSpacing+ballBearingDiameter;
@@ -59,12 +53,12 @@ reader_positions = [ 4, 2.5, 0, 0, 0 ];
 follower_readers = [ 0, 0, 0, 2.5, 4.0 ];
 
 // Fixed sections (chassis)
-module xBar(slotStart, leftSide, yposition) {
+module xBar(slotStart, leftSide) {
 
   color([0.5,0.5,0.5]) {
     difference() {
       union() {
-	translate([-10,0,-10]) cube([350,3,40]);
+	translate([0,0,-10]) cube([350,3,40]);
        }    
       for(i=[1:32]) {
 	translate([i*10+1,-thin,5+slotStart]) cube([3,3+thin*2,40-slotStart]);
@@ -73,5 +67,6 @@ module xBar(slotStart, leftSide, yposition) {
   }
 }
 
-translate([0,-35,0]) xBar(10,0);
-translate([0,110,0]) xBar(0,0,1);
+translate([0,45,0]) xBar(0,0);
+translate([0,100,0]) xBar(0,0);
+translate([0,110,-10]) cube([350,3,40]);
