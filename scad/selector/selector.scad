@@ -56,12 +56,18 @@ follower_readers = [ 0, 0, 0, 2.5, 4.0 ];
 // Fixed sections (chassis)
 module xBar(slotStart, leftSide) {
   color([0.5,0.5,0.5]) {
-    difference() {
-      union() {
-	translate([0,0,-10]) cube([350,3,50]);	
-       }    
-      for(i=[1:32]) {
-	translate([i*10+1,-thin,5+slotStart]) cube([3,3+thin*2,25-slotStart]);
+    translate([0,3,0]) 
+    rotate([90,0,0]) 
+    linear_extrude(height=3) {
+      difference() {
+	union() {
+	  translate([0,-10]) square([350,50]);	
+	}    
+	for(i=[1:32]) {
+	  translate([i*10+1,5+slotStart]) square([3,25-slotStart]);
+	}
+	translate([45,-5]) circle(d=3);
+	translate([335,-5]) circle(d=3);
       }
     }
   }
@@ -185,13 +191,13 @@ module lifter_bar()
   linear_extrude(height=3) {
     difference() {
       square([350,10]);
-      translate([5,5]) circle(d=3);
-      translate([300,5]) circle(d=3);
+      translate([17,5]) circle(d=3);
+      translate([307,5]) circle(d=3);
     }
   }
 }
 
-module lifter_lever() {
+module front_lifter_lever() {
   len = 30;
   rotate([90,0,0])
     linear_extrude(height=3) {
@@ -207,5 +213,29 @@ module lifter_lever() {
   }
 }
 
+module back_lifter_lever() {
+  len = 30;
+  leg_angle = 45;
+  rotate([90,0,0])    
+    linear_extrude(height=3) {
+    difference() {
+      union() {
+	square([len,10]);
+        translate([len,0]) translate([0,5]) rotate(leg_angle) translate([0,-5]) square([50,10]);
+	translate([0,5]) circle(r=5);
+	translate([len,5]) circle(r=5);
+      }
+      translate([0,5]) circle(d=3);
+      translate([len,5]) circle(d=3);
+      translate([len,5]) rotate(leg_angle) translate([45,0]) circle(d=3);
+    }
+  }
+}
+
+
 translate([0,45,0]) lifter_bar();
-translate([5,42,0]) rotate([0,17,0]) lifter_lever();
+translate([0,106,0]) lifter_bar();
+for(side=[0:1]) {
+  translate([15,42+67*side,0]) rotate([0,17,0]) front_lifter_lever();
+  translate([305,42+67*side,0]) rotate([0,17,0]) back_lifter_lever();
+ }
