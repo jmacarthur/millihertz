@@ -55,11 +55,10 @@ follower_readers = [ 0, 0, 0, 2.5, 4.0 ];
 
 // Fixed sections (chassis)
 module xBar(slotStart, leftSide) {
-
   color([0.5,0.5,0.5]) {
     difference() {
       union() {
-	translate([0,0,-10]) cube([350,3,50]);
+	translate([0,0,-10]) cube([350,3,50]);	
        }    
       for(i=[1:32]) {
 	translate([i*10+1,-thin,5+slotStart]) cube([3,3+thin*2,25-slotStart]);
@@ -179,3 +178,34 @@ color([0,0,1.0]) {
     outer_end_plate();
 }
 
+// Lifting bars
+module lifter_bar()
+{
+  rotate([90,0,0])
+  linear_extrude(height=3) {
+    difference() {
+      square([350,10]);
+      translate([5,5]) circle(d=3);
+      translate([300,5]) circle(d=3);
+    }
+  }
+}
+
+module lifter_lever() {
+  len = 30;
+  rotate([90,0,0])
+    linear_extrude(height=3) {
+    difference() {
+      union() {
+	square([len,10]);
+	translate([0,5]) circle(r=5);
+	translate([len,5]) circle(r=5);
+      }
+      translate([0,5]) circle(d=3);
+      translate([len,5]) circle(d=3);
+    }
+  }
+}
+
+translate([0,45,0]) lifter_bar();
+translate([5,42,0]) rotate([0,17,0]) lifter_lever();
