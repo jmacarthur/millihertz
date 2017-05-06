@@ -300,11 +300,10 @@ module back_lifter_lever() {
 
 
 translate([0,45,0]) lifter_bar();
-translate([0,106,0]) lifter_bar();
-for(y=[-45,0,67]) {
+for(y=[-45,0]) {
   translate([15,42+y,0]) rotate([0,17,0]) front_lifter_lever();
   translate([305,42+y,0]) rotate([0,17,0]) back_lifter_lever();
- }
+}
 
 
 module output_lifter_bar() {
