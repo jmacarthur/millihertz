@@ -11,16 +11,18 @@ $fn = 20;
 
 // Enumeration rods
 for(s=[0:4]) {
-  translate([-15+input_data[s]*5,50+10*s,0])
+  translate([-15+input_data[s]*5,53+10*s,0])
     difference() {
     union() {
-      cube(size=[370,3,10]);
-      // End stops
-      translate([5,0,0]) cube(size=[5,3,12]);
-      translate([351,0,0]) cube(size=[5,3,12]);
-      for(i=[0:31]) {
-	align = 1-(floor(i/pow(2,s)) % 2);
-	translate([20+seesaw_spacing*i+(seesaw_spacing/2)*align,0,10-thin]) cube(size=[(seesaw_spacing/2)+thin,3,seesaw_spacing+thin]);
+      rotate([90,0,0]) linear_extrude(height=3) {
+	square(size=[370,10]);
+	// End stops
+	translate([5,0]) square(size=[5,12]);
+	translate([351,0]) square(size=[5,12]);
+	for(i=[0:31]) {
+	  align = 1-(floor(i/pow(2,s)) % 2);
+	  translate([20+seesaw_spacing*i+(seesaw_spacing/2)*align,10-thin]) square(size=[(seesaw_spacing/2)+thin,seesaw_spacing+thin]);
+	}
       }
     }
     translate([355,4,5]) rotate([90,0,0]) cylinder(d=3,h=5);
