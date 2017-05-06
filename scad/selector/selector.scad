@@ -58,17 +58,18 @@ module xBar(slotStart, leftSide) {
   color([0.5,0.5,0.5]) {
     difference() {
       union() {
-	translate([0,0,-10]) cube([350,3,40]);
+	translate([0,0,-10]) cube([350,3,50]);
        }    
       for(i=[1:32]) {
-	translate([i*10+1,-thin,5+slotStart]) cube([3,3+thin*2,40-slotStart]);
+	translate([i*10+1,-thin,5+slotStart]) cube([3,3+thin*2,25-slotStart]);
       }
     }
   }
 }
 
-translate([0,45,0]) xBar(0,0);
-translate([0,100,0]) xBar(0,0);
+translate([0,45,0]) xBar(5,0);
+translate([0,100,0]) xBar(5,0);
+
 translate([0,110,-10]) cube([350,3,40]);
 
 // Reader levers
@@ -85,8 +86,7 @@ module crank(output_map) {
 	  if(align) {
 	    translate([-40+s*5,0]) polygon(points=[[0,0],[5,0],[4,10],[1,10]]); 
 	  }
-	}
-	
+	}	
       }
       translate([5,0]) circle(r=1.5);
     }
@@ -97,7 +97,7 @@ for(i=[0:31]) {
   rot = (i==raise_position?0:12);
   translate([11+10*i,10,35])
     rotate([rot,0,0]) 
-    crank(i);
+    crank(i); // Here, you should have a map of desired output values
+	      // instead of 'i' - - using the sequence number will not
+	      // produce a very useful function.
 }
-
-
