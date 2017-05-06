@@ -31,16 +31,17 @@ for(s=[0:4]) {
 
 module lever()
 {
-  union() {
-    cube(size=[3,80,10]);
+  difference() {
+    translate([0,-85,-5]) cube(size=[3,90,10]);
+    translate([-1,0,0]) rotate([0,90,0]) cylinder(d=3,h=5);
   }
 }
 
 // The seesaw levers
 color([0.5,0,0]) {
   for(i=[0:31]) {
-    drop = (i==raise_position?-10:0);
-    translate([10+10*i+1,30,20+drop]) lever();
+    rot = (i==raise_position?7.5:0);
+    translate([10+10*i+1,30,20])   translate([0,85,5]) rotate([rot,0,0]) lever();
   }
 }
 
@@ -129,7 +130,7 @@ translate([0,45,0]) xBar(5,20,50,false);
 translate([0,100,0]) xBar(5,20,50,false);
 translate([0,-30,0]) xBar(15,20,30,true);
 
-translate([0,110,10]) cube([350,3,20]);
+//translate([0,110,10]) cube([350,3,20]);
 translate([65,40,-10]) yComb();
 translate([225,40,-10]) yComb();
 
@@ -184,7 +185,7 @@ module inner_end_plate()
     rotate([0,90,0])
   linear_extrude(height=3) {
     difference() {
-      square([150,50]);
+      square([155,50]);
       for(i=[0:4]) {
 	translate([6+i*5,25])
 	  square([3,20]);
@@ -201,8 +202,8 @@ module inner_end_plate()
 	square([3,31]);
       translate([137,-1])
 	square([5,11]);
-      translate([145,-1])
-	square([3,21]);
+      translate([150,15])
+	circle(d=3);
       translate([40,45])
 	square([3,11]);
       translate([5,-1])
@@ -219,7 +220,7 @@ module outer_end_plate()
     rotate([0,90,0])
   linear_extrude(height=3) {
     difference() {
-      square([150,50]);
+      square([155,50]);
       translate([80,-1])
 	square([3,31]);
       translate([76,-1])
@@ -228,12 +229,12 @@ module outer_end_plate()
 	square([3,31]);
       translate([137,-1])
 	square([5,11]);
-      translate([145,-1])
-	square([3,21]);
       translate([26,-1])
 	square([3,22]);
       translate([5,-1])
 	square([3,6]);
+      translate([150,15])
+	circle(d=3);
     }
   }
 }
