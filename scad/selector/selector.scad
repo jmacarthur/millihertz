@@ -49,21 +49,6 @@ translate([0,0,20+5]) rotate([0,90,0]) cylinder(r=1.5,h=350);
 // These are writer arms - they push ball bearings in both directions
 tineSpacing = gridSpacing+ballBearingDiameter;
 
-module biasLever()
-{
-  translate([0,-70,0]) 
-  difference() {
-    union() {
-      cube([3,80,10]);
-      cube([3,10,70]);
-    }
-    translate([-thin,5,5]) rotate([0,90,0]) cylinder(d=3,h=10);
-    translate([-thin,5,45]) rotate([0,90,0]) cylinder(d=3,h=10);
-    translate([-thin,5,60]) rotate([0,90,0]) cylinder(d=3,h=10);
-    translate([-thin,5-1.5,45]) cube([3+thin*2, 3, 15]);
-    translate([-thin,65,8]) cube([3+thin*2, 10, 15]);
-  }
-}
 
 offset1 = -23;
 
@@ -90,25 +75,3 @@ module xBar(slotStart, leftSide, yposition) {
 
 translate([0,-35,0]) xBar(10,0);
 translate([0,110,0]) xBar(0,0,1);
-
-// Bias arms for the enumeration rods
-module enumBiasArm()
-{
-  rotate([90,0,0]) linear_extrude(height=3) {
-    translate([-5,-45]) {
-      difference() {
-	union() {
-	  translate([-70,40]) square([80,10]);
-	  translate([0,0]) square([10,50]);
-	}
-	translate([5,45]) circle(r=1.5);
-	translate([5,10]) circle(r=1.5);
-	translate([5-1.5,0]) square([3,10]);
-      }
-    }
-  }
-}
-
-for(i=[0:4]) {
-  translate([345,50+10*i,45]) rotate([0,7-7*input_data[i],0]) enumBiasArm();
-}
