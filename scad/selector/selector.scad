@@ -1,7 +1,7 @@
 include <globs.scad>;
 
 output_positions = [ 1, 0, 1, 1, 0, 1 ];
-input_data = [ 1, 0, 1, 1, 1 ];
+input_data = [ 0, 0, 1, 1, 0 ];
 
 raise_position = 31-(input_data[0] + input_data[1]*2+input_data[2]*4+
 		     input_data[3]*8+input_data[4]*16);
@@ -70,3 +70,34 @@ module xBar(slotStart, leftSide) {
 translate([0,45,0]) xBar(0,0);
 translate([0,100,0]) xBar(0,0);
 translate([0,110,-10]) cube([350,3,40]);
+
+// Reader levers
+module crank(output_map) {
+  rotate([90,0,0]) rotate([0,90,0])
+  linear_extrude(height=3) {
+    difference() {
+      union() {
+	translate([0,-25]) square([20,5]);
+	translate([0,-25]) square([10,30]);
+	translate([-40,-5]) square([50,10]);
+	for(s=[0:4]) {
+	  align = 1-(floor(output_map/pow(2,s)) % 2);
+	  if(align) {
+	    translate([-40+s*5,0]) polygon(points=[[0,0],[5,0],[4,10],[1,10]]); 
+	  }
+	}
+	
+      }
+      translate([5,0]) circle(r=1.5);
+    }
+  }
+}
+
+for(i=[0:31]) {
+  rot = (i==raise_position?0:12);
+  translate([11+10*i,10,35])
+    rotate([rot,0,0]) 
+    crank(i);
+}
+
+
