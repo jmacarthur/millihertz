@@ -9,24 +9,29 @@ raise_position = 31-(input_data[0] + input_data[1]*2+input_data[2]*4+
 seesaw_spacing = 10;
 $fn = 20;
 
+module enumerator_rod(value)
+{
+  difference() {
+    union() {
+      square(size=[370,10]);
+      // End stops
+      translate([5,0]) square(size=[5,12]);
+      translate([351,0]) square(size=[5,12]);
+      for(i=[0:31]) {
+	align = 1-(floor(i/pow(2,value)) % 2);
+	translate([20+seesaw_spacing*i+(seesaw_spacing/2)*align,10-thin]) square(size=[(seesaw_spacing/2)+thin,seesaw_spacing+thin]);
+      }
+    }
+    translate([355,5]) circle(d=3);
+    translate([7,5]) circle(d=3);
+  }
+}
+
 // Enumeration rods
 for(s=[0:4]) {
   translate([-15+input_data[s]*5,53+10*s,0])
-    difference() {
-    union() {
-      rotate([90,0,0]) linear_extrude(height=3) {
-	square(size=[370,10]);
-	// End stops
-	translate([5,0]) square(size=[5,12]);
-	translate([351,0]) square(size=[5,12]);
-	for(i=[0:31]) {
-	  align = 1-(floor(i/pow(2,s)) % 2);
-	  translate([20+seesaw_spacing*i+(seesaw_spacing/2)*align,10-thin]) square(size=[(seesaw_spacing/2)+thin,seesaw_spacing+thin]);
-	}
-      }
-    }
-    translate([355,4,5]) rotate([90,0,0]) cylinder(d=3,h=5);
-    translate([7,4,5]) rotate([90,0,0]) cylinder(d=3,h=5);
+    rotate([90,0,0]) linear_extrude(height=3) {
+    enumerator_rod(s);
   }
 }
 
