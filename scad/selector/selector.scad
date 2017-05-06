@@ -184,6 +184,41 @@ for(i=[0:4]) {
  }
 
 
+module common_endplate_cutaway()
+{
+  translate([76,-1])
+    square([5,11]);
+  translate([5,-1])
+    square([3,6]);
+  translate([135,-1])
+    square([3,31]);
+  translate([137,-1])
+    square([5,11]);
+  translate([150,15])
+    circle(d=3);
+  translate([26,-1])
+    square([3,22]);
+  translate([80,-1])
+    square([3,31]);
+}
+
+
+module inner_end_plate_2d()
+{
+  difference() {
+    square([155,50]);
+    for(i=[0:4]) {
+      translate([6+i*5,25])
+	square([3,20]);
+    }
+    translate([50,25])
+      circle(d=3);
+    translate([40,45])
+      square([3,11]);
+    common_endplate_cutaway();
+  }
+}
+
 // End bars
 module inner_end_plate()
 {
@@ -191,31 +226,7 @@ module inner_end_plate()
     rotate([90,0,0])
     rotate([0,90,0])
   linear_extrude(height=3) {
-    difference() {
-      square([155,50]);
-      for(i=[0:4]) {
-	translate([6+i*5,25])
-	  square([3,20]);
-      }
-      translate([26,-1])
-	square([3,22]);
-      translate([50,25])
-	circle(d=3);
-      translate([80,-1])
-	square([3,31]);
-      translate([76,-1])
-	square([5,11]);
-      translate([135,-1])
-	square([3,31]);
-      translate([137,-1])
-	square([5,11]);
-      translate([150,15])
-	circle(d=3);
-      translate([40,45])
-	square([3,11]);
-      translate([5,-1])
-	square([3,6]);
-    }
+    inner_end_plate_2d();
   }
 }
 
@@ -225,23 +236,10 @@ module outer_end_plate()
   translate([0,-35,10])
     rotate([90,0,0])
     rotate([0,90,0])
-  linear_extrude(height=3) {
+    linear_extrude(height=3) {
     difference() {
       square([155,50]);
-      translate([80,-1])
-	square([3,31]);
-      translate([76,-1])
-	square([5,11]);
-      translate([135,-1])
-	square([3,31]);
-      translate([137,-1])
-	square([5,11]);
-      translate([26,-1])
-	square([3,22]);
-      translate([5,-1])
-	square([3,6]);
-      translate([150,15])
-	circle(d=3);
+      common_endplate_cutaway();
     }
   }
 }
@@ -270,38 +268,46 @@ module lifter_bar()
   }
 }
 
-module front_lifter_lever() {
+module front_lifter_lever_2d() {
   len = 30;
+  difference() {
+    union() {
+      square([len,10]);
+      translate([0,5]) circle(r=5);
+      translate([len,5]) circle(r=5);
+    }
+    translate([0,5]) circle(d=3);
+    translate([len,5]) circle(d=3);
+  }
+}
+
+module front_lifter_lever() {
   rotate([90,0,0])
     linear_extrude(height=3) {
-    difference() {
-      union() {
-	square([len,10]);
-	translate([0,5]) circle(r=5);
-	translate([len,5]) circle(r=5);
-      }
-      translate([0,5]) circle(d=3);
-      translate([len,5]) circle(d=3);
+    front_lifter_lever_2d();
+  }
+}
+
+module back_lifter_lever_2d() {
+  len = 30;
+  leg_angle = 45;
+  difference() {
+    union() {
+      square([len,10]);
+      translate([len,0]) translate([0,5]) rotate(leg_angle) translate([0,-5]) square([50,10]);
+      translate([0,5]) circle(r=5);
+      translate([len,5]) circle(r=5);
     }
+    translate([0,5]) circle(d=3);
+    translate([len,5]) circle(d=3);
+    translate([len,5]) rotate(leg_angle) translate([45,0]) circle(d=3);
   }
 }
 
 module back_lifter_lever() {
-  len = 30;
-  leg_angle = 45;
   rotate([90,0,0])    
     linear_extrude(height=3) {
-    difference() {
-      union() {
-	square([len,10]);
-        translate([len,0]) translate([0,5]) rotate(leg_angle) translate([0,-5]) square([50,10]);
-	translate([0,5]) circle(r=5);
-	translate([len,5]) circle(r=5);
-      }
-      translate([0,5]) circle(d=3);
-      translate([len,5]) circle(d=3);
-      translate([len,5]) rotate(leg_angle) translate([45,0]) circle(d=3);
-    }
+    back_lifter_lever_2d();
   }
 }
 
