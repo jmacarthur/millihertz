@@ -64,30 +64,34 @@ readWriteYOffset = -4.5;
 reader_positions = [ 4, 2.5, 0, 0, 0 ];
 follower_readers = [ 0, 0, 0, 2.5, 4.0 ];
 
+module xBar_2d(slotStart, slotHeight, height, hooks) {
+  difference() {
+    union() {
+      translate([0,-10]) square([350,height]);	
+    }    
+    for(i=[1:32]) {
+      translate([i*10+1,5+slotStart]) square([3,slotHeight]);
+    }
+    translate([45,-5]) circle(d=3);
+    translate([335,-5]) circle(d=3);
+    translate([65,-11]) square([3,6]);
+    translate([225,-11]) square([3,6]);
+    if(hooks) {
+      translate([5,15]) square([3,6]);
+      translate([325,15]) square([3,6]);
+      translate([0,15]) square([3,6]);
+      translate([333,15]) square([3,6]);
+    }
+  }
+}
+
 // Fixed sections (chassis)
 module xBar(slotStart, slotHeight, height, hooks) {
   color([0.5,0.5,0.5]) {
     translate([0,3,0]) 
     rotate([90,0,0]) 
     linear_extrude(height=3) {
-      difference() {
-	union() {
-	  translate([0,-10]) square([350,height]);	
-	}    
-	for(i=[1:32]) {
-	  translate([i*10+1,5+slotStart]) square([3,slotHeight]);
-	}
-	translate([45,-5]) circle(d=3);
-	translate([335,-5]) circle(d=3);
-	translate([65,-11]) square([3,6]);
-	translate([225,-11]) square([3,6]);
-	if(hooks) {
-	  translate([5,15]) square([3,6]);
-	  translate([325,15]) square([3,6]);
-	  translate([0,15]) square([3,6]);
-	  translate([333,15]) square([3,6]);
-	}
-      }
+      xBar_2d(slotStart, slotHeight, height, hooks);
     }
   }
 }
@@ -111,24 +115,29 @@ module outputComb() {
   }
 }
 
+module yComb_2d()
+{
+  difference() {
+    union() {
+      
+      square([65,10]);
+      for(i=[0:4]) {
+	translate([13+i*10,9])
+	  square([7,11]);	
+      }
+      translate([8,9])
+	square([2,6]);	
+      
+    }
+    translate([5,5]) square([3,6]);
+    translate([60,5]) square([3,6]);
+  }
+}
+
 module yComb() {
   rotate([90,0,0]) rotate([0,90,0]) 
   linear_extrude(height=3) {
-    difference() {
-      union() {
-     
-	square([65,10]);
-	for(i=[0:4]) {
-	  translate([13+i*10,9])
-	    square([7,11]);	
-	}
-	translate([8,9])
-	square([2,6]);	
-
-      }
-      translate([5,5]) square([3,6]);
-      translate([60,5]) square([3,6]);
-    }
+    yComb_2d();
   }
 }
 
@@ -141,24 +150,29 @@ translate([0,-30,0]) xBar(15,20,30,true);
 translate([65,40,-10]) yComb();
 translate([225,40,-10]) yComb();
 
+module crank_2d(output_map)
+{
+  difference() {
+    union() {
+      translate([-5,-25]) square([20,5]);
+      translate([-5,-25]) square([10,30]);
+      translate([-45,-5]) square([50,10]);
+      for(s=[0:4]) {
+	align = 1-(floor(output_map/pow(2,s)) % 2);
+	if(align) {
+	  translate([-45+s*5,0]) polygon(points=[[0,0],[5,0],[4,10],[1,10]]); 
+	}
+      }	
+    }
+    translate([0,0]) circle(r=1.5);
+  }
+}
+
 // Reader levers
 module crank(output_map) {
   rotate([90,0,0]) rotate([0,90,0])
   linear_extrude(height=3) {
-    difference() {
-      union() {
-	translate([-5,-25]) square([20,5]);
-	translate([-5,-25]) square([10,30]);
-	translate([-45,-5]) square([50,10]);
-	for(s=[0:4]) {
-	  align = 1-(floor(output_map/pow(2,s)) % 2);
-	  if(align) {
-	    translate([-45+s*5,0]) polygon(points=[[0,0],[5,0],[4,10],[1,10]]); 
-	  }
-	}	
-      }
-      translate([0,0]) circle(r=1.5);
-    }
+    crank_2d(output_map);
   }
 }
 
