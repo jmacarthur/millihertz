@@ -16,8 +16,8 @@ for(s=[0:4]) {
     union() {
       cube(size=[370,3,10]);
       // End stops
-      translate([10,0,0]) cube(size=[5,3,12]);
-      translate([343,0,0]) cube(size=[5,3,12]);
+      translate([5,0,0]) cube(size=[5,3,12]);
+      translate([351,0,0]) cube(size=[5,3,12]);
       for(i=[0:31]) {
 	align = 1-(floor(i/pow(2,s)) % 2);
 	translate([20+seesaw_spacing*i+(seesaw_spacing/2)*align,0,10-thin]) cube(size=[(seesaw_spacing/2)+thin,3,seesaw_spacing+thin]);
@@ -57,7 +57,7 @@ reader_positions = [ 4, 2.5, 0, 0, 0 ];
 follower_readers = [ 0, 0, 0, 2.5, 4.0 ];
 
 // Fixed sections (chassis)
-module xBar(slotStart, slotHeight, height) {
+module xBar(slotStart, slotHeight, height, hooks) {
   color([0.5,0.5,0.5]) {
     translate([0,3,0]) 
     rotate([90,0,0]) 
@@ -73,8 +73,12 @@ module xBar(slotStart, slotHeight, height) {
 	translate([335,-5]) circle(d=3);
 	translate([65,-11]) square([3,6]);
 	translate([225,-11]) square([3,6]);
-	translate([5,15]) square([3,6]);
-	translate([325,15]) square([3,6]);
+	if(hooks) {
+	  translate([5,15]) square([3,6]);
+	  translate([325,15]) square([3,6]);
+	  translate([0,15]) square([3,6]);
+	  translate([333,15]) square([3,6]);
+	}
       }
     }
   }
@@ -121,9 +125,9 @@ module yComb() {
 }
 
 translate([0,5,30]) outputComb();
-translate([0,45,0]) xBar(5,20,50);
-translate([0,100,0]) xBar(5,20,50);
-translate([0,-30,0]) xBar(15,20,30);
+translate([0,45,0]) xBar(5,20,50,false);
+translate([0,100,0]) xBar(5,20,50,false);
+translate([0,-30,0]) xBar(15,20,30,true);
 
 translate([0,110,10]) cube([350,3,20]);
 translate([65,40,-10]) yComb();
@@ -226,6 +230,10 @@ module outer_end_plate()
 	square([5,11]);
       translate([145,-1])
 	square([3,21]);
+      translate([26,-1])
+	square([3,22]);
+      translate([5,-1])
+	square([3,6]);
     }
   }
 }
@@ -235,10 +243,10 @@ color([0,0,1.0]) {
   inner_end_plate();
   translate([325,0,0])
   inner_end_plate();
-  /*translate([0,0,0])
-    outer_end_plate();
+  translate([0,0,0])
+  outer_end_plate();
   translate([333,0,0])
-  outer_end_plate();*/
+  outer_end_plate();
 }
 
 // Lifting bars
