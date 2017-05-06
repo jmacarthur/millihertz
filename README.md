@@ -1,5 +1,7 @@
 # Millihertz mechanical computing repository
 
+![3D printed rule 110 robot]({{site.url}}/docs/110bot.jpeg)
+
 This is a repository of CAD/CAM parts and text descriptions for mechanical and unusual computing.
 
 * Diagrams: 2D explanatory diagrams, usually for documentation.
