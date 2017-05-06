@@ -1,6 +1,6 @@
 # Millihertz mechanical computing repository
 
-![3D printed rule 110 robot][docs/110bot.jpeg]
+![3D printed rule 110 robot](docs/110bot.jpeg)
 
 This is a repository of CAD/CAM parts and text descriptions for mechanical and unusual computing.
 
