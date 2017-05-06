@@ -134,6 +134,8 @@ module inner_end_plate()
 	translate([6+i*5,25])
 	  square([3,20]);
       }
+      translate([26,-1])
+	square([3,22]);
       translate([50,25])
 	circle(d=3);
       translate([80,-1])
@@ -178,10 +180,10 @@ color([0,0,1.0]) {
   inner_end_plate();
   translate([325,0,0])
   inner_end_plate();
-  translate([0,0,0])
+  /*translate([0,0,0])
     outer_end_plate();
   translate([333,0,0])
-    outer_end_plate();
+  outer_end_plate();*/
 }
 
 // Lifting bars
@@ -235,7 +237,21 @@ module back_lifter_lever() {
 
 translate([0,45,0]) lifter_bar();
 translate([0,106,0]) lifter_bar();
-for(side=[0:1]) {
-  translate([15,42+67*side,0]) rotate([0,17,0]) front_lifter_lever();
-  translate([305,42+67*side,0]) rotate([0,17,0]) back_lifter_lever();
+for(y=[-45,0,67]) {
+  translate([15,42+y,0]) rotate([0,17,0]) front_lifter_lever();
+  translate([305,42+y,0]) rotate([0,17,0]) back_lifter_lever();
  }
+
+
+module output_lifter_bar() {
+  rotate([90,0,0]) 
+    linear_extrude(height=3) {
+    difference() {
+      square([330,20]);
+      translate([17,5]) circle(d=3);
+      translate([307,5]) circle(d=3);
+    }
+  }
+}
+
+translate([0,-6,0]) output_lifter_bar();
