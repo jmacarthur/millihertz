@@ -47,6 +47,8 @@ raise_position = n_positions-1-(input_data[0] + input_data[1]*2+input_data[2]*4+
 		     input_data[3]*8+input_data[4]*16);
 
 
+x_internal_space = 10*n_positions;
+
 module enumerator_rod(value)
 {
   difference() {
@@ -102,20 +104,20 @@ follower_readers = [ 0, 0, 0, 2.5, 4.0 ];
 module xBar_2d(slotStart, slotHeight, height, hooks) {
   difference() {
     union() {
-      translate([0,-10]) square([350,height]);	
-    }    
-    for(i=[1:32]) {
+      translate([0,-10]) square([20+x_internal_space,height]);
+    }
+    for(i=[1:n_positions]) {
       translate([i*10+1,5+slotStart]) square([3,slotHeight]);
     }
     translate([45,-5]) circle(d=3);
-    translate([335,-5]) circle(d=3);
+    translate([15+x_internal_space,-5]) circle(d=3);
     translate([65,-11]) square([3,6]);
-    translate([225,-11]) square([3,6]);
+    translate([225,-11]) square([3,6]); // Location of second input bar support
     if(hooks) {
       translate([5,15]) square([3,6]);
-      translate([325,15]) square([3,6]);
+      translate([5+x_internal_space,15]) square([3,6]);
       translate([0,15]) square([3,6]);
-      translate([333,15]) square([3,6]);
+      translate([13+x_internal_space,15]) square([3,6]);
     }
   }
 }
@@ -134,11 +136,11 @@ module xBar(slotStart, slotHeight, height, hooks) {
 module outputComb_2d() {
   difference() {
     union() {
-      translate([5,0]) square([323,30]);	
+      translate([5,0]) square([3+x_internal_space,30]);
     }
     translate([0,-1]) square([8,26]);
-    translate([323,-1]) square([8,26]);
-    for(i=[0:31]) {
+    translate([3+x_internal_space,-1]) square([8,26]);
+    for(i=[0:n_positions-1]) {
       translate([11+i*10,-1]) square([3,20]);	
     }
   }  
@@ -185,7 +187,6 @@ translate([0,45,0]) xBar(5,20,50,false);
 translate([0,100,0]) xBar(5,20,50,false);
 translate([0,-30,0]) xBar(15,20,30,true);
 
-//translate([0,110,10]) cube([350,3,20]);
 translate([65,40,-10]) yComb();
 translate([225,40,-10]) yComb();
 
