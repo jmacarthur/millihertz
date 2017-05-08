@@ -53,10 +53,10 @@ module enumerator_rod(value)
 {
   difference() {
     union() {
-      square(size=[370,10]);
+      square(size=[50+x_internal_space,10]);
       // End stops
       translate([5,0]) square(size=[5,12]);
-      translate([351,0]) square(size=[5,12]);
+      translate([31+x_internal_space,0]) square(size=[5,12]);
       positions = pow(2,n_inputs);
       for(i=[0:positions-1]) {
 	align = 1-(floor(i/pow(2,value)) % 2);
@@ -306,11 +306,11 @@ module outer_end_plate()
 color([0,0,1.0]) {
   translate([5,0,0])
   inner_end_plate();
-  translate([325,0,0])
+  translate([5+x_internal_space,0,0])
   inner_end_plate();
   translate([0,0,0])
   outer_end_plate();
-  translate([333,0,0])
+  translate([13+x_internal_space,0,0])
   outer_end_plate();
 }
 
