@@ -317,9 +317,9 @@ color([0,0,1.0]) {
 module lifter_bar_2d()
 {
   difference() {
-    square([350,10]);
+    square([30+x_internal_space,10]);
     translate([17,5]) circle(d=3);
-    translate([307,5]) circle(d=3);
+    translate([x_internal_space-13,5]) circle(d=3);
   }
 }
 
@@ -379,15 +379,15 @@ module back_lifter_lever() {
 translate([0,45,0]) lifter_bar();
 for(y=[-45,0]) {
   translate([15,42+y,0]) rotate([0,17,0]) front_lifter_lever();
-  translate([305,42+y,0]) rotate([0,17,0]) back_lifter_lever();
+  translate([x_internal_space-15,42+y,0]) rotate([0,17,0]) back_lifter_lever();
 }
 
 
 module output_lifter_bar_2d() {
   difference() {
-    square([330,20]);
+    square([10+x_internal_space,20]);
     translate([17,5]) circle(d=3);
-    translate([307,5]) circle(d=3);
+    translate([x_internal_space-13,5]) circle(d=3);
   }
 }
 
