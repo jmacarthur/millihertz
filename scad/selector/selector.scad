@@ -37,6 +37,12 @@ input_data = [ 0, 1, 1, 1, 0 ];
 
 
 
+// Enumerator supports still have to be manually placed when changing n_inputs.
+// For n=5, we suggest [64,225].
+
+enumerator_support_x1 = 64;
+enumerator_support_x2 = 135;
+
 // Calculated globals
 
 
@@ -111,8 +117,8 @@ module xBar_2d(slotStart, slotHeight, height, hooks) {
     }
     translate([45,-5]) circle(d=3);
     translate([15+x_internal_space,-5]) circle(d=3);
-    translate([65,-11]) square([3,6]);
-    translate([225,-11]) square([3,6]); // Location of second input bar support
+    translate([enumerator_support_x1,-11]) square([3,6]);
+    translate([enumerator_support_x2,-11]) square([3,6]);
     if(hooks) {
       translate([5,15]) square([3,6]);
       translate([5+x_internal_space,15]) square([3,6]);
@@ -187,8 +193,8 @@ translate([0,45,0]) xBar(5,20,50,false);
 translate([0,100,0]) xBar(5,20,50,false);
 translate([0,-30,0]) xBar(15,20,30,true);
 
-translate([65,40,-10]) yComb();
-translate([225,40,-10]) yComb();
+translate([enumerator_support_x1,40,-10]) yComb();
+translate([enumerator_support_x2,40,-10]) yComb();
 
 module crank_2d(output_map)
 {
@@ -232,7 +238,7 @@ translate([3,15,35]) rotate([0,90,0]) cylinder(r=1.5,h=330);
 // Output summing bars
 for(i=[0:4]) {
   union() {
-    translate([3,-29+i*5,45]) cube([330,3,10]);
+    translate([3,-29+i*5,45]) cube([x_internal_space+10,3,10]);
     translate([10+10*i,-29+i*5,45]) cube([10,3,20]);
   }
  }
