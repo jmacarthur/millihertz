@@ -52,10 +52,6 @@ color([0.5,0,0]) {
   }
 }
 
-// These are writer arms - they push ball bearings in both directions
-tineSpacing = gridSpacing+ballBearingDiameter;
-
-
 offset1 = -23;
 
 readWriteXOffset = -10;
@@ -248,6 +244,14 @@ module inner_end_plate()
   }
 }
 
+module outer_end_plate_2d()
+{
+  difference() {
+    square([155,50]);
+    common_endplate_cutaway();
+  }
+}
+
 // End bars
 module outer_end_plate()
 {
@@ -255,10 +259,7 @@ module outer_end_plate()
     rotate([90,0,0])
     rotate([0,90,0])
     linear_extrude(height=3) {
-    difference() {
-      square([155,50]);
-      common_endplate_cutaway();
-    }
+    outer_end_plate_2d();
   }
 }
 
