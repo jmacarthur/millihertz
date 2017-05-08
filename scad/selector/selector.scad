@@ -16,22 +16,36 @@ fall. There can be as many output rods as you like, within reason,
 providing any function of the five inputs. This implementation has 5
 outputs.
 
+Note that the output rods are unpowered; you will need to find some
+other means to amplify the output.
+
 */
-
-
 
 include <globs.scad>;
 
 
+// Various parameters
+follower_spacing = 10; // Spacing between each input follower
+$fn = 20;
 
-output_positions = [ 1, 0, 1, 1, 0, 1 ];
-input_data = [ 0, 0, 0, 0, 1 ];
+// Number of inputs. This was originally defined for 5 inputs;
+// other numbers may work, but are in development.
+n_inputs = 4;
 
-raise_position = 31-(input_data[0] + input_data[1]*2+input_data[2]*4+
+// The position of the input rods for this rendering
+input_data = [ 0, 1, 1, 1, 0 ];
+
+
+
+// Calculated globals
+
+
+n_positions = pow(2,n_inputs);
+// Calculates the position of the fallen input follower and raised
+// crank for this rendering.
+raise_position = n_positions-1-(input_data[0] + input_data[1]*2+input_data[2]*4+
 		     input_data[3]*8+input_data[4]*16);
 
-follower_spacing = 10;
-$fn = 20;
 
 module enumerator_rod(value)
 {
@@ -41,7 +55,8 @@ module enumerator_rod(value)
       // End stops
       translate([5,0]) square(size=[5,12]);
       translate([351,0]) square(size=[5,12]);
-      for(i=[0:31]) {
+      positions = pow(2,n_inputs);
+      for(i=[0:positions-1]) {
 	align = 1-(floor(i/pow(2,value)) % 2);
 	translate([20+follower_spacing*i+(follower_spacing/2)*align,10-thin]) square(size=[(follower_spacing/2)+thin,follower_spacing+thin]);
       }
@@ -52,7 +67,7 @@ module enumerator_rod(value)
 }
 
 // Enumeration rods
-for(s=[0:4]) {
+for(s=[0:n_inputs-1]) {
   translate([-15+input_data[s]*5,53+10*s,0])
     rotate([90,0,0]) linear_extrude(height=3) {
     enumerator_rod(s);
@@ -70,7 +85,7 @@ module lever()
 
 // The follower levers
 color([0.5,0,0]) {
-  for(i=[0:31]) {
+  for(i=[0:n_positions-1]) {
     rot = (i==raise_position?7.5:0);
     translate([10+10*i+1,30,20])   translate([0,85,5]) rotate([rot,0,0]) lever();
   }
@@ -200,7 +215,7 @@ module crank(output_map) {
   }
 }
 
-for(i=[0:31]) {
+for(i=[0:n_positions-1]) {
   rot = (i==raise_position?0:12);
   translate([11+10*i,15,35])
     rotate([rot,0,0]) 
