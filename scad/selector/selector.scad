@@ -1,4 +1,28 @@
+/* Universal combinational logic element suitable for laser cutting. 
+
+The system comprises four main moving parts: 
+
+1) Input rods (enumeration rods) - there are N of these. These are
+moved backwards and forwards, with a travel of 10mm.
+
+2) Input followers. There are 2^N of these, and one of them will fall
+into a gap made by the enumeration rods.
+
+3) Cranks. These are meant to fall into gaps when the input followers
+don't fall, negating that function.
+
+4) Output rods. These will be lifted up by the crank that doesn't
+fall. There can be as many output rods as you like, within reason,
+providing any function of the five inputs. This implementation has 5
+outputs.
+
+*/
+
+
+
 include <globs.scad>;
+
+
 
 output_positions = [ 1, 0, 1, 1, 0, 1 ];
 input_data = [ 0, 0, 0, 0, 1 ];
@@ -6,7 +30,7 @@ input_data = [ 0, 0, 0, 0, 1 ];
 raise_position = 31-(input_data[0] + input_data[1]*2+input_data[2]*4+
 		     input_data[3]*8+input_data[4]*16);
 
-seesaw_spacing = 10;
+follower_spacing = 10;
 $fn = 20;
 
 module enumerator_rod(value)
@@ -19,7 +43,7 @@ module enumerator_rod(value)
       translate([351,0]) square(size=[5,12]);
       for(i=[0:31]) {
 	align = 1-(floor(i/pow(2,value)) % 2);
-	translate([20+seesaw_spacing*i+(seesaw_spacing/2)*align,10-thin]) square(size=[(seesaw_spacing/2)+thin,seesaw_spacing+thin]);
+	translate([20+follower_spacing*i+(follower_spacing/2)*align,10-thin]) square(size=[(follower_spacing/2)+thin,follower_spacing+thin]);
       }
     }
     translate([355,5]) circle(d=3);
@@ -44,7 +68,7 @@ module lever()
   }
 }
 
-// The seesaw levers
+// The follower levers
 color([0.5,0,0]) {
   for(i=[0:31]) {
     rot = (i==raise_position?7.5:0);
