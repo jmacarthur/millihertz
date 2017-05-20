@@ -21,10 +21,10 @@ def process_path(path_array, paths):
     if current_path != []:
         paths.append(current_path)
 
-def outset(path):
+def offset(path, amount):
     pco = pyclipper.PyclipperOffset()
     pco.AddPath(path, pyclipper.JT_ROUND, pyclipper.ET_CLOSEDPOLYGON)
-    solution = pco.Execute(7.0)
+    solution = pco.Execute(amount)
     # TODO: Needs to be scaled so Clipper can use integers
     print("Outset version: %r"%solution)
     
@@ -42,7 +42,16 @@ def main():
             path = child.attrib['d'].strip().split(" ")
             process_path(path, paths)
     for p in paths:
-        print("\nPath: %r"%p)
-        outset(p)
+        for point in p:
+            for exterior_polygon in paths:
+                if point_inside_polygon(p, exterior_polygon):
+                    # This polygon is interior
+                    print("\nInterior path: %r"%p)
+                    offset(p,-1.0)
+                    
+                else:
+                    # This polygon is exterior
+                    print("\nExterior path: %r"%p)
+                    offset(p, 1.0)
 if __name__ == "__main__":
     main()
