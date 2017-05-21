@@ -42,5 +42,8 @@ module injector()
 
 module rowBar()
 {
-  square(size=[25*cols+50,6]);
+  union() {
+    translate([-50,1.5]) square(size=[25*cols+150,3]);
+    square(size=[25*cols+50,6]);
+  }
 }
