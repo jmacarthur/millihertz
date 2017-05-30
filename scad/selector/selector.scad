@@ -244,13 +244,18 @@ for(i=[0:n_positions-1]) {
 translate([3,15,35]) rotate([0,90,0]) cylinder(r=1.5,h=330);
 
 
+module output_sum_bar(i)
+{
+  union() {
+    square([x_internal_space + 10, 10]);
+    translate([7+10*i, 0]) square([10,20]);
+  }
+}
+
 // Output summing bars
 for(i=[0:4]) {
-  union() {
-    translate([3,-29+i*5,45]) cube([x_internal_space+10,3,10]);
-    translate([10+10*i,-29+i*5,45]) cube([10,3,20]);
-  }
- }
+  translate([3,-26+i*5,45]) rotate([90,0,0]) linear_extrude(height=3) output_sum_bar(i);
+}
 
 
 module common_endplate_cutaway()

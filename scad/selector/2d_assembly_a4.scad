@@ -1,10 +1,12 @@
 use <selector.scad>;
 
 // A4 Page as a guide
-translate([0,0,-5]) color([0.1,0.1,0.1,0.1]) square(size=[297,210]);
+
+/*translate([0,0,-5]) color([0.1,0.1,0.1,0.1]) square(size=[297,210]);
 translate([297+50,0,-5]) color([0.1,0.1,0.1,0.1]) square(size=[297,210]);
 translate([0,210+50,-5]) color([0.1,0.1,0.1,0.1]) square(size=[297,210]);
-
+translate([297+50,210+50,-5]) color([0.1,0.1,0.1,0.1]) square(size=[297,210]);
+*/
 margin = 5;
 
 // Page 1 - enumerators and end plates
@@ -53,4 +55,15 @@ translate([margin+110,440+margin]) rotate(150) back_lifter_lever_2d();
 
 translate([margin+265,margin+260]) rotate(90) output_lifter_bar_2d();
 
+// Page 4 - all follower rods
+for(x=[0:18]) {
+  for(y=[0:1]) {
+    translate([margin+355+15*x, 350+margin+y*95]) rotate(90) lever_2d();
+  }
+ }
 
+// Output bars
+
+for(i=[0:4]) {
+  translate([margin, 500+30*i]) output_sum_bar(i);
+}
