@@ -1,11 +1,12 @@
 include <ram.scad>
+use <../selector/selector.scad>
 
 activated_column = 2;
 activated_row = 1;
 
 column_x_spacing = 25;
-inject = true;
-eject = false;
+inject = false;
+eject = true;
 
 balls = true;
 
@@ -60,3 +61,30 @@ if(balls) {
     }
   }
 }
+
+
+for(side=[0,1])
+translate([-22+215*side,0,-5])
+rotate([0,0,90])
+rotate([90,0,0])
+linear_extrude(height=3) {
+  yAxisComb();
+}
+
+// Objects from the selector (3D)
+// Enumeration rods
+follower_spacing = 20;
+n_inputs = 3;
+input_data = [ 1, 1, 0 ];
+
+
+for(side = [0,1]) {
+  translate([20+260*side,-10,-10])
+    rotate([0,0,90])
+    for(s=[0:2]) {
+      translate([-15+input_data[s]*10,53+10*s,0])
+	rotate([90,0,0]) linear_extrude(height=3) {
+	enumerator_rod(s, n_inputs, follower_spacing);
+      }
+    }
+ }

@@ -47,3 +47,15 @@ module rowBar()
     square(size=[25*cols+50,6]);
   }
 }
+
+// Y Axis combs
+
+module yAxisComb()
+{
+  difference() {
+    square(size=[200,20]);
+    for(r=[0:rows]) {
+      translate([r*20+6,10]) square(size=[6,11]);
+    }
+  }
+}
