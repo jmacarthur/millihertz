@@ -41,7 +41,8 @@ module rowControl()
   }
     
   color([0.5,0.5,0.5,0.5])
-    translate([-20,0,3])
+    translate([-20,3+1.5,3])
+    rotate([90,0,0])
     linear_extrude(height=3) {
     rowBar();
   }
@@ -64,7 +65,7 @@ if(balls) {
 
 
 for(side=[0,1])
-translate([-22+215*side,0,-5])
+translate([-22+221*side,0,-5])
 rotate([0,0,90])
 rotate([90,0,0])
 linear_extrude(height=3) {

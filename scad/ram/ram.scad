@@ -28,14 +28,18 @@ module backing()
 
 module ejector()
 {
-  square(size=[6,6]);
+  difference() {
+    square(size=[6,6]);
+    translate([1.5,1.5]) square(size=[3,3]);
+  }
 }
 
 module injector()
 {
   difference() {
-    square(size=[6,6]);
+    square(size=[12,6]);
     translate([0,6]) circle(r=6);
+    translate([6+1.5,1.5]) square(size=[3,3]);
   }
 }
 
@@ -43,8 +47,10 @@ module injector()
 module rowBar()
 {
   union() {
-    translate([-50,1.5]) square(size=[25*cols+150,3]);
     square(size=[25*cols+50,6]);
+    for(c=[0:cols-1]) {
+      translate([10-1.5+c*25,-3]) square([3,4]);
+    }
   }
 }
 
