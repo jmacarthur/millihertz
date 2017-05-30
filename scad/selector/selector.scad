@@ -59,7 +59,7 @@ module enumerator_rod(value)
 {
   difference() {
     union() {
-      square(size=[50+x_internal_space,10]);
+      square(size=[40+x_internal_space,10]);
       // End stops
       translate([5,0]) square(size=[5,12]);
       translate([31+x_internal_space,0]) square(size=[5,12]);
