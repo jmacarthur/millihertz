@@ -5,12 +5,14 @@ cols = 8;
 
 module rowSelect()
 {
-  difference() {
-    square(size=[10,20*rows]);
-    for(i=[0:rows-1]) {
-      translate([0,i*20]) circle(r=6);
-      translate([0,i*20+12]) circle(r=6);
+  union() {
+    difference() {
+      square(size=[10,20*rows+6]);
+      for(i=[0:rows]) {
+	translate([0,i*20]) circle(r=6);
+	translate([0,i*20+12]) circle(r=6);
       translate([-1,i*20+12]) square(size=[7,8]);
+      }
     }
   }
 }
@@ -18,10 +20,10 @@ module rowSelect()
 module backing()
 {
   difference() {
-    square(size=[10,20*rows]);
-    for(i=[0:rows-1]) {
+    square(size=[10,20*rows+6]);
+    for(i=[0:rows]) {
       translate([10,i*20-1]) circle(r=6);
-      translate([4,i*20+5]) polygon(points=[[0,0], [7,1], [7,7], [0,6]]);
+      if(i!=rows) translate([4,i*20+5]) polygon(points=[[0,0], [7,1], [7,7], [0,6]]);
     }
   }
 }

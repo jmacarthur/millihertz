@@ -11,7 +11,7 @@ eject = true;
 balls = true;
 
 for(i=[0:cols-1]) {
-  translate([i*column_x_spacing,(i==activated_column?-7:0),0]) 
+  translate([i*column_x_spacing,(i==activated_column?13:0),0])
     linear_extrude(height=3) {
     rowSelect();
   }
@@ -73,7 +73,7 @@ linear_extrude(height=3) {
 }
 
 // Objects from the selector (3D)
-// Enumeration rods
+// Row enumeration rods
 follower_spacing = 20;
 n_inputs = 3;
 input_data = [ 1, 1, 0 ];
@@ -89,3 +89,14 @@ for(side = [0,1]) {
       }
     }
  }
+
+
+// Column enumeration rods
+translate([0,150,-10])
+for(s=[0:2]) {
+  translate([-15+input_data[s]*10,53+10*s,1])
+    rotate([90,0,0]) linear_extrude(height=3) {
+    enumerator_rod(s, n_inputs, follower_spacing);
+  }
+ }
+
