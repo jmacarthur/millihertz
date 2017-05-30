@@ -82,16 +82,25 @@ for(s=[0:n_inputs-1]) {
   }
 }
 
-
-module lever()
+// The follower levers
+module lever_2d()
 {
   difference() {
-    translate([0,-85,-5]) cube(size=[3,90,10]);
-    translate([-1,0,0]) rotate([0,90,0]) cylinder(d=3,h=5);
+    union() {
+      translate([-85,-5]) square(size=[85,10]);
+      circle(d=10);
+    }
+    circle(d=3);
   }
 }
 
-// The follower levers
+module lever()
+{
+  rotate([90,0,0])
+  rotate([0,90,0])
+  linear_extrude(height=3) lever_2d();
+}
+
 color([0.5,0,0]) {
   for(i=[0:n_positions-1]) {
     rot = (i==raise_position?7.5:0);
