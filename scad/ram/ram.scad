@@ -47,9 +47,9 @@ module injector()
 module rowBar()
 {
   union() {
-    square(size=[25*cols+50,6]);
-    for(c=[0:cols-1]) {
-      translate([10-1.5+c*25,-3]) square([3,4]);
+    square(size=[25*cols+120,6]);
+    for(c=[0:cols]) {
+      translate([70-1.5+c*25,-3]) square([3,4]);
     }
   }
 }
@@ -61,7 +61,7 @@ module yAxisComb()
   difference() {
     square(size=[200,20]);
     for(r=[0:rows]) {
-      translate([r*20+6,10]) square(size=[6,11]);
+      translate([r*20+7.5,10]) square(size=[3,11]);
     }
   }
 }

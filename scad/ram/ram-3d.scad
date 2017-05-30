@@ -2,7 +2,7 @@ include <ram.scad>
 use <../selector/selector.scad>
 
 activated_column = 2;
-activated_row = 1;
+activated_row = 4;
 
 column_x_spacing = 25;
 inject = false;
@@ -40,8 +40,8 @@ module rowControl()
     }
   }
     
-  color([0.5,0.5,0.5,0.5])
-    translate([-20,3+1.5,3])
+  color([0.5,0.5,0.5,1.0])
+    translate([-80,3+1.5,3])
     rotate([90,0,0])
     linear_extrude(height=3) {
     rowBar();
@@ -52,7 +52,7 @@ module rowControl()
 for(i=[0:rows-1]) {
   active = (activated_row==i?1:0);
   movement = (eject?6:0) + (inject?-6:0);
-  translate([active*movement,20*i+6,3]) rowControl();
+  translate([movement,20*i+6,3+5-active*5]) rowControl();
 }
 
 if(balls) {
@@ -83,7 +83,7 @@ for(side = [0,1]) {
   translate([20+260*side,-10,-10])
     rotate([0,0,90])
     for(s=[0:2]) {
-      translate([-15+input_data[s]*10,53+10*s,0])
+      translate([-15+input_data[s]*10,53+10*s,1])
 	rotate([90,0,0]) linear_extrude(height=3) {
 	enumerator_rod(s, n_inputs, follower_spacing);
       }
