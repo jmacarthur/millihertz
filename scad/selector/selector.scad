@@ -286,7 +286,7 @@ for(i=[0:4]) {
 // "Hardpoints" for output
 for(i=[0:4]) {
   stagger = (i%2==1) ? 5: 0;
-  //translate([-8,-36+i*output_y_spacing,stagger]) rotate([90,0,0]) linear_extrude(height=3) output_mounting_bracket();
+  translate([-8,-36+i*output_y_spacing,stagger]) rotate([90,0,0]) linear_extrude(height=3) output_mounting_bracket();
 }
 
 // "Hardpoints" for input
@@ -300,29 +300,29 @@ for(i=[0:4]) {
 module common_endplate_cutaway()
 {
   // Clearance for the input lifter
-  translate([76,-1])
-    square([5,11]);
+  translate([76,-50])
+    square([5,60]);
   // Clearance for the xbar closest to the output
-  translate([8,-1])
-    square([3,5+1]);
+  translate([8,-50])
+    square([3,55]);
   // Space for the xbar closest to the input
-  translate([135,-1])
-    square([3,31]);
+  translate([135,-50])
+    square([3,80]);
   translate([150,15])
     circle(d=3);
   // Space for the output lifter
-  translate([26,-1])
-    square([3,22]); 
+  translate([26,-50])
+    square([3,71]); 
   // Cutout for central xbar
-  translate([80,-1])
-    square([3,31]);
+  translate([80,-50])
+    square([3,80]);
 }
 
 
-module inner_end_plate_2d()
+module inner_end_plate_2d(base_z)
 {
   difference() {
-    translate([-10,0]) square([165,50]);
+    translate([-10,base_z]) square([165,50-base_z]);
     for(i=[0:4]) {
       translate([-4+i*output_y_spacing,25])
 	square([3,20]);
@@ -336,15 +336,16 @@ module inner_end_plate_2d()
 }
 
 // End bars
-module inner_end_plate()
+module inner_end_plate(base_z)
 {
   translate([0,-35,10])
     rotate([90,0,0])
     rotate([0,90,0])
   linear_extrude(height=3) {
-    inner_end_plate_2d();
+    inner_end_plate_2d(base_z);
   }
 }
+
 
 module outer_end_plate_2d()
 {
@@ -369,9 +370,9 @@ module outer_end_plate()
 
 color([0,0,1.0]) {
   translate([5,0,0])
-  inner_end_plate();
+  inner_end_plate(-20);
   translate([5+x_internal_space,0,0])
-  inner_end_plate();
+  inner_end_plate(0);
   translate([13+x_internal_space,0,0])
   outer_end_plate();
 }
@@ -447,7 +448,7 @@ for(y=[-45,0]) {
 
 module output_lifter_bar_2d() {
   difference() {
-    square([10+x_internal_space,20]);
+    translate([5,0]) square([5+x_internal_space,20]);
     translate([17,5]) circle(d=3);
     translate([x_internal_space-13,5]) circle(d=3);
   }
