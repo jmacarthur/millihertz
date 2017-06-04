@@ -265,15 +265,21 @@ module output_sum_bar(stagger)
   }
 }
 
-module output_mounting_bracket()
+// 'trim' indicates we have reduced headroom and should remove the top tab.
+
+module output_mounting_bracket(trim)
 {
   difference(){
-    square([19,30]);
+    union() {
+      square([19,30]);
+      translate([16,-5]) square([3,trim?35:40]);
+    }
     translate([5,5]) circle(d=3);
     translate([5,25]) circle(d=3);
+    // For low headroom tabs, this extra hole allows us to reinforce by placing a long
+    // bar through other holes.
+    if(trim) translate([5,20]) circle(d=3);
     #translate([5,45]) circle(d=3); // Marks spot where drive will be
-    translate([13,25]) square([3,6]);
-    translate([13,-1]) square([3,6]);
   }
 }
 
@@ -286,7 +292,7 @@ for(i=[0:4]) {
 // "Hardpoints" for output
 for(i=[0:4]) {
   stagger = (i%2==1) ? 5: 0;
-  translate([-8,-36+i*output_y_spacing,stagger]) rotate([90,0,0]) linear_extrude(height=3) output_mounting_bracket();
+  translate([-8,-36+i*output_y_spacing,stagger]) rotate([90,0,0]) linear_extrude(height=3) output_mounting_bracket(i%2==1?1:0);
 }
 
 // "Hardpoints" for input
@@ -310,19 +316,21 @@ module common_endplate_cutaway()
     square([3,80]);
   translate([150,15])
     circle(d=3);
-  // Space for the output lifter
-  translate([26,-50])
-    square([3,71]); 
+  // Space for the output lifter. This one meets at the
+  // bottom, as it's next to a hardpoint which splits the
+  // whole front panel.
+  translate([26,-10])
+    square([3,31]); 
   // Cutout for central xbar
   translate([80,-50])
     square([3,80]);
 }
 
 
-module inner_end_plate_2d(base_z)
+module inner_end_plate_2d()
 {
   difference() {
-    translate([-10,base_z]) square([165,50-base_z]);
+    translate([-10,0]) square([165,50]);
     for(i=[0:4]) {
       translate([-4+i*output_y_spacing,25])
 	square([3,20]);
@@ -335,14 +343,55 @@ module inner_end_plate_2d(base_z)
   }
 }
 
+module front_panel_2d()
+{
+  difference() {
+    translate([-10,-20]) square([165,70]);
+    for(i=[0:4]) {
+      translate([-4+i*output_y_spacing,25])
+	square([3,20]);
+    }
+    translate([50,25])
+      circle(d=3);
+    translate([40,45])
+      square([3,11]);
+    // Cutout for input hard points
+    for(i=[0:4]) {
+      stagger = (i%2==1?5:0);
+      translate([85+10*i,10+stagger]) square([3,30]);
+    }
+    // Cutout for output hard points
+    for(i=[0:4]) {
+      stagger = (i%2==1?5:0);
+      translate([-4+output_y_spacing*i,-10+stagger]) square([3,30]);
+    }
+    // Slots for the output bars
+    for(i=[0:5])
+    translate([40,45])
+      square([3,11]);
+    common_endplate_cutaway();
+  }
+}
+
+
 // End bars
-module inner_end_plate(base_z)
+module inner_end_plate()
 {
   translate([0,-35,10])
     rotate([90,0,0])
     rotate([0,90,0])
   linear_extrude(height=3) {
-    inner_end_plate_2d(base_z);
+    inner_end_plate_2d();
+  }
+}
+
+module front_panel()
+{
+  translate([0,-35,10])
+    rotate([90,0,0])
+    rotate([0,90,0])
+  linear_extrude(height=3) {
+    front_panel_2d();
   }
 }
 
@@ -370,7 +419,7 @@ module outer_end_plate()
 
 color([0,0,1.0]) {
   translate([5,0,0])
-  inner_end_plate(-20);
+  front_panel();
   translate([5+x_internal_space,0,0])
   inner_end_plate(0);
   translate([13+x_internal_space,0,0])
