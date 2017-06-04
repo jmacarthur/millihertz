@@ -159,6 +159,8 @@ module outputComb_2d() {
     for(i=[0:n_positions-1]) {
       translate([11+i*10,-1]) square([3,20]);	
     }
+    // A slot for the output plate
+    translate([15,27]) square([140,3+1]);
   }  
 }
 
@@ -269,7 +271,7 @@ module output_sum_bar(stagger)
 
 module output_mounting_bracket(trim)
 {
-  difference(){
+  difference() {
     union() {
       square([19,30]);
       translate([16,-5]) square([3,trim?35:40]);
@@ -278,11 +280,12 @@ module output_mounting_bracket(trim)
     translate([5,25]) circle(d=3);
     // For low headroom tabs, this extra hole allows us to reinforce by placing a long
     // bar through other holes.
-    if(trim) translate([5,20]) circle(d=3);
-    #translate([5,45]) circle(d=3); // Marks spot where drive will be
+    if(trim)
+      translate([5,20]) circle(d=3);
+    translate([5,45]) circle(d=3); // Marks spot where drive will be
   }
 }
-
+ 
 // Output summing bars
 for(i=[0:4]) {
   stagger = (i%2==1) ? 5: 0;
@@ -311,9 +314,14 @@ module common_endplate_cutaway()
   // Clearance for the xbar closest to the output
   translate([8,-50])
     square([3,55]);
+  // Space for the rail support bar
+  translate([-11,40])
+    square([4,11]);
   // Space for the xbar closest to the input
   translate([135,-50])
     square([3,80]);
+
+
   translate([150,15])
     circle(d=3);
   // Space for the output lifter. This one meets at the
@@ -326,15 +334,20 @@ module common_endplate_cutaway()
     square([3,80]);
 }
 
+// These are the cutouts for the output bars
+module inner_plate_cutouts()
+{
+    for(i=[0:4]) {
+      translate([-4+i*output_y_spacing,30])
+	square([3,15]);
+    }
+}
 
 module inner_end_plate_2d()
 {
   difference() {
     translate([-10,0]) square([165,50]);
-    for(i=[0:4]) {
-      translate([-4+i*output_y_spacing,25])
-	square([3,20]);
-    }
+    inner_plate_cutouts();
     translate([50,25])
       circle(d=3);
     translate([40,45])
@@ -347,10 +360,7 @@ module front_panel_2d()
 {
   difference() {
     translate([-10,-20]) square([165,70]);
-    for(i=[0:4]) {
-      translate([-4+i*output_y_spacing,25])
-	square([3,20]);
-    }
+    inner_plate_cutouts();
     translate([50,25])
       circle(d=3);
     translate([40,45])
@@ -399,7 +409,7 @@ module front_panel()
 module outer_end_plate_2d()
 {
   difference() {
-    square([155,50]);
+    translate([-10,0]) square([165,50]);
     common_endplate_cutaway();
   }
 }
@@ -489,7 +499,7 @@ module back_lifter_lever() {
 
 
 translate([0,45,0]) lifter_bar();
-for(y=[-45,0]) {
+ for(y=[-45,0]) {
   translate([15,42+y,0]) rotate([0,17,0]) front_lifter_lever();
   translate([x_internal_space-15,42+y,0]) rotate([0,17,0]) back_lifter_lever();
 }
@@ -511,3 +521,31 @@ module output_lifter_bar() {
 }
 
 translate([0,-6,0]) output_lifter_bar();
+
+
+
+module drive_plate_2d() {
+  difference() {
+    square([120,60]);
+    translate([10,10]) square([20,41]);
+    translate([90,10]) square([20,41]);
+    
+  }
+}
+
+translate([22,-50,60-3]) color([1.0,0,0,0.5]) linear_extrude(height=3) drive_plate_2d();
+
+
+module output_rail_2d()
+{
+  difference() {
+    square([x_internal_space+20,13]);
+    translate([10,10]) square([x_internal_space-20,7]);
+    translate([5,-1]) square([3,4]);
+    translate([5+x_internal_space,-1]) square([3,4]);
+    translate([5+x_internal_space+8,-1]) square([3,4]);
+  }
+}
+
+
+translate([0,-40-2,47]) rotate([90,0,0]) linear_extrude(height=3) output_rail_2d();
