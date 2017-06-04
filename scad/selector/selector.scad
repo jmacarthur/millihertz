@@ -43,6 +43,7 @@ input_data = [ 0, 1, 1, 1, 0 ];
 enumerator_support_x1 = 64;
 enumerator_support_x2 = 135;
 
+output_y_spacing = 9;
 // Calculated globals
 
 
@@ -87,7 +88,7 @@ module lever_2d()
 {
   difference() {
     union() {
-      translate([-85,-5]) square(size=[85,10]);
+      translate([-85.5,-5]) square(size=[85.5,10]);
       circle(d=10);
     }
     circle(d=3);
@@ -211,11 +212,11 @@ module crank_2d(output_map)
     union() {
       translate([-5,-25]) square([20,5]);
       translate([-5,-25]) square([10,30]);
-      translate([-45,-5]) square([50,10]);
+      translate([-55,-5]) square([60,10]);
       for(s=[0:4]) {
 	align = 1-(floor(output_map/pow(2,s)) % 2);
 	if(align) {
-	  translate([-45+s*5,0]) polygon(points=[[0,0],[5,0],[4,10],[1,10]]); 
+	  translate([-55+s*output_y_spacing,0]) polygon(points=[[0,0],[5,0],[4,10],[1,10]]); 
 	}
       }	
     }
@@ -244,18 +245,48 @@ for(i=[0:n_positions-1]) {
 translate([3,15,35]) rotate([0,90,0]) cylinder(r=1.5,h=330);
 
 
-module output_sum_bar(i)
+module output_sum_bar(stagger)
 {
-  union() {
-    square([x_internal_space + 10, 10]);
-    translate([7+10*i, 0]) square([10,20]);
+  difference() {
+    union() {
+      square([x_internal_space + 30, 10]);
+      translate([0,-8+stagger]) square([10, 18]);
+      // Tabs for driving forwards
+      translate([40,5]) square([20, 10]);
+      translate([120,5]) square([20, 10]);
+      // Tabs for driving backwards
+      translate([40,5]) square([10, 15]);
+      translate([120,5]) square([10, 15]);
+    }
+    slot_height = 7;
+    translate([5,-5+3+stagger]) circle(d=3);
+    translate([5-1.5,-5+3+stagger]) square([3,slot_height]);
+    translate([5,-5+slot_height+3+stagger]) circle(d=3);
+  }
+}
+
+module output_mounting_bracket()
+{
+  difference(){
+    square([10,30]);
+    translate([5,5]) circle(d=3);
+    translate([5,25]) circle(d=3);
+    #translate([5,45]) circle(d=3);
   }
 }
 
 // Output summing bars
 for(i=[0:4]) {
-  translate([3,-26+i*5,45]) rotate([90,0,0]) linear_extrude(height=3) output_sum_bar(i);
+  stagger = (i%2==1) ? 5: 0;
+  translate([-20,-36+i*output_y_spacing,45]) rotate([90,0,0]) linear_extrude(height=3) output_sum_bar(stagger);
 }
+
+// "Hardpoints" for output
+for(i=[0:4]) {
+  stagger = (i%2==1) ? 5: 0;
+  translate([-20,-36+i*output_y_spacing,stagger]) rotate([90,0,0]) linear_extrude(height=3) output_mounting_bracket();
+}
+
 
 
 module common_endplate_cutaway()
@@ -280,9 +311,9 @@ module common_endplate_cutaway()
 module inner_end_plate_2d()
 {
   difference() {
-    square([155,50]);
+    translate([-10,0]) square([165,50]);
     for(i=[0:4]) {
-      translate([6+i*5,25])
+      translate([-4+i*output_y_spacing,25])
 	square([3,20]);
     }
     translate([50,25])
@@ -323,13 +354,13 @@ module outer_end_plate()
   }
 }
 
+// 3D assembly of all end plates
+
 color([0,0,1.0]) {
   translate([5,0,0])
   inner_end_plate();
   translate([5+x_internal_space,0,0])
   inner_end_plate();
-  translate([0,0,0])
-  outer_end_plate();
   translate([13+x_internal_space,0,0])
   outer_end_plate();
 }
