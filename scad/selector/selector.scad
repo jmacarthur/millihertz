@@ -199,9 +199,9 @@ module yComb() {
 }
 
 translate([0,5,30]) outputComb();
+translate([0,-27,0]) xBar(15,20,30,true);
 translate([0,45,0]) xBar(5,20,50,false);
 translate([0,100,0]) xBar(5,20,50,false);
-translate([0,-30,0]) xBar(15,20,30,true);
 
 translate([enumerator_support_x1,40,-10]) yComb();
 translate([enumerator_support_x2,40,-10]) yComb();
@@ -268,41 +268,52 @@ module output_sum_bar(stagger)
 module output_mounting_bracket()
 {
   difference(){
-    square([10,30]);
+    square([19,30]);
     translate([5,5]) circle(d=3);
     translate([5,25]) circle(d=3);
-    #translate([5,45]) circle(d=3);
+    #translate([5,45]) circle(d=3); // Marks spot where drive will be
+    translate([13,25]) square([3,6]);
+    translate([13,-1]) square([3,6]);
   }
 }
 
 // Output summing bars
 for(i=[0:4]) {
   stagger = (i%2==1) ? 5: 0;
-  translate([-20,-36+i*output_y_spacing,45]) rotate([90,0,0]) linear_extrude(height=3) output_sum_bar(stagger);
+  translate([-8,-36+i*output_y_spacing,45]) rotate([90,0,0]) linear_extrude(height=3) output_sum_bar(stagger);
 }
 
 // "Hardpoints" for output
 for(i=[0:4]) {
   stagger = (i%2==1) ? 5: 0;
-  translate([-20,-36+i*output_y_spacing,stagger]) rotate([90,0,0]) linear_extrude(height=3) output_mounting_bracket();
+  //translate([-8,-36+i*output_y_spacing,stagger]) rotate([90,0,0]) linear_extrude(height=3) output_mounting_bracket();
+}
+
+// "Hardpoints" for input
+for(i=[0:4]) {
+  stagger = (i%2==1) ? 5: 0;
+  translate([-8,50+3+i*10,20+stagger]) rotate([90,0,0]) linear_extrude(height=3) output_mounting_bracket();
 }
 
 
 
 module common_endplate_cutaway()
 {
+  // Clearance for the input lifter
   translate([76,-1])
     square([5,11]);
-  translate([5,-1])
-    square([3,6]);
+  // Clearance for the xbar closest to the output
+  translate([8,-1])
+    square([3,5+1]);
+  // Space for the xbar closest to the input
   translate([135,-1])
     square([3,31]);
-  translate([137,-1])
-    square([5,11]);
   translate([150,15])
     circle(d=3);
+  // Space for the output lifter
   translate([26,-1])
-    square([3,22]);
+    square([3,22]); 
+  // Cutout for central xbar
   translate([80,-1])
     square([3,31]);
 }
