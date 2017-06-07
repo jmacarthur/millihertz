@@ -3,7 +3,7 @@ use <interconnect.scad>;
 
 $fn=20;
 thin=0.1;
-switch_spacing = 10;
+switch_spacing = 15;
 module lever_2d()
 {
   difference() {
@@ -44,6 +44,8 @@ module hardpoint_2d(stagger) {
     }
     translate([5-stagger,5]) circle(d=3);
     translate([5-stagger,25]) circle(d=3);    
+    translate([15-stagger,5]) circle(d=3);
+    translate([15-stagger,25]) circle(d=3);    
     translate([45,5]) circle(d=3);    
   }
 }
@@ -51,10 +53,10 @@ module hardpoint_2d(stagger) {
 module frontpanel_2d() {
   difference() {
     union() {
-      square([100,50]);
-            // Box lugs
+      square([8*switch_spacing+20,50]);
+      // Box lugs
       for(i=[0:8]) {
-	translate([10+i*switch_spacing,50-thin]) square([5,3+thin]);
+	translate([5+i*switch_spacing,50-thin]) square([switch_spacing-5,3+thin]);
       }
     }
     for(i=[0:8]) {
@@ -69,11 +71,13 @@ module frontpanel_2d() {
 module topplate_2d(){
   difference() {
     union() {
-      square([100,50]);
-      for(i=[0:8]) {
-	translate([15+i*switch_spacing,-3]) square([5,3+thin]);
+      square([8*switch_spacing+20,50]);
+      // Box lugs
+      for(i=[0:9]) {
+	translate([i*switch_spacing,-3]) square([5,3+thin]);
       }
     }
+
     for(i=[0:8]) {
       for(j=[0:2]) {
 	translate([7+i*switch_spacing,15+10*j]) square([3,j==2?8:5]);
@@ -85,7 +89,7 @@ module topplate_2d(){
 module back_comb_2d() {
   union() {
     difference() {
-      square([100,20]);
+      square([8*switch_spacing+20,20]);
       for(i=[0:8]) {
 	translate([10+i*switch_spacing, -thin]) square([3,15+thin]);
       }
@@ -98,7 +102,7 @@ module back_comb_2d() {
 }
 
 for(i=[0:8]) {
-  translate([-5,13+i*10,20]) rotate([90,0,0]) {
+  translate([-5,13+i*switch_spacing,20]) rotate([90,0,0]) {
     stagger = (i%2==0?-20:-10);
     linear_extrude(height=3) lever_2d();
     color([1.0,0.5,0.5]) translate([-40,-20,3]) linear_extrude(height=3) output_2d(stagger);
@@ -114,7 +118,7 @@ rotate([0,0,90]) translate([0,0,60]) linear_extrude(height=3) topplate_2d();
 // Interconnect, for reference
 for(i=[0:7]) {
   stagger = (i%2==0?0:-10);
-  translate([-40+stagger,10+10*i,-5]) rotate([0,0,180]) rotate([90,0,0]) {
+  translate([-40+stagger,10+switch_spacing*i,-5]) rotate([0,0,180]) rotate([90,0,0]) {
     linear_extrude(height=3) cable_connector_2d();
     color([0,1.0,0]) linear_extrude(height=3) stator_2d();
     translate([0,0,3]) color([0,0,1.0,0.5]) linear_extrude(height=3) top_plate_2d();
