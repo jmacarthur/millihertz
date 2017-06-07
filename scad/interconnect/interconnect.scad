@@ -58,9 +58,6 @@ module cable_connector_2d()
       translate([-15,5]) {
 	circle(d=3);
       }
-      translate([-5,5]) {
-	circle(d=3);
-      }
       translate([-20-thin,10]) {
 	square([10+thin,10+thin]);
       }
@@ -77,7 +74,8 @@ module stator_2d()
 	square([51,30]);
 	translate([5,5]) circle(d=3); 
 	translate([5,25]) circle(d=3);
-	translate([15+2.5,5]) circle(d=3);
+	translate([15,25]) circle(d=3);
+	translate([15,5]) circle(d=3);
       }
     }
     difference() {
@@ -104,9 +102,9 @@ module top_plate_2d()
     square([55,40]);
     translate([20,5]) circle(d=3);
     translate([40,5]) circle(d=3);
-    translate([5+2.5,35]) circle(d=3);
+    translate([5,35]) circle(d=3);
     translate([50,35]) circle(d=3);
-    
+    translate([-thin, -thin]) square([10+thin,30+thin]);
   }
 }
 
