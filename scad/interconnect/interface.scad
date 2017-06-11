@@ -4,6 +4,7 @@ use <interconnect.scad>;
 $fn=20;
 thin=0.1;
 switch_spacing = 15;
+
 module lever_2d()
 {
   difference() {
@@ -61,7 +62,7 @@ module frontpanel_2d() {
     }
     for(i=[0:8]) {
       translate([10+switch_spacing*i,5]) square([3,20]);
-      translate([10+switch_spacing*i-3,5]) square([3,10]);
+      translate([10+switch_spacing*i-3,5]) square([3+thin,10]);
       translate([10+switch_spacing*i-3,35]) square([3,10]);
     }
   }
