@@ -27,19 +27,20 @@ connector_length = 10.5;
 peg_spacing = 5.6;
 peg_top_diameter = 3.4;
 peg_thread_diameter = 2.4;
-
+amplification_ratio = 4;
 thin = 0.1;
+input_travel = 20;
 
 // Note that 'pushrod connectors' are the usual means of connection
 // and usually available from radio control suppliers.
-
+$fn = 20;
 module cable_connector_2d()
 {
   union() {
     difference() {
-      square([20,20]);
+      square([25,20]);
       
-      translate([5,5]) {
+      translate([11,5]) {
 	square([connector_length, connector_body_height]);
 	
 	for(side = [-1,1]) {
@@ -50,50 +51,83 @@ module cable_connector_2d()
 	// exit path for cable
 	translate([0,0.5]) square([50,cable_inner_diameter]);
       }
-    }
-    difference() {
-      translate([-20,0]) {
-	square([21, 20]);
-      }
-      translate([-15,5]) {
-	circle(d=3);
-      }
-      translate([-20-thin,10]) {
-	square([10+thin,10+thin]);
-      }
+
+      // Drive hole
+      translate([5,10]) circle(d=3);
+
     }
   }
 }
 
-
-module stator_2d()
+module optimal_stator_2d()
 {
-  union() {
-    translate([-20,20]) {
-      difference() {
-	square([51,30]);
-	translate([5,5]) circle(d=3); 
-	translate([5,25]) circle(d=3);
-	translate([15,25]) circle(d=3);
-	translate([15,5]) circle(d=3);
+  difference() {
+    union() {
+      translate([-35,-55]) polygon(points=[[5,25],[15,0], [100,0], [100,20], [40,80], [15,80],[5,70]]);
+      translate([-27.5,-10]) circle(d=10);
+      translate([-27.5,-30]) circle(d=10);
+    }
+
+    // A gap for the travel of the cable connector
+    translate([-15,-50]) square([25+input_travel,20]);
+
+    // A gap for the output rod
+    translate([-35-input_travel/8,5]) square([40+input_travel/4,10]);
+
+    // Gap for the cable output
+    translate([0,-50+5.5]) square([50,cable_inner_diameter]);
+
+    // Gap for the cable output
+    translate([35,-50+5.5- (cable_outer_diameter-cable_inner_diameter)/2]) square([50,cable_outer_diameter]);
+
+    // Hardpoint holes
+    translate([-27.5,-10]) circle(d=3);
+    translate([-27.5,-30]) circle(d=3);
+
+    // Axis hole
+    translate([0,0]) circle(d=3);
+
+    // Holes to allow binding over the input cable
+    translate([50,-35]) circle(d=3);
+    translate([50,-50]) circle(d=3);
+
+    // Holes to allow binding over the output cable
+    translate([-15,0]) circle(d=3);
+    translate([-15,20]) circle(d=3);
+  }
+}
+
+
+module lever_2d() {
+  translate([-5,-45]) { 
+    difference() {
+      union() {
+	square([10,60]);
+	translate([5,0]) circle(d=10);
+	translate([5,60]) circle(d=10);
       }
-    }
-    difference() {
-      translate([20+travel,0]) square([40,40]);
-      // exit path for cable
-      translate([0+travel,5.5]) square([50,cable_inner_diameter]);
-      // Outer cable holder
-      translate([25+travel,5.5+cable_inner_diameter/2-cable_outer_diameter/2]) square([50,cable_outer_diameter]);
-      translate([40,25]) circle(d=3);
-    }
-    difference() {
-      translate([0,-10]) square([40,10]);
-      translate([10,-5]) circle(d=3);
-      translate([30,-5]) circle(d=3);
+      translate([5,5]) circle(d=3);
+      translate([5-1.5,0]) square([3,5]);
+      translate([5,0]) circle(d=3);
+
+      // Axis hole
+      translate([5,45]) circle(d=3);
+      
+      translate([5,55]) circle(d=3);
+
+      translate([5-1.5,55]) square([3,5]);
+      translate([5,60]) circle(d=3);    
     }
   }
 }
 
+module drive_rod_2d() {
+  difference() {
+    square([40,10]);
+    translate([5,5]) circle(d=3);
+    translate([35,5]) circle(d=3);
+  }
+}
 
 module top_plate_2d()
 {
@@ -108,6 +142,13 @@ module top_plate_2d()
   }
 }
 
-linear_extrude(height=3) cable_connector_2d();
-color([0,1.0,0]) linear_extrude(height=3) stator_2d();
-translate([0,0,3]) color([0,0,1.0,0.5]) linear_extrude(height=3) top_plate_2d();
+
+travel = -10;
+
+rot = atan2(travel, 40);
+translate([-5+travel,-50]) linear_extrude(height=3) cable_connector_2d();
+color([0,0,1.0]) linear_extrude(height=3) optimal_stator_2d();
+//translate([0,0,3]) color([0,0,1.0,0.5]) linear_extrude(height=3) top_plate_2d();
+color([1.0,0,0]) translate([0,0,3]) linear_extrude(height=3) rotate(rot) lever_2d();
+color([1.0,0,0]) translate([0,0,-3]) linear_extrude(height=3) rotate(rot) lever_2d();
+translate([-35-travel/4,5,0]) linear_extrude(height=3) drive_rod_2d();
