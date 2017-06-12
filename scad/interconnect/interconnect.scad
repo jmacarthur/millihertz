@@ -21,7 +21,7 @@ travel = 5;
 
 connector_inner_diameter = 2.5;
 connector_width = 3.9;
-connector_body_height = 3.5;
+connector_body_height = 4.5;
 connector_total_height = 8; // That varies with compression of the cable
 connector_length = 10.5;
 peg_spacing = 5.6;
