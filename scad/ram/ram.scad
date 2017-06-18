@@ -78,3 +78,15 @@ module yAxisComb()
     }
   }
 }
+
+
+// Tiny square which allows column drive
+
+module columnPeg()
+{
+  difference() {
+    square(size=[10,10]);
+    translate([5,5]) circle(d=3);
+  }
+}
+

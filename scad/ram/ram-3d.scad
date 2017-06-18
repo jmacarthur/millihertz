@@ -10,14 +10,22 @@ eject = true;
 
 balls = true;
 
-for(i=[0:cols-1]) {
-  translate([i*column_x_spacing,(i==activated_column?13:0),0])
+// Add all row selectors and backing
+      for(i=[0:cols-1]) {
+  translate([i*column_x_spacing,(i==activated_column?13:0),0]) {
     linear_extrude(height=3) {
-    rowSelect();
+      rowSelect();
+    }
+    translate([9,160,10]) 
+      rotate([0,90,0]) 
+      linear_extrude(height=3) {
+      columnPeg();
+    }
   }
-
-  translate([-11+i*column_x_spacing,0,0]) linear_extrude(height=3) {
-    backing();
+  translate([-11+i*column_x_spacing,0,0]) {
+    linear_extrude(height=3) {
+      backing();
+    }
   }
  }
 
