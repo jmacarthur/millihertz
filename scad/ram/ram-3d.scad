@@ -94,18 +94,43 @@ for(side = [0,1]) {
     for(s=[0:2]) {
       translate([-15+input_data[s]*travel,53+10*s,1])
 	rotate([90,0,0]) linear_extrude(height=3) {
-	enumerator_rod(s, n_inputs, follower_spacing, 0, travel);
+	enumerator_rod(s, n_inputs, follower_spacing, 0, travel, 10);
       }
     }
  }
 
 
 // Column enumeration rods
-translate([0,150,-10])
-for(s=[0:2]) {
-  translate([-15+input_data[s]*10,53+10*s,1])
-    rotate([90,0,0]) linear_extrude(height=3) {
-    enumerator_rod(s, n_inputs, follower_spacing, 0, travel);
+translate([4,150,-10]) {
+  for(s=[0:2]) {
+    translate([-15+input_data[s]*10,53+10*s,1])
+      rotate([90,0,0]) linear_extrude(height=3) {
+      enumerator_rod(s, n_inputs, column_x_spacing, 0, travel, 5);
+    }
   }
- }
+  
+  
+  // Column followers
+  translate([5,40,21]) {
+    for(col=[0:7]) {
+      translate([col*column_x_spacing,0,0])
+	
+	rotate([90+(col==activated_column?-8.5:0),0,0]) 
+	rotate([0,90,0]) 
+	linear_extrude(height=3) columnFollower();
+    }
+  }
+}
 
+
+// A rod - axle for the followers
+translate([-50,190,11]) {
+  rotate([0,90,0]) 
+  cylinder(d=3,h=300);
+}
+
+// A rod to hang weights over for the column rods
+translate([-50,250,11]) {
+  rotate([0,90,0]) 
+  cylinder(d=3,h=300);
+}

@@ -90,3 +90,16 @@ module columnPeg()
   }
 }
 
+
+module columnFollower()
+{
+  difference() {
+    union() {
+      circle(d=10);
+      translate([0,-5]) square([50,10]);
+      translate([-20,0]) square([50,5]);
+      translate([-20,-2]) polygon(points=[[0,0], [5,0], [7,2], [7,5], [0,5]]);
+    }
+    circle(d=3);
+  }
+}
