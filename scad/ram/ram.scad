@@ -2,30 +2,40 @@ ballBearingDiameter = 6;
 
 rows = 8;
 cols = 8;
-
+$fn=20;
 module rowSelect()
 {
   union() {
     difference() {
-      square(size=[10,20*rows+12]);
+      square(size=[12,20*rows+12]);
       for(i=[0:rows]) {
 	translate([0,i*20]) circle(r=6);
 
 	if(i != rows) translate([0,i*20+12]) circle(r=6);
 	translate([-1,i*20+12]) square(size=[7,8]);
       }
-    }
+      // Two holes used to keep the row selector vertical.
+      translate([9,46]) circle(d=3);
+      translate([9,126]) circle(d=3);
+
+      // A slot to allow driving
+      translate([9,160]) square(size=[3,10]);
+   }
   }
 }
 
 module backing()
 {
   difference() {
-    square(size=[10,20*rows+12]);
+    translate([0,-5]) square(size=[10,20*rows+12+5]);
     for(i=[0:rows]) {
-      translate([10,i*20-1]) circle(r=6);
+      if(i!=0) translate([10,i*20-1]) circle(r=6);
       if(i!=rows) translate([4,i*20+5]) polygon(points=[[0,0], [7,1], [7,7], [0,6]]);
     }
+    // Two holes used to mount the rod to the backing.
+    translate([5,0]) circle(d=3);
+    translate([4,168]) circle(d=3);
+
   }
 }
 
