@@ -56,7 +56,7 @@ raise_position = n_positions-1-(input_data[0] + input_data[1]*2+input_data[2]*4+
 
 x_internal_space = 10*n_positions;
 
-module enumerator_rod(value, n_inputs, follower_spacing, stagger, travel)
+module enumerator_rod(value, n_inputs, follower_spacing, stagger, travel, rise_height)
 {
   actual_travel = (travel==0)?follower_spacing/2:travel;
   difference() {
@@ -68,7 +68,7 @@ module enumerator_rod(value, n_inputs, follower_spacing, stagger, travel)
       positions = pow(2,n_inputs);
       for(i=[0:positions-1]) {
 	align = 1-(floor(i/pow(2,value)) % 2);
-	translate([20+follower_spacing*i+actual_travel*align,10-thin]) square(size=[actual_travel+thin,10+thin]);
+	translate([20+follower_spacing*i+actual_travel*align,10-thin]) square(size=[actual_travel+thin,rise_height+thin]);
       }
     }
     translate([355,5]) circle(d=3);
@@ -80,7 +80,7 @@ module enumerator_rod(value, n_inputs, follower_spacing, stagger, travel)
 for(s=[0:n_inputs-1]) {
   translate([-15+input_data[s]*5,53+10*s,0])
     rotate([90,0,0]) linear_extrude(height=3) {
-    enumerator_rod(s, n_inputs, follower_spacing, (s%2==1?5:0), 5);
+    enumerator_rod(s, n_inputs, follower_spacing, (s%2==1?5:0), 5, 10);
   }
 }
 
