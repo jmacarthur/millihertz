@@ -67,15 +67,18 @@ module rowBar()
   }
 }
 
-// Y Axis combs
+// Y Axis combs, which also extend enough to hold the axles for the column selector.
 
 module yAxisComb()
 {
   difference() {
-    square(size=[200,20]);
+    square(size=[260,20]);
     for(r=[0:rows]) {
       translate([r*20+7.5,10]) square(size=[3,11]);
     }
+    // Holes which hold the selector axles and weight axis
+    translate([190,16]) circle(d=3);
+    translate([250,16]) circle(d=3);
   }
 }
 
