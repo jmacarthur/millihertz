@@ -75,17 +75,18 @@ linear_extrude(height=3) {
 // Objects from the selector (3D)
 // Row enumeration rods
 follower_spacing = 20;
+travel = 5;
 n_inputs = 3;
 input_data = [ 1, 1, 0 ];
 
 
 for(side = [0,1]) {
-  translate([20+260*side,-10,-10])
+  translate([20+260*side,-5+1.5,-10])
     rotate([0,0,90])
     for(s=[0:2]) {
-      translate([-15+input_data[s]*10,53+10*s,1])
+      translate([-15+input_data[s]*travel,53+10*s,1])
 	rotate([90,0,0]) linear_extrude(height=3) {
-	enumerator_rod(s, n_inputs, follower_spacing);
+	enumerator_rod(s, n_inputs, follower_spacing, 0, travel);
       }
     }
  }
@@ -96,7 +97,7 @@ translate([0,150,-10])
 for(s=[0:2]) {
   translate([-15+input_data[s]*10,53+10*s,1])
     rotate([90,0,0]) linear_extrude(height=3) {
-    enumerator_rod(s, n_inputs, follower_spacing);
+    enumerator_rod(s, n_inputs, follower_spacing, 0, travel);
   }
  }
 
