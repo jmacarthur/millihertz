@@ -30,7 +30,7 @@ module backing()
       if(i!=rows) translate([4,i*20+5]) polygon(points=[[0,0], [7,1], [7,7], [0,6]]);
     }
     // Two holes used to mount the rod to the backing.
-    translate([5,0]) circle(d=3);
+    translate([5,0]) circle(d=4);
     translate([4,168]) circle(d=3);
 
   }
@@ -85,12 +85,15 @@ module yAxisComb()
     translate([raiser_offset,-5]) circle(d=3);
     // Hole for the row bar raisers
     translate([raiser_offset+150,-5]) circle(d=3);
+
+    // Hole to fit into mounting plate feet
+    translate([0,-11]) square([10,3]);
+    translate([12*12,-11]) square([10,3]);
   }
 }
 
 
 // Tiny square which allows column drive
-
 module columnPeg()
 {
   difference() {
@@ -99,6 +102,20 @@ module columnPeg()
   }
 }
 
+// Mounting feet for y axis combs
+module combFeet(align)
+{
+  // Aligned so the first hole is at (0,0).
+  difference() {
+    translate([-5,-5]) {
+      square([35,20]);
+    }
+    translate([0,0]) circle(d=4);
+    translate([24,0]) circle(d=4);
+    translate([align,-6]) square([3,6]);
+    translate([align,10]) square([3,10]);
+  }
+}
 
 module columnFollower()
 {
@@ -144,18 +161,28 @@ module crankRod(len1,len2) {
   }
 }
 
+
+// The baseplate determines the location of the tool board. The tool board
+// requires 4mm holes and the holes are on a 12mm grid. The first hole is
+// at (-6,0), so all other holes must be aligned around that.
+
 module basePlate()
 {
   difference() {
     translate([-10,-5]) {
-      square([190,190]);
+      square([190,205]);
     }
     translate([-10,-5]) {
       // Holes for static rods
       for(c=[0:cols-1]) {
-	translate([c*column_x_spacing+4, 5]) circle(d=3);
+	// These won't both fit into the toolboard..
+	translate([c*column_x_spacing+4, 5]) circle(d=4);
 	translate([c*column_x_spacing+3, 168+5]) circle(d=3);
       }
+
+      // Holes for the tool board at the top
+      translate([4, 5+12*16]) circle(d=4);
+      translate([4+12*15, 5+12*16]) circle(d=4);
     }
     // Slots to guide moving rods
     slotlen = column_travel;

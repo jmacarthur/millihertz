@@ -168,3 +168,10 @@ linear_extrude(height=3) conRod(200);
 // Base plate
 translate([0,0,-3])   color([0.6,0.6,0.6])
 linear_extrude(height=3) basePlate();
+
+// Feet for y axis combs
+for(y=[0,12*12]) {
+  for(x=[0,12*18]) {
+    translate([-30+x,y,-20]) linear_extrude(height=3) combFeet(align=(x==0?8:13));
+  }
+}
