@@ -4,7 +4,7 @@ use <../selector/selector.scad>
 activated_column = 2;
 activated_row = 4;
 
-column_x_spacing = 25;
+column_x_spacing = 24;
 inject = false;
 eject = true;
 
@@ -156,3 +156,8 @@ rotate([0,0,180])
 rotate([90,0,0]) 
 rotate([0,90,0])
 linear_extrude(height=3) crankRod(30,50);
+
+
+// Long conrod for restting columns
+translate([0,190,0])
+linear_extrude(height=3) conRod(200);

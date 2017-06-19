@@ -79,6 +79,9 @@ module yAxisComb()
     // Holes which hold the selector axles and weight axis
     translate([190,16]) circle(d=3);
     translate([250,16]) circle(d=3);
+    // Hole to allow access to the column selectors
+
+    translate([190,0]) square([50,10]);
   }
 }
 
