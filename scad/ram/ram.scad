@@ -1,7 +1,5 @@
-ballBearingDiameter = 6;
+include <globs.scad>;
 
-rows = 8;
-cols = 8;
 $fn=20;
 module rowSelect()
 {

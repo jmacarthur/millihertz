@@ -1,10 +1,10 @@
 include <ram.scad>
 use <../selector/selector.scad>
+include <globs.scad>;
 
 activated_column = 2;
 activated_row = 4;
 
-column_x_spacing = 24;
 inject = false;
 eject = true;
 
