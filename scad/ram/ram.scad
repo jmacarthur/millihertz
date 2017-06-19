@@ -1,24 +1,23 @@
 include <globs.scad>;
 
 $fn=20;
+rowselect_slot_x_centre = 9;
 module rowSelect()
 {
-  union() {
-    difference() {
-      square(size=[12,20*rows+12]);
-      for(i=[0:rows]) {
-	translate([0,i*20]) circle(r=6);
+  difference() {
+    square(size=[12,20*rows+12]);
+    for(i=[0:rows]) {
+      translate([0,i*20]) circle(r=6);
 
-	if(i != rows) translate([0,i*20+12]) circle(r=6);
-	translate([-1,i*20+12]) square(size=[7,8]);
-      }
-      // Two holes used to keep the row selector vertical.
-      translate([9,46]) circle(d=3);
-      translate([9,126]) circle(d=3);
+      if(i != rows) translate([0,i*20+12]) circle(r=6);
+      translate([-1,i*20+12]) square(size=[7,8]);
+    }
+    // Two holes used to keep the row selector vertical.
+    translate([9,46]) circle(d=3);
+    translate([9,126]) circle(d=3);
 
-      // A slot to allow driving
-      translate([9,160]) square(size=[3,10]);
-   }
+    // A slot to allow driving
+    translate([rowselect_slot_x_centre,160]) square(size=[3,10]);
   }
 }
 
@@ -142,12 +141,27 @@ module crankRod(len1,len2) {
 module basePlate()
 {
   difference() {
-    square([190,190]);
+    translate([-10,-5]) {
+      square([190,190]);
+    }
+    translate([-10,-5]) {
+      // Holes for static rods
+      for(c=[0:cols-1]) {
+	translate([c*column_x_spacing+4, 5]) circle(d=3);
+	translate([c*column_x_spacing+3, 168+5]) circle(d=3);
+      }
+    }
+    // Slots to guide moving rods
+    slotlen = column_travel;
 
-    // Holes for static rods
-    for(c=[0:cols-1]) {
-      translate([c*column_x_spacing+4, 5]) circle(d=3);
-      translate([c*column_x_spacing+3, 168+5]) circle(d=3);
-   }
+    for(t=[0:1]) {
+      for(c=[0:cols-1]) {
+	x = c*column_x_spacing+rowselect_slot_x_centre;
+	y = 46+t*80;
+	translate([x, y]) circle(d=3);
+	translate([x-1.5, y]) square([3,slotlen]);
+	translate([x, y+slotlen]) circle(d=3);
+      }
+    }
   }
 }

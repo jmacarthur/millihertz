@@ -10,14 +10,15 @@ eject = true;
 
 balls = true;
 
+
 // Add all row selectors and backing
-      for(i=[0:cols-1]) {
-  translate([i*column_x_spacing,(i==activated_column?13:0),0]) {
+for(i=[0:cols-1]) {
+  translate([i*column_x_spacing,(i==activated_column?column_travel:0),0]) {
     linear_extrude(height=3) {
       rowSelect();
     }
-    translate([9,160,10]) 
-      rotate([0,90,0]) 
+    translate([9,160,10])
+      rotate([0,90,0])
       linear_extrude(height=3) {
       columnPeg();
     }
@@ -39,7 +40,7 @@ module rowControl()
       ejector();
     }
   }
-  
+
   for(i=[0:cols-1]) {
     color([0.0,0.5,0])
       translate([-11+17+i*column_x_spacing,0,0])
@@ -47,7 +48,7 @@ module rowControl()
       injector();
     }
   }
-    
+
   color([0.5,0.5,0.5,1.0])
     translate([-80,3+1.5,3])
     rotate([90,0,0])
@@ -108,15 +109,14 @@ translate([4,150,-10]) {
       enumerator_rod(s, n_inputs, column_x_spacing, 0, travel, 5);
     }
   }
-  
-  
+
+
   // Column followers
   translate([5,40,21]) {
     for(col=[0:7]) {
       translate([col*column_x_spacing,0,0])
-	
-	rotate([90+(col==activated_column?-8.5:0),0,0]) 
-	rotate([0,90,0]) 
+	rotate([90+(col==activated_column?-8.5:0),0,0])
+	rotate([0,90,0])
 	linear_extrude(height=3) columnFollower();
     }
   }
@@ -164,5 +164,5 @@ linear_extrude(height=3) conRod(200);
 
 
 // Base plate
-translate([-10,-5,-3])   color([0.6,0.6,0.6])
+translate([0,0,-3])   color([0.6,0.6,0.6])
 linear_extrude(height=3) basePlate();
