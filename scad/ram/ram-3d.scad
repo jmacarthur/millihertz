@@ -90,7 +90,7 @@ input_data = [ 1, 1, 0 ];
 
 
 for(side = [0,1]) {
-  translate([20+260*side,-5+1.5,-10])
+  translate([20+265*side,-5+1.5,-10])
     rotate([0,0,90])
     for(s=[0:2]) {
       translate([-15+input_data[s]*travel,53+10*s,6])
@@ -126,39 +126,40 @@ translate([4,150,-10]) {
 // A rod - axle for the followers
 translate([-22,190,11]) {
   rotate([0,90,0])
-  cylinder(d=3,h=300);
+  cylinder(d=3,h=224);
 }
 
 // A rod to hang weights over for the column rods
 translate([-22,250,11]) {
   rotate([0,90,0])
-  cylinder(d=3,h=300);
+  cylinder(d=3,h=224);
 }
 
 
+// Mechanism for lifting all row rods
+for(side=[0,1]) {
 
-// Lifter rods
-translate([-28,0,0])
-rotate([90,0,0])
-rotate([0,90,0])
-linear_extrude(height=3) conRod(150);
+  // Lifter rods
+  translate([-28+233*side,0,0])
+    rotate([90,0,0])
+    rotate([0,90,0])
+    linear_extrude(height=3) conRod(150);
 
-// Modules that support the lifter
+  // Modules that support the lifter
+  rod_rotation = asin(10/30);
 
-rod_rotation = asin(10/30);
+  translate([-25+227*side,0,0])
+    rotate([90-rod_rotation,0,0])
+    rotate([0,90,0])
+    linear_extrude(height=3) conRod(30);
 
-translate([-25,0,0])
-rotate([90-rod_rotation,0,0])
-rotate([0,90,0])
-linear_extrude(height=3) conRod(30);
+  translate([-22+227*side,150+raiser_offset,-10])
+    rotate([0,0,180])
+    rotate([90+rod_rotation,0,0])
+    rotate([0,90,0])
+    linear_extrude(height=3) crankRod(30,50);
 
-
-translate([-22,150+raiser_offset,-10])
-rotate([0,0,180])
-rotate([90+rod_rotation,0,0])
-rotate([0,90,0])
-linear_extrude(height=3) crankRod(30,50);
-
+}
 
 // Long conrod for restting columns
 translate([0,190,0])

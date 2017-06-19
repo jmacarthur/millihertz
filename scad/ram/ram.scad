@@ -83,6 +83,8 @@ module yAxisComb()
 
     // Hole for the row bar raisers
     translate([raiser_offset,-5]) circle(d=3);
+    // Hole for the row bar raisers
+    translate([raiser_offset+150,-5]) circle(d=3);
   }
 }
 
