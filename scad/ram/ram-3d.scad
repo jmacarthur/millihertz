@@ -125,21 +125,21 @@ translate([4,150,-10]) {
 
 // A rod - axle for the followers
 translate([-50,190,11]) {
-  rotate([0,90,0]) 
+  rotate([0,90,0])
   cylinder(d=3,h=300);
 }
 
 // A rod to hang weights over for the column rods
 translate([-50,250,11]) {
-  rotate([0,90,0]) 
+  rotate([0,90,0])
   cylinder(d=3,h=300);
 }
 
 
 
 // Lifter rods
-translate([-28,0,0]) 
-rotate([90,0,0]) 
+translate([-28,0,0])
+rotate([90,0,0])
 rotate([0,90,0])
 linear_extrude(height=3) conRod(150);
 
@@ -152,8 +152,8 @@ linear_extrude(height=3) conRod(30);
 
 
 translate([-22,180,0])
-rotate([0,0,180]) 
-rotate([90,0,0]) 
+rotate([0,0,180])
+rotate([90,0,0])
 rotate([0,90,0])
 linear_extrude(height=3) crankRod(30,50);
 
