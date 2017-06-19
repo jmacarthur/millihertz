@@ -138,3 +138,16 @@ module crankRod(len1,len2) {
     translate([0,len2]) circle(d=3);
   }
 }
+
+module basePlate()
+{
+  difference() {
+    square([190,190]);
+
+    // Holes for static rods
+    for(c=[0:cols-1]) {
+      translate([c*column_x_spacing+4, 5]) circle(d=3);
+      translate([c*column_x_spacing+3, 168+5]) circle(d=3);
+   }
+  }
+}

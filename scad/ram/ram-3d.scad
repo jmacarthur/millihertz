@@ -161,3 +161,8 @@ linear_extrude(height=3) crankRod(30,50);
 // Long conrod for restting columns
 translate([0,190,0])
 linear_extrude(height=3) conRod(200);
+
+
+// Base plate
+translate([-10,-5,-3])   color([0.6,0.6,0.6])
+linear_extrude(height=3) basePlate();
