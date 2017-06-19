@@ -88,9 +88,8 @@ travel = 5;
 n_inputs = 3;
 input_data = [ 1, 1, 0 ];
 
-
 for(side = [0,1]) {
-  translate([20+265*side,-5+1.5,-10])
+  translate([15+273*side,-5+1.5,-10])
     rotate([0,0,90])
     for(s=[0:2]) {
       translate([-15+input_data[s]*travel,53+10*s,6])
@@ -174,4 +173,12 @@ for(y=[0,12*12]) {
   for(x=[0,12*18]) {
     translate([-30+x,y,-20]) linear_extrude(height=3) combFeet(align=(x==0?8:13));
   }
+}
+
+for(side=[0,1]) {
+  zrot = (side==0?0:180);
+  yadjust = (side==0?0:-3);
+  xpos = (side==0?-63:243);
+  translate([xpos,40+yadjust,-15]) rotate([0,0,zrot]) rotate([90,0,0]) linear_extrude(height=3) rowSelectorComb();
+  translate([xpos,120+yadjust,-15]) rotate([0,0,zrot]) rotate([90,0,0]) linear_extrude(height=3) rowSelectorComb();
 }

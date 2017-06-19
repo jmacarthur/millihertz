@@ -87,9 +87,13 @@ module yAxisComb()
     translate([raiser_offset+150,-5]) circle(d=3);
 
     // Hole to fit into mounting plate feet
-    translate([0,-11]) square([10,3]);
-    translate([12*12,-11]) square([10,3]);
-  }
+    translate([0,-11]) square([10,4]);
+    translate([12*12,-11]) square([10,4]);
+
+    // Holes for enumerator combs
+    translate([40-3,-11]) square([3,9]);
+    translate([120-3,-11]) square([3,9]);
+ }
 }
 
 
@@ -196,5 +200,18 @@ module basePlate()
 	translate([x, y+slotlen]) circle(d=3);
       }
     }
+  }
+}
+
+
+// Combs for row selectors
+module rowSelectorComb()
+{
+  difference() {
+    square([47,20]);
+    for(i=[0:2])
+      translate([5+10*i,11]) square([3,11]);
+    // Hole for raiser
+    translate([34,8]) square([10,13]);
   }
 }
