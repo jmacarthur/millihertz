@@ -124,13 +124,13 @@ translate([4,150,-10]) {
 
 
 // A rod - axle for the followers
-translate([-50,190,11]) {
+translate([-22,190,11]) {
   rotate([0,90,0])
   cylinder(d=3,h=300);
 }
 
 // A rod to hang weights over for the column rods
-translate([-50,250,11]) {
+translate([-22,250,11]) {
   rotate([0,90,0])
   cylinder(d=3,h=300);
 }
@@ -145,15 +145,17 @@ linear_extrude(height=3) conRod(150);
 
 // Modules that support the lifter
 
-translate([-25,0,0]) 
-rotate([90,0,0]) 
+rod_rotation = asin(10/30);
+
+translate([-25,0,0])
+rotate([90-rod_rotation,0,0])
 rotate([0,90,0])
 linear_extrude(height=3) conRod(30);
 
 
-translate([-22,180,0])
+translate([-22,150+raiser_offset,-10])
 rotate([0,0,180])
-rotate([90,0,0])
+rotate([90+rod_rotation,0,0])
 rotate([0,90,0])
 linear_extrude(height=3) crankRod(30,50);
 
@@ -161,7 +163,6 @@ linear_extrude(height=3) crankRod(30,50);
 // Long conrod for restting columns
 translate([0,190,0])
 linear_extrude(height=3) conRod(200);
-
 
 // Base plate
 translate([0,0,-3])   color([0.6,0.6,0.6])

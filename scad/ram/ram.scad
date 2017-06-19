@@ -66,19 +66,23 @@ module rowBar()
 
 // Y Axis combs, which also extend enough to hold the axles for the column selector.
 
+raiser_offset = sqrt(30*30 - 10*10);
 module yAxisComb()
 {
   difference() {
-    square(size=[260,20]);
+    translate([-5,-10]) square(size=[260,30]);
     for(r=[0:rows]) {
       translate([r*20+7.5,10]) square(size=[3,11]);
     }
     // Holes which hold the selector axles and weight axis
     translate([190,16]) circle(d=3);
     translate([250,16]) circle(d=3);
-    // Hole to allow access to the column selectors
 
+    // Hole to allow access to the column selectors
     translate([190,0]) square([50,10]);
+
+    // Hole for the row bar raisers
+    translate([raiser_offset,-5]) circle(d=3);
   }
 }
 
