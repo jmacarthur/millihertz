@@ -106,3 +106,34 @@ module columnFollower()
     circle(d=3);
   }
 }
+
+
+// Lifters for the row selectors
+module conRod(len) {
+  difference() {
+    union() {
+      translate([0,0]) circle(d=10);
+      translate([0,-5]) square([len,10]);
+      translate([len,0]) circle(d=10);
+    }
+    translate([0,0]) circle(d=3);
+    translate([len,0]) circle(d=3);
+  }
+}
+
+// like two conrods at a right angle
+
+module crankRod(len1,len2) {
+  difference() {
+    union() {
+      translate([0,0]) circle(d=10);
+      translate([0,-5]) square([len1,10]);
+      translate([len1,0]) circle(d=10);
+      translate([-5,0]) square([10,len2]);
+      translate([0,len2]) circle(d=10);
+     }
+    translate([0,0]) circle(d=3);
+    translate([len1,0]) circle(d=3);
+    translate([0,len2]) circle(d=3);
+  }
+}

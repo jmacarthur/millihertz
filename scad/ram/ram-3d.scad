@@ -92,9 +92,9 @@ for(side = [0,1]) {
   translate([20+260*side,-5+1.5,-10])
     rotate([0,0,90])
     for(s=[0:2]) {
-      translate([-15+input_data[s]*travel,53+10*s,1])
+      translate([-15+input_data[s]*travel,53+10*s,6])
 	rotate([90,0,0]) linear_extrude(height=3) {
-	enumerator_rod(s, n_inputs, follower_spacing, 0, travel, 10);
+	enumerator_rod(s, n_inputs, follower_spacing, 0, travel, 5);
       }
     }
  }
@@ -134,3 +134,25 @@ translate([-50,250,11]) {
   rotate([0,90,0]) 
   cylinder(d=3,h=300);
 }
+
+
+
+// Lifter rods
+translate([-28,0,0]) 
+rotate([90,0,0]) 
+rotate([0,90,0])
+linear_extrude(height=3) conRod(150);
+
+// Modules that support the lifter
+
+translate([-25,0,0]) 
+rotate([90,0,0]) 
+rotate([0,90,0])
+linear_extrude(height=3) conRod(30);
+
+
+translate([-22,180,0])
+rotate([0,0,180]) 
+rotate([90,0,0]) 
+rotate([0,90,0])
+linear_extrude(height=3) crankRod(30,50);
