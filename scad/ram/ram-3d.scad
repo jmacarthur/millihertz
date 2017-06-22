@@ -204,3 +204,9 @@ for(side=[0,1]) {
   translate([xpos,40+yadjust,-15]) rotate([0,0,zrot]) rotate([90,0,0]) linear_extrude(height=3) rowSelectorComb();
   translate([xpos,120+yadjust,-15]) rotate([0,0,zrot]) rotate([90,0,0]) linear_extrude(height=3) rowSelectorComb();
 }
+
+
+translate([-22,169,0]) rotate([0,0,-90]) rotate([0,-90,0]) linear_extrude(height=3) inputRampEdge2();
+translate([-22,172,0]) rotate([0,0,-90]) rotate([0,-90,0]) linear_extrude(height=3) inputRamp();
+translate([-22,175,0]) rotate([0,0,-90]) rotate([0,-90,0]) linear_extrude(height=3) inputRamp();
+translate([-22,178,0]) rotate([0,0,-90]) rotate([0,-90,0]) linear_extrude(height=3) inputRampEdge();

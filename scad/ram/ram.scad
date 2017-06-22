@@ -71,7 +71,7 @@ module yAxisComb()
 {
   difference() {
     translate([-5,-10]) square(size=[260,30]);
-    for(r=[0:rows]) {
+    for(r=[0:rows-1]) {
       translate([r*20+7.5,10]) square(size=[3,11]);
     }
     // Holes which hold the selector axles and weight axis
@@ -218,5 +218,35 @@ module rowSelectorComb()
       translate([5+10*i,11]) square([3,11]);
     // Hole for raiser
     translate([34,8]) square([10,13]);
+  }
+}
+
+
+// A ramp which can inject new data into the array
+module inputRamp()
+{
+  difference() {
+    square([20,20]);
+    translate([20,25]) circle(r=20);
+    translate([5,-1]) square([10,4]);
+  }
+}
+
+module inputRampEdge()
+{
+  difference() {
+    square([20,20]);
+    translate([20,25]) circle(r=15);
+    translate([5,-1]) square([10,4]);
+  }
+}
+
+module inputRampEdge2()
+{
+  difference() {
+    square([20,20]);
+    translate([-1,11]) square([4,20]);
+    translate([20,25]) circle(r=15);
+    translate([5,-1]) square([10,4]);
   }
 }
