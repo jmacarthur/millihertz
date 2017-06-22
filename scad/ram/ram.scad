@@ -57,9 +57,9 @@ module injector()
 module rowBar()
 {
   union() {
-    square(size=[25*cols+120,6]);
+    square(size=[column_x_spacing*cols+150,6]);
     for(c=[0:cols]) {
-      translate([70-1.5+c*25,-3]) square([3,4]);
+      translate([70-1.5+c*column_x_spacing,-3]) square([3,4]);
     }
   }
 }
@@ -93,6 +93,10 @@ module yAxisComb()
     // Holes for enumerator combs
     translate([40-3,-11]) square([3,9]);
     translate([120-3,-11]) square([3,9]);
+
+    // Holes for mounting the col selector combs
+    translate([235,-5]) circle(d=3);
+    translate([205,-5]) circle(d=3);
  }
 }
 
@@ -218,6 +222,18 @@ module rowSelectorComb()
       translate([5+10*i,11]) square([3,11]);
     // Hole for raiser
     translate([34,8]) square([10,13]);
+  }
+}
+
+// Combs for col selectors
+module colSelectorComb()
+{
+  difference() {
+    square([47,20]);
+    translate([10,5]) circle(d=3);
+    translate([40,5]) circle(d=3);
+    for(i=[0:2])
+      translate([5+10*i,11]) square([3,11]);
   }
 }
 

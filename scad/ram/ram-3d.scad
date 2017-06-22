@@ -2,14 +2,14 @@ include <ram.scad>
 use <../selector/selector.scad>
 include <globs.scad>;
 
-activated_column = 2;
-activated_row = 4;
+activated_column = 0;
+activated_row = 0;
 
 inject = false;
 eject = true;
 
 balls = true;
-
+base_plate_on = true;
 
 // Add all row selectors and backing
 for(i=[0:cols-1]) {
@@ -43,7 +43,7 @@ module rowControl()
 
   for(i=[0:cols-1]) {
     color([0.0,0.5,0])
-      translate([-11+17+i*column_x_spacing,0,0])
+      translate([-11+17+i*column_x_spacing-1,0,0])
       linear_extrude(height=3) {
       injector();
     }
@@ -86,24 +86,24 @@ linear_extrude(height=3) {
 follower_spacing = 20;
 travel = 5;
 n_inputs = 3;
-input_data = [ 1, 1, 0 ];
+row_input_data = [ 1, 1, 0 ];
 
 for(side = [0,1]) {
   translate([15+273*side,-5+1.5,-10])
     rotate([0,0,90])
     for(s=[0:2]) {
-      translate([-15+input_data[s]*travel,53+10*s,6])
+      translate([-15+row_input_data[s]*travel,53+10*s,6])
 	rotate([90,0,0]) linear_extrude(height=3) {
 	enumerator_rod(s, n_inputs, follower_spacing, 0, travel, 5);
       }
     }
  }
 
-
+col_input_data = [ 0,1,0];
 // Column enumeration rods
 translate([4,150,-10]) {
   for(s=[0:2]) {
-    translate([-15+input_data[s]*10,53+10*s,1])
+    translate([-21+col_input_data[s]*5,53+10*s,1])
       rotate([90,0,0]) linear_extrude(height=3) {
       enumerator_rod(s, n_inputs, column_x_spacing, 0, travel, 5);
     }
@@ -187,8 +187,10 @@ translate([-7+14*12,14*12,-9])
 rotate([0,0,resetAngle]) linear_extrude(height=3) generalConRod(swingArmLen,3,3);
 
 // Base plate
-translate([0,0,-3])   color([0.6,0.6,0.6])
-linear_extrude(height=3) basePlate();
+if(base_plate_on) {
+  translate([0,0,-3])   color([0.6,0.6,0.6])
+    linear_extrude(height=3) basePlate();
+ }
 
 // Feet for y axis combs
 for(y=[0,12*12]) {
@@ -210,3 +212,22 @@ translate([-22,169,0]) rotate([0,0,-90]) rotate([0,-90,0]) linear_extrude(height
 translate([-22,172,0]) rotate([0,0,-90]) rotate([0,-90,0]) linear_extrude(height=3) inputRamp();
 translate([-22,175,0]) rotate([0,0,-90]) rotate([0,-90,0]) linear_extrude(height=3) inputRamp();
 translate([-22,178,0]) rotate([0,0,-90]) rotate([0,-90,0]) linear_extrude(height=3) inputRampEdge();
+
+
+// Injector/ejector assembly
+
+for(side=[0:1]) {
+  translate([-80+360*side,0,0]) {
+    translate([0,0,6]) rotate([0,0,90]) linear_extrude(height=3) conRod(150);
+    translate([0,0,12]) rotate([0,0,90]) linear_extrude(height=3) conRod(150);
+    translate([0,0,3]) rotate([0,0,-150+120*side]) linear_extrude(height=3) generalConRod(30,3,4);
+    translate([0,0,9]) rotate([0,0,-150+120*side]) linear_extrude(height=3) generalConRod(30,3,4);
+    translate([0,150,3]) rotate([0,0,-150+120*side]) linear_extrude(height=3) generalConRod(30,3,4);
+    translate([0,150,9]) rotate([0,0,-150+120*side]) linear_extrude(height=3) generalConRod(30,3,4);
+  }
+}
+
+
+// Comb
+translate([40,195,-15]) rotate([0,0,90]) rotate([90,0,0]) linear_extrude(height=3) colSelectorComb();
+translate([120,195,-15]) rotate([0,0,90]) rotate([90,0,0]) linear_extrude(height=3) colSelectorComb();
