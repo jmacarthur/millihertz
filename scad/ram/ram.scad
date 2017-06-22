@@ -17,7 +17,7 @@ module rowSelect()
     translate([9,46+80]) circle(d=3);
 
     // A slot to allow driving
-    translate([rowselect_slot_x_centre,160]) square(size=[3,10]);
+    translate([rowselect_slot_x_centre,160]) square(size=[4,10]);
   }
 }
 
