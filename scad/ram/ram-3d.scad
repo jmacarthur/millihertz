@@ -94,7 +94,9 @@ for(side = [0,1]) {
     for(s=[0:2]) {
       translate([-15+row_input_data[s]*travel,53+10*s,6])
 	rotate([90,0,0]) linear_extrude(height=3) {
-	enumerator_rod(s, n_inputs, follower_spacing, 0, travel, 5);
+	union() {
+	  row_enumerator_rod(s, n_inputs, follower_spacing, 0, travel, 5);
+	}
       }
     }
  }
@@ -105,7 +107,9 @@ translate([4,150,-10]) {
   for(s=[0:2]) {
     translate([-21+col_input_data[s]*5,53+10*s,1])
       rotate([90,0,0]) linear_extrude(height=3) {
-      enumerator_rod(s, n_inputs, column_x_spacing, 0, travel, 5);
+      union() {
+	col_enumerator_rod(s, n_inputs, column_x_spacing, 0, travel, 5);
+      }
     }
   }
 

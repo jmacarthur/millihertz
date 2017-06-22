@@ -266,3 +266,24 @@ module inputRampEdge2()
     translate([5,-1]) square([10,4]);
   }
 }
+
+
+module col_enumerator_rod(value, n_inputs, follower_spacing, stagger, travel, rise_height)
+{
+  union() {
+    enumerator_rod(value, n_inputs, follower_spacing, stagger, travel, rise_height);
+    // Stops
+    translate([42,-1]) square([10,2]);
+    translate([140,-1]) square([10,2]);
+  }
+}
+
+module row_enumerator_rod(value, n_inputs, follower_spacing, stagger, travel, rise_height)
+{
+  union() {
+    enumerator_rod(value, n_inputs, follower_spacing, stagger, travel, rise_height);
+    // Stops
+    translate([39+1.5,-1]) square([10,2]);
+    translate([138.5,-1]) square([10,2]);
+  }
+}
