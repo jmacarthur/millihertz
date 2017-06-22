@@ -160,9 +160,31 @@ for(side=[0,1]) {
 
 }
 
+resetAngle = -80;
+swingArmLen = 30;
 // Long conrod for restting columns
-translate([0,190,0])
-linear_extrude(height=3) conRod(200);
+translate([-7+swingArmLen*cos(resetAngle)-10,14*12+swingArmLen*sin(resetAngle),-6])
+linear_extrude(height=3)
+difference() {
+  union () {
+    conRod(14*12+10);
+    translate([-5,-11]) square([14*12+26,10]);
+  }
+  translate([10,0]) circle(d=3);
+  translate([12*12,-5]) circle(d=3);
+  translate([14*12+10,0]) circle(d=3);
+}
+
+// Smaller levers which attach to the column reset lever
+translate([-7,14*12,-9])
+rotate([0,0,resetAngle]) linear_extrude(height=3)
+union() {
+  generalConRod(swingArmLen,3,3);
+  rotate(90) generalConRod(swingArmLen,3,3);
+}
+
+translate([-7+14*12,14*12,-9])
+rotate([0,0,resetAngle]) linear_extrude(height=3) generalConRod(swingArmLen,3,3);
 
 // Base plate
 translate([0,0,-3])   color([0.6,0.6,0.6])

@@ -14,7 +14,7 @@ module rowSelect()
     }
     // Two holes used to keep the row selector vertical.
     translate([9,46]) circle(d=3);
-    translate([9,126]) circle(d=3);
+    translate([9,46+80]) circle(d=3);
 
     // A slot to allow driving
     translate([rowselect_slot_x_centre,160]) square(size=[3,10]);
@@ -136,16 +136,21 @@ module columnFollower()
 
 
 // Lifters for the row selectors
-module conRod(len) {
+module generalConRod(len, hole1Diameter, hole2Diameter) {
   difference() {
     union() {
       translate([0,0]) circle(d=10);
       translate([0,-5]) square([len,10]);
       translate([len,0]) circle(d=10);
     }
-    translate([0,0]) circle(d=3);
-    translate([len,0]) circle(d=3);
+    translate([0,0]) circle(d=hole1Diameter);
+    translate([len,0]) circle(d=hole2Diameter);
   }
+}
+
+// Lifters for the row selectors
+module conRod(len) {
+  generalConRod(len, 3, 3);
 }
 
 // like two conrods at a right angle
@@ -174,7 +179,7 @@ module basePlate()
 {
   difference() {
     translate([-10,-5]) {
-      square([190,205]);
+      square([195,205]);
     }
     translate([-10,-5]) {
       // Holes for static rods
@@ -186,7 +191,7 @@ module basePlate()
 
       // Holes for the tool board at the top
       translate([4, 5+12*16]) circle(d=4);
-      translate([4+12*15, 5+12*16]) circle(d=4);
+      translate([4+12*12, 5+12*16]) circle(d=4);
     }
     // Slots to guide moving rods
     slotlen = column_travel;
