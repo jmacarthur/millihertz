@@ -38,7 +38,7 @@ travel = 5;
 for(s=[0:2]) {
   union() {
     translate([250,280+20*s])
-      row_enumerator_rod(s, n_inputs, column_x_spacing, 0, travel, 5);
+      row_enumerator_rod(s, n_inputs, row_y_spacing, 0, travel, 5);
   }
  }
 
