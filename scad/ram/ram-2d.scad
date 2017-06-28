@@ -42,3 +42,12 @@ translate([350,180]) {
   translate([15,50]) rotate(90) conRod(30);
   translate([30,100]) rotate(180) crankRod(30,50);
 }
+
+n_inputs = 3;
+travel = 5;
+for(s=[0:2]) {
+  union() {
+    translate([250,280+20*s])
+      row_enumerator_rod(s, n_inputs, row_y_spacing, 0, travel, 5);
+  }
+ }
