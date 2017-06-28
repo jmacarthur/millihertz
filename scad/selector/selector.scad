@@ -1,6 +1,6 @@
-/* Universal combinational logic element suitable for laser cutting. 
+/* Universal combinational logic element suitable for laser cutting.
 
-The system comprises four main moving parts: 
+The system comprises four main moving parts:
 
 1) Input rods (enumeration rods) - there are N of these. These are
 moved backwards and forwards, with a travel of 10mm.
@@ -22,7 +22,7 @@ other means to amplify the output.
 */
 
 include <globs.scad>;
-
+use <../interconnect/interconnect.scad>;
 
 // Various parameters
 follower_spacing = 10; // Spacing between each input follower
@@ -158,10 +158,10 @@ module outputComb_2d() {
     translate([0,-1]) square([8,26]);
     translate([3+x_internal_space,-1]) square([8,26]);
     for(i=[0:n_positions-1]) {
-      translate([11+i*10,-1]) square([3,20]);	
+      translate([11+i*10,-1]) square([3,20]);
     }
     // A slot for the output plate
-    translate([15,27]) square([140,3+1]);
+    translate([15,27]) square([140,3]);
   }  
 }
 
@@ -329,10 +329,14 @@ module common_endplate_cutaway()
   // bottom, as it's next to a hardpoint which splits the
   // whole front panel.
   translate([26,-10])
-    square([3,31]); 
+    square([3,31]);
   // Cutout for central xbar
   translate([80,-50])
     square([3,80]);
+
+  translate([50,47])
+    square([10,11]); // holes to mount output pivot
+
 }
 
 // These are the cutouts for the output bars
@@ -366,6 +370,8 @@ module front_panel_2d()
       circle(d=3);
     translate([40,45])
       square([3,11]);
+    translate([50,47])
+      square([10,11]); // holes to mount output pivot
     // Cutout for input hard points
     for(i=[0:4]) {
       stagger = (i%2==1?5:0);
@@ -515,7 +521,7 @@ module output_lifter_bar_2d() {
 }
 
 module output_lifter_bar() {
-  rotate([90,0,0]) 
+  rotate([90,0,0])
     linear_extrude(height=3) {
     output_lifter_bar_2d();
   }
@@ -528,25 +534,49 @@ translate([0,-6,0]) output_lifter_bar();
 module drive_plate_2d() {
   difference() {
     square([120,60]);
-    translate([10,10]) square([20,41]);
-    translate([90,10]) square([20,41]);
-    
+    translate([10,13]) square([20,39]);
+    translate([90,13]) square([20,39]);
+    translate([60,13]) square([3,39]);
   }
 }
 
-translate([22,-50,60-3]) color([1.0,0,0,0.5]) linear_extrude(height=3) drive_plate_2d();
-
+translate([22,-52,60-3]) color([1.0,0,0,0.5]) linear_extrude(height=3) drive_plate_2d();
 
 module output_rail_2d()
 {
   difference() {
-    square([x_internal_space+20,13]);
-    translate([10,10]) square([x_internal_space-20,7]);
+    square([x_internal_space+20,20]);
+    translate([10,10]) square([x_internal_space-20,3]);
     translate([5,-1]) square([3,4]);
     translate([5+x_internal_space,-1]) square([3,4]);
     translate([5+x_internal_space+8,-1]) square([3,4]);
   }
 }
 
-
 translate([0,-40-2,47]) rotate([90,0,0]) linear_extrude(height=3) output_rail_2d();
+
+
+// Output pivot
+
+module pivot_2d()
+{
+  difference() {
+    union() {
+      square([x_internal_space+60,10]);
+      translate([3,5]) square([x_internal_space-3,10]);
+    }
+    translate([60+22,10]) circle(d=3);
+    translate([193,5]) circle(d=3);
+    translate([203,5]) circle(d=3);
+  }
+}
+
+translate([5,15,60-3]) color([1.0,0,0]) linear_extrude(height=3) pivot_2d();
+
+// A plate which holds the drive cables
+
+translate([198,20,60]) color([0,0,1.0]) linear_extrude(height=3) difference() {
+  dual_stator_2d();
+  translate([0,0]) circle(d=3);
+  translate([10,0]) circle(d=3);
+}

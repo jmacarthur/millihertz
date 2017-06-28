@@ -39,10 +39,8 @@ module cable_connector_2d()
   union() {
     difference() {
       square([25,20]);
-      
       translate([11,5]) {
 	square([connector_length, connector_body_height]);
-	
 	for(side = [-1,1]) {
 	  translate([connector_length/2 + side*peg_spacing/2 - peg_thread_diameter/2,0]) square([peg_thread_diameter,connector_total_height]);
 	  translate([connector_length/2 + side*peg_spacing/2 - peg_top_diameter/2,connector_total_height-2]) square([peg_top_diameter,2]);
@@ -96,6 +94,31 @@ module optimal_stator_2d()
     translate([-15,20]) circle(d=3);
   }
 }
+
+module dual_stator_2d()
+{
+  difference() {
+    translate([-25,-50]) square([100,100]);
+    offset = 30;
+    for(input=[-1,1]) {
+      scale([1,input]) {
+	// A gap for the travel of the cable connector
+	translate([-15,-offset]) square([25+input_travel,20]);
+
+	// Gap for the cable output
+	translate([0,-offset+5.5]) square([50,cable_inner_diameter]);
+
+	// Gap for the cable output
+	translate([35,-offset+5.5- (cable_outer_diameter-cable_inner_diameter)/2]) square([50,cable_outer_diameter]);
+
+	// Holes to allow binding over the input cable
+	translate([50,-offset+15]) circle(d=3);
+	translate([50,-offset]) circle(d=3);
+      }
+    }
+  }
+}
+
 
 
 module lever_2d() {
@@ -152,3 +175,4 @@ color([0,0,1.0]) linear_extrude(height=3) optimal_stator_2d();
 color([1.0,0,0]) translate([0,0,3]) linear_extrude(height=3) rotate(rot) lever_2d();
 color([1.0,0,0]) translate([0,0,-3]) linear_extrude(height=3) rotate(rot) lever_2d();
 translate([-35-travel/4,5,0]) linear_extrude(height=3) drive_rod_2d();
+translate([200,0,0]) color([0,0,1.0]) linear_extrude(height=3) dual_stator_2d();
