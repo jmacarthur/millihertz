@@ -67,3 +67,9 @@ for(x=[0:18]) {
 for(i=[0:4]) {
   translate([margin, 500+30*i]) output_sum_bar(i);
 }
+
+// Output things
+
+translate([margin+700,0]) output_rail_2d();
+translate([margin+700,50]) pivot_2d();
+

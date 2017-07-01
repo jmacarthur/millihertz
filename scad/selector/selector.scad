@@ -161,7 +161,7 @@ module outputComb_2d() {
       translate([11+i*10,-1]) square([3,20]);
     }
     // A slot for the output plate
-    translate([15,27]) square([140,3]);
+    translate([15,27]) square([140,4]);
   }  
 }
 
