@@ -109,7 +109,7 @@ module dual_stator_2d()
 	translate([0,-offset+5.5]) square([50,cable_inner_diameter]);
 
 	// Gap for the cable output
-	translate([35,-offset+5.5- (cable_outer_diameter-cable_inner_diameter)/2]) square([50,cable_outer_diameter]);
+	translate([35,-offset+5.5-(cable_outer_diameter-cable_inner_diameter)/2]) square([50,cable_outer_diameter]);
 
 	// Holes to allow binding over the input cable
 	translate([50,-offset+15]) circle(d=3);
