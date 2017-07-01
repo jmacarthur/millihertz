@@ -1,6 +1,10 @@
 use <selector.scad>;
 
+n_inputs = 4;
+follower_spacing = 10;
+
 // A4 Page as a guide
+
 
 /*translate([0,0,-5]) color([0.1,0.1,0.1,0.1]) square(size=[297,210]);
 translate([297+50,0,-5]) color([0.1,0.1,0.1,0.1]) square(size=[297,210]);
@@ -15,20 +19,20 @@ translate([margin,40]) xBar_2d(5,20,50,false);
 translate([margin,95]) xBar_2d(5,20,50,false);
 translate([margin,150]) xBar_2d(15,20,30,true);
 translate([margin-5,175]) outputComb_2d();
-for(i=[0:3]) translate([210+i*25,margin]) rotate(90)enumerator_rod(i);
+for(i=[0:n_inputs-1]) translate([210+i*25,margin]) rotate(90)enumerator_rod(i, n_inputs, follower_spacing, 0, 5, 10);
 
 
 // Page 2 - all the cranks
 translate([297+80,30]) {
-  for(i=[0:29]) translate([margin+40+(i%6)*40,margin+39*floor(i/6)]) {
-      translate([-95*(i%2),-15*(i%2)])
+  for(i=[0:29]) translate([margin+40+(i%6)*47,margin+39*floor(i/6)]) {
+      translate([-115*(i%2),-15*(i%2)])
 	rotate(180*(i%2))
 	crank_2d(i);
     }
   
   // Two extra ones on the end
-  for(i=[30:31]) translate([margin+230,margin+40]) {
-      translate([20*(i%2),-55*(i%2)])
+  for(i=[30:31]) translate([margin+250,margin+40]) {
+      translate([25*(i%2),-70*(i%2)])
 	rotate(90)
 	rotate(180*(i%2))
 	crank_2d(i);
