@@ -250,19 +250,19 @@ for(i=[0:n_positions-1]) {
 // Axle for the output bars
 translate([3,15,35]) rotate([0,90,0]) cylinder(r=1.5,h=330);
 
-
+// Output bars
 module output_sum_bar(stagger)
 {
   difference() {
     union() {
       square([x_internal_space + 30, 10]);
       translate([0,-8+stagger]) square([10, 18]);
-      // Tabs for driving forwards
-      translate([40,5]) square([20, 10]);
-      translate([120,5]) square([20, 10]);
+      // Tabs for driving forwards. Must be at least as long as the output travel.
+      translate([40,5]) square([30, 10]);
+      translate([110,5]) square([30, 10]);
       // Tabs for driving backwards
       translate([40,5]) square([10, 15]);
-      translate([120,5]) square([10, 15]);
+      translate([110,5]) square([10, 15]);
     }
     slot_height = 7;
     translate([5,-5+3+stagger]) circle(d=3);
@@ -537,8 +537,8 @@ translate([0,-6,0]) output_lifter_bar();
 module drive_plate_2d() {
   difference() {
     square([120,60]);
-    translate([10,13]) square([20,39]);
-    translate([90,13]) square([20,39]);
+    translate([10,13]) square([30,39]);
+    translate([80,13]) square([30,39]);
     translate([60,13]) square([3,39]);
   }
 }
