@@ -255,8 +255,10 @@ module output_sum_bar(stagger)
 {
   difference() {
     union() {
-      square([x_internal_space + 30, 10]);
-      translate([0,-8+stagger]) square([10, 18]);
+      translate([5,0]) square([x_internal_space + 25, 10]);
+      translate([0,-3+stagger]) square([10, 8]);
+      translate([5,-5+slot_height+3+stagger]) circle(d=10);
+      translate([5,-5+3+stagger]) circle(d=10);
       // Tabs for driving forwards. Must be at least as long as the output travel.
       translate([40,5]) square([30, 10]);
       translate([110,5]) square([30, 10]);
@@ -501,7 +503,7 @@ module back_lifter_lever_2d() {
 }
 
 module back_lifter_lever() {
-  rotate([90,0,0])    
+  rotate([90,0,0])
     linear_extrude(height=3) {
     back_lifter_lever_2d();
   }
@@ -560,7 +562,6 @@ translate([0,-40-2,47]) rotate([90,0,0]) linear_extrude(height=3) output_rail_2d
 
 
 // Output pivot
-
 module pivot_2d()
 {
   difference() {
