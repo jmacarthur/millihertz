@@ -16,8 +16,9 @@ fall. There can be as many output rods as you like, within reason,
 providing any function of the five inputs. This implementation has 5
 outputs.
 
-Note that the output rods are unpowered; you will need to find some
-other means to amplify the output.
+This file contains 2D modules and a 3D assembly made by extruding them.
+The file "2d_assembly_a4.scad" uses this file with the "use" directive
+and lays out the 2D modules on a flat plane.
 
 */
 
@@ -35,27 +36,33 @@ n_inputs = 4;
 // The position of the input rods for this rendering
 input_data = [ 0, 1, 1, 1, 0 ];
 
-
-
 // Enumerator supports still have to be manually placed when changing n_inputs.
 // For n=5, we suggest [64,225].
-
 enumerator_support_x1 = 64;
 enumerator_support_x2 = 135;
 
+// The spacing between output rods
 output_y_spacing = 9;
+
 // Calculated globals
-
-
 n_positions = pow(2,n_inputs);
+
 // Calculates the position of the fallen input follower and raised
 // crank for this rendering.
 raise_position = n_positions-1-(input_data[0] + input_data[1]*2+input_data[2]*4+
 		     input_data[3]*8+input_data[4]*16);
 
-
+// The spacing between internal plates (i.e. the gap between them plus one thickness)
 x_internal_space = 10*n_positions;
 
+// Enumerator rod - one per input; follower rods drop into the gaps in these.
+
+// Parameters:
+// Value - the bit value, 0 for bit 0, 1 for bit 1 (2^1), 2 for bit 2 (2^2) etc.
+// follower_spacing - the spacing between the rods intended to drop into this.
+// stagger - alters the position of the input connector; use this to make some rods longer to stagger input.
+// travel - the amount each rods travels. Rods travel inwards - 0 is out of the unit, 1 is in.
+// rise_height - how much each bump is raised above the baseline.
 module enumerator_rod(value, n_inputs, follower_spacing, stagger, travel, rise_height)
 {
   actual_travel = (travel==0)?follower_spacing/2:travel;
@@ -76,7 +83,7 @@ module enumerator_rod(value, n_inputs, follower_spacing, stagger, travel, rise_h
   }
 }
 
-// Enumeration rods
+// Place enumeration rods on 3D diagram
 for(s=[0:n_inputs-1]) {
   translate([-15+input_data[s]*5,53+10*s,0])
     rotate([90,0,0]) linear_extrude(height=3) {
@@ -84,7 +91,7 @@ for(s=[0:n_inputs-1]) {
   }
 }
 
-// The follower levers
+// The follower levers. These drop into the enumeration rods.
 module lever_2d()
 {
   difference() {
@@ -106,18 +113,11 @@ module lever()
 color([0.5,0,0]) {
   for(i=[0:n_positions-1]) {
     rot = (i==raise_position?7.5:0);
-    translate([10+10*i+1,30,20])   translate([0,85,5]) rotate([rot,0,0]) lever();
+    translate([10+10*i+1,30,20]) translate([0,85,5]) rotate([rot,0,0]) lever();
   }
 }
 
-offset1 = -23;
-
-readWriteXOffset = -10;
-readWriteYOffset = -4.5;
-
-reader_positions = [ 4, 2.5, 0, 0, 0 ];
-follower_readers = [ 0, 0, 0, 2.5, 4.0 ];
-
+// An xBar is one of the 'input combs' which accomodate the followers.
 module xBar_2d(slotStart, slotHeight, height, hooks) {
   difference() {
     union() {
@@ -142,14 +142,16 @@ module xBar_2d(slotStart, slotHeight, height, hooks) {
 // Fixed sections (chassis)
 module xBar(slotStart, slotHeight, height, hooks) {
   color([0.5,0.5,0.5]) {
-    translate([0,3,0]) 
-    rotate([90,0,0]) 
+    translate([0,3,0])
+    rotate([90,0,0])
     linear_extrude(height=3) {
       xBar_2d(slotStart, slotHeight, height, hooks);
     }
   }
 }
 
+// An output comb accomodates all the crank levers and hangs
+// down from the top of the chassis.
 module outputComb_2d() {
   difference() {
     union() {
@@ -162,32 +164,32 @@ module outputComb_2d() {
     }
     // A slot for the output plate
     translate([15,27]) square([140,4]);
-  }  
+  }
 }
 
 module outputComb() {
   color([0.5,0.5,0.5]) {
-    translate([0,3,0]) 
-    rotate([90,0,0]) 
+    translate([0,3,0])
+    rotate([90,0,0])
     linear_extrude(height=3) {
       outputComb_2d();
     }
   }
 }
 
+
+// A yComb holds all the input enumerator rods.
 module yComb_2d()
 {
   difference() {
     union() {
-      
       square([65,10]);
       for(i=[0:4]) {
 	translate([13+i*10,9])
-	  square([7,11]);	
+	  square([7,11]);
       }
       translate([8,9])
-	square([2,6]);	
-      
+	square([2,6]);
     }
     translate([5,5]) square([3,6]);
     translate([60,5]) square([3,6]);
@@ -195,7 +197,7 @@ module yComb_2d()
 }
 
 module yComb() {
-  rotate([90,0,0]) rotate([0,90,0]) 
+  rotate([90,0,0]) rotate([0,90,0])
   linear_extrude(height=3) {
     yComb_2d();
   }
@@ -209,6 +211,8 @@ translate([0,100,0]) xBar(5,20,50,false);
 translate([enumerator_support_x1,40,-10]) yComb();
 translate([enumerator_support_x2,40,-10]) yComb();
 
+// Cranks lift up the output rods; one of these will remain propped
+// up by a fallen input follower. The rest fall.
 module crank_2d(output_map)
 {
   difference() {
@@ -219,15 +223,14 @@ module crank_2d(output_map)
       for(s=[0:4]) {
 	align = 1-(floor(output_map/pow(2,s)) % 2);
 	if(align) {
-	  translate([-55+s*output_y_spacing,0]) polygon(points=[[0,0],[5,0],[4,10],[1,10]]); 
+	  translate([-55+s*output_y_spacing,0]) polygon(points=[[0,0],[5,0],[4,10],[1,10]]);
 	}
-      }	
+      }
     }
     translate([0,0]) circle(r=1.5);
   }
 }
 
-// Reader levers
 module crank(output_map) {
   rotate([90,0,0]) rotate([0,90,0])
   linear_extrude(height=3) {
@@ -238,7 +241,7 @@ module crank(output_map) {
 for(i=[0:n_positions-1]) {
   rot = (i==raise_position?0:12);
   translate([11+10*i,15,35])
-    rotate([rot,0,0]) 
+    rotate([rot,0,0])
     crank(i); // Here, you should have a map of desired output values
 	      // instead of 'i' - - using the sequence number will not
 	      // produce a very useful function.
