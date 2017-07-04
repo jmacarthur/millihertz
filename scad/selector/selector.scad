@@ -334,7 +334,7 @@ module common_endplate_cutaway()
   // bottom, as it's next to a hardpoint which splits the
   // whole front panel.
   translate([26,-10])
-    square([3,31]);
+    square([3,33]);
   // Cutout for central xbar
   translate([80,-50])
     square([3,80]);
