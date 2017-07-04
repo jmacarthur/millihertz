@@ -274,12 +274,12 @@ module output_sum_bar(stagger)
 }
 
 // 'trim' indicates we have reduced headroom and should remove the top tab.
-
-module output_mounting_bracket(trim)
+module output_mounting_bracket(trim, extend_bar)
 {
   difference() {
     union() {
       square([19,30]);
+      if(extend_bar!=0) translate([0,extend_bar]) square([50,5]);
       translate([16,-5]) square([3,trim?35:40]);
     }
     translate([5,5]) circle(d=3);
@@ -301,7 +301,8 @@ for(i=[0:4]) {
 // "Hardpoints" for output
 for(i=[0:4]) {
   stagger = (i%2==1) ? 5: 0;
-  translate([-8,-36+i*output_y_spacing,stagger]) rotate([90,0,0]) linear_extrude(height=3) output_mounting_bracket(i%2==1?1:0);
+  extend = (i==3 ? 10: i==4?-5:0);
+  translate([-8,-36+i*output_y_spacing,stagger]) rotate([90,0,0]) linear_extrude(height=3) output_mounting_bracket(i%2==1?1:0, extend);
 }
 
 // "Hardpoints" for input
@@ -438,7 +439,6 @@ module outer_end_plate()
 }
 
 // 3D assembly of all end plates
-
 color([0,0,1.0]) {
   translate([5,0,0])
   front_panel();
