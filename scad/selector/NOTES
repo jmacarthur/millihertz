@@ -8,3 +8,4 @@
 * Lever lifter doesn't lift the levers high enough; the slots for it could do with being longer
 * Lever lifter bar doesn't sit in the slot at the front; needs to be a bit longer (but that would foul the interconnects)
 * The lower tabs on the output bars need to be longer; at least as long as the travel of the output. [Partially fixed - the drive plate is now too big to move properly]
+* We need to simulate the interconnects with nuts and bolts to see if they fit.
