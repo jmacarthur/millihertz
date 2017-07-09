@@ -34,7 +34,7 @@ $fn = 20;
 n_inputs = 4;
 
 // The position of the input rods for this rendering
-input_data = [ 0, 1, 1, 1, 0 ];
+input_data = [ 1, 1, 1, 1, 0 ];
 
 // Enumerator supports still have to be manually placed when changing n_inputs.
 // For n=5, we suggest [64,225].
@@ -204,9 +204,11 @@ module yComb() {
 }
 
 translate([0,5,30]) outputComb();
-translate([0,-27,0]) xBar(15,20,30,true);
-translate([0,45,0]) xBar(5,20,50,false);
-translate([0,100,0]) xBar(5,20,50,false);
+// Three bars which extend in the x dimension
+
+translate([0,-27,0]) xBar(15,20,50,true); // On the output side
+translate([0,45,0]) xBar(5,20,50,false); // Middle
+translate([0,100,0]) xBar(5,20,50,false); // On the input side
 
 translate([enumerator_support_x1,40,-10]) yComb();
 translate([enumerator_support_x2,40,-10]) yComb();
