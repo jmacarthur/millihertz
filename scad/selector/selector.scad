@@ -70,7 +70,7 @@ module enumerator_rod(value, n_inputs, follower_spacing, stagger, travel, rise_h
     union() {
       square(size=[40+x_internal_space,10]);
       // End stops
-      translate([0,0]) square(size=[10,15]);
+      translate([0,0]) square(size=[15,15]);
       translate([31+x_internal_space,0]) square(size=[5,12]);
       positions = pow(2,n_inputs);
       for(i=[0:positions-1]) {
@@ -78,8 +78,7 @@ module enumerator_rod(value, n_inputs, follower_spacing, stagger, travel, rise_h
 	translate([20+follower_spacing*i+actual_travel*align,10-thin]) square(size=[actual_travel+thin,rise_height+thin]);
       }
     }
-    translate([355,5]) circle(d=3);
-    translate([7,5+stagger]) circle(d=3);
+    translate([7,5+stagger]) circle(d=3); // To attach to the input
   }
 }
 
@@ -310,7 +309,7 @@ for(i=[0:4]) {
 // "Hardpoints" for input
 for(i=[0:4]) {
   stagger = (i%2==1) ? 5: 0;
-  translate([-8,50+3+i*10,20+stagger]) rotate([90,0,0]) linear_extrude(height=3) output_mounting_bracket();
+  translate([-8,50+3+i*10,20+stagger]) rotate([90,0,0]) linear_extrude(height=3) output_mounting_bracket(0,0);
 }
 
 
@@ -344,6 +343,9 @@ module common_endplate_cutaway()
 
   translate([50,47])
     square([10,11]); // holes to mount output pivot
+
+  translate([80,-21])
+    square([50,21]); // Cut enough space to allow the enumerator rods to be added
 
 }
 
@@ -561,7 +563,6 @@ module output_rail_2d()
 }
 
 translate([0,-40-2,47]) rotate([90,0,0]) linear_extrude(height=3) output_rail_2d();
-
 
 // Output pivot
 module pivot_2d()
