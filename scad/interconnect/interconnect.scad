@@ -100,7 +100,7 @@ module optimal_stator_2d()
 module dual_stator_2d()
 {
   difference() {
-    translate([-25,-50]) square([100,100]);
+    translate([-25,-40]) square([70,80]);
     offset = 30;
     for(input=[-1,1]) {
       scale([1,input]) {
@@ -114,8 +114,8 @@ module dual_stator_2d()
 	translate([35,-offset+5.5-(cable_outer_diameter-cable_inner_diameter)/2]) square([50,cable_outer_diameter]);
 
 	// Holes to allow binding over the input cable
-	translate([50,-offset+15]) circle(d=3);
-	translate([50,-offset]) circle(d=3);
+	translate([40,-offset+15]) circle(d=3);
+	translate([40,-offset]) circle(d=3);
       }
     }
   }
