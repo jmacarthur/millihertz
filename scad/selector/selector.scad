@@ -547,10 +547,14 @@ translate([0,-6,0]) output_lifter_bar();
 
 module drive_plate_2d() {
   difference() {
-    square([120,60]);
+    union() {
+      square([120,60]);
+      translate([120-1,40]) square([11,15]);
+    }
     translate([10,13]) square([30,39]);
     translate([80,13]) square([30,39]);
     translate([60,13]) square([3,39]);
+    translate([120,40+7.5]) circle(d=3);
   }
 }
 
