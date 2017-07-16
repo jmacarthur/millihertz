@@ -28,7 +28,7 @@ use <../interconnect/interconnect.scad>;
 // Various parameters
 follower_spacing = 10; // Spacing between each input follower
 $fn = 20;
-explode = 50; // Moves parts apart for easier inspection
+explode = 10; // Moves parts apart for easier inspection
 
 // Number of inputs. This was originally defined for 5 inputs;
 // other numbers may work, but are in development.
@@ -579,9 +579,9 @@ module pivot_2d()
   difference() {
     union() {
       square([x_internal_space+60,10]);
-      translate([3,5]) square([x_internal_space-3,10]);
+      translate([3,-7]) square([x_internal_space-3,10]);
     }
-    translate([60+22,10]) circle(d=3);
+    translate([60+22,0]) circle(d=3);
     translate([193,5]) circle(d=3);
     translate([203,5]) circle(d=3);
   }
@@ -600,7 +600,7 @@ translate([198+explode,20,60]) color([0,0,1.0]) linear_extrude(height=3) differe
 // Output drive lever
 module drive_lever_2d()
 {
-  length = 80;
+  length = 60;
   difference() {
     union() {
       circle(d=10);
@@ -611,8 +611,9 @@ module drive_lever_2d()
     circle(d=3);
     translate([length/2,0]) circle(d=3);
     translate([-length/2,0]) circle(d=3);
+    translate([20,0]) circle(d=3);
   }
 }
 
 
-translate([87,25,60]) linear_extrude(height=3) rotate(90) drive_lever_2d();
+translate([87,15,60+explode]) linear_extrude(height=3) rotate(90) drive_lever_2d();
