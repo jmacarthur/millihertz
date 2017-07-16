@@ -586,8 +586,29 @@ module pivot_2d()
 translate([5,15,60-3]) color([1.0,0,0]) linear_extrude(height=3) pivot_2d();
 
 // A plate which holds the drive cables
-translate([198,20,60]) color([0,0,1.0]) linear_extrude(height=3) difference() {
+translate([198+explode,20,60]) color([0,0,1.0]) linear_extrude(height=3) difference() {
   dual_stator_2d();
   translate([0,0]) circle(d=3);
   translate([10,0]) circle(d=3);
 }
+
+
+// Output drive lever
+module drive_lever_2d()
+{
+  length = 80;
+  difference() {
+    union() {
+      circle(d=10);
+      translate([length/2,0]) circle(d=10);
+      translate([-length/2,0]) circle(d=10);
+      translate([-length/2,-5]) square([length,10]);
+    }
+    circle(d=3);
+    translate([length/2,0]) circle(d=3);
+    translate([-length/2,0]) circle(d=3);
+  }
+}
+
+
+translate([87,25,60]) linear_extrude(height=3) rotate(90) drive_lever_2d();
