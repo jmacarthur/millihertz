@@ -28,7 +28,7 @@ use <../interconnect/interconnect.scad>;
 // Various parameters
 follower_spacing = 10; // Spacing between each input follower
 $fn = 20;
-explode = 10; // Moves parts apart for easier inspection
+explode = 0; // Moves parts apart for easier inspection
 
 // Number of inputs. This was originally defined for 5 inputs;
 // other numbers may work, but are in development.

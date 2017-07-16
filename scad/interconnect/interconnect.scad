@@ -31,7 +31,7 @@ amplification_ratio = 4;
 thin = 0.1;
 input_travel = 20;
 
-explode = 4; // To show an exploded view of the components
+explode = 0; // To show an exploded view of the components
 
 // Note that 'pushrod connectors' are the usual means of connection
 // and usually available from radio control suppliers.
@@ -121,10 +121,8 @@ module dual_stator_2d()
   }
 }
 
-
-
 module lever_2d() {
-  translate([-5,-45]) { 
+  translate([-5,-45]) {
     difference() {
       union() {
 	square([10,60]);
@@ -146,11 +144,11 @@ module lever_2d() {
   }
 }
 
-module drive_rod_2d() {
+module drive_rod_2d(length) {
   difference() {
-    square([40,10]);
+    square([length,10]);
     translate([5,5]) circle(d=3);
-    translate([35,5]) circle(d=3);
+    translate([length-5,5]) circle(d=3);
   }
 }
 
@@ -171,10 +169,16 @@ module top_plate_2d()
 travel = -10;
 
 rot = atan2(travel, 40);
-translate([-5+travel,-50,1*explode]) linear_extrude(height=3) cable_connector_2d();
-translate([0,0,0]) color([0,0,1.0]) linear_extrude(height=3) optimal_stator_2d();
-//translate([0,0,3]) color([0,0,1.0,0.5]) linear_extrude(height=3) top_plate_2d();
-color([1.0,0,0]) translate([0,0,2*explode]) linear_extrude(height=3) rotate(rot) lever_2d();
-color([1.0,0,0]) translate([0,0,-1*explode]) linear_extrude(height=3) rotate(rot) lever_2d();
-translate([-35-travel/4,5,1*explode]) linear_extrude(height=3) drive_rod_2d();
+
+module interconnect(output_length) {
+  translate([-5+travel,-50,explode]) linear_extrude(height=3) cable_connector_2d();
+  translate([0,0,0]) color([0,0,1.0]) linear_extrude(height=3) optimal_stator_2d();
+  //translate([0,0,3]) color([0,0,1.0,0.5]) linear_extrude(height=3) top_plate_2d();
+  color([1.0,0,0]) translate([0,0,3+explode]) linear_extrude(height=3) rotate(rot) lever_2d();
+  color([1.0,0,0]) translate([0,0,-3-explode]) linear_extrude(height=3) rotate(rot) lever_2d();
+  translate([-output_length+5-travel/4,5,1*explode]) linear_extrude(height=3) drive_rod_2d(output_length);
+}
+
+
+
 translate([200,0,0]) color([0,0,1.0]) linear_extrude(height=3) dual_stator_2d();
