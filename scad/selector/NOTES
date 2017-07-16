@@ -8,6 +8,7 @@
 * We need to simulate the interconnects with nuts and bolts to see if they fit.
 * Update the 2D file to account for changes to the new design.
 
+* I don't think staggering is necessary on the input rods for the selector. If we remove it we can use one rod for the axles through the interconnects. We'd then need to glue in the lever pinions, maybe ordering some 9mm dowels to go in there.
 # Fixed things
 
 * There's too much travel on the input rods; I don't have the back plate attached, which may help, but we should put more bumps on to limit their travel. [FIXED]
