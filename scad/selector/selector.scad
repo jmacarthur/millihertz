@@ -28,13 +28,14 @@ use <../interconnect/interconnect.scad>;
 // Various parameters
 follower_spacing = 10; // Spacing between each input follower
 $fn = 20;
+explode = 50; // Moves parts apart for easier inspection
 
 // Number of inputs. This was originally defined for 5 inputs;
 // other numbers may work, but are in development.
 n_inputs = 4;
 
 // The position of the input rods for this rendering
-input_data = [ 1, 1, 1, 1, 0 ];
+input_data = [ 0, 1, 1, 1, 0 ];
 
 // Enumerator supports still have to be manually placed when changing n_inputs.
 // For n=5, we suggest [64,225].
@@ -261,11 +262,11 @@ module output_sum_bar(stagger)
       translate([5,-5+slot_height+3+stagger]) circle(d=10);
       translate([5,-5+3+stagger]) circle(d=10);
       // Tabs for driving forwards. Must be at least as long as the output travel.
-      translate([40,5]) square([30, 10]);
-      translate([110,5]) square([30, 10]);
+      translate([50,5]) square([30, 10]);
+      translate([120,5]) square([30, 10]);
       // Tabs for driving backwards
-      translate([40,5]) square([10, 15]);
-      translate([110,5]) square([10, 15]);
+      translate([50,5]) square([10, 15]);
+      translate([120,5]) square([10, 15]);
     }
     slot_height = 7;
     translate([5,-5+3+stagger]) circle(d=3);
@@ -303,13 +304,13 @@ for(i=[0:4]) {
 for(i=[0:4]) {
   stagger = (i%2==1) ? 5: 0;
   extend = (i==3 ? 10: i==4?-5:0);
-  translate([-8,-36+i*output_y_spacing,stagger]) rotate([90,0,0]) linear_extrude(height=3) output_mounting_bracket(i%2==1?1:0, extend);
+  translate([-8-explode,-36+i*output_y_spacing,stagger]) rotate([90,0,0]) linear_extrude(height=3) output_mounting_bracket(i%2==1?1:0, extend);
 }
 
 // "Hardpoints" for input
 for(i=[0:4]) {
   stagger = (i%2==1) ? 5: 0;
-  translate([-8,50+3+i*10,20+stagger]) rotate([90,0,0]) linear_extrude(height=3) output_mounting_bracket(0,0);
+  translate([-8-explode,50+3+i*10,20+stagger]) rotate([90,0,0]) linear_extrude(height=3) output_mounting_bracket(0,0);
 }
 
 
@@ -392,6 +393,10 @@ module front_panel_2d()
       stagger = (i%2==1?5:0);
       translate([-4+output_y_spacing*i,-10+stagger]) square([3,30]);
     }
+    // The leftmost (y-positive) output hardpoint must be longer to hold
+    // the guide rod
+    translate([-4+output_y_spacing*4,-15]) square([3,30]);
+    
     // Slots for the output bars
     for(i=[0:5])
     translate([40,45])
@@ -549,7 +554,7 @@ module drive_plate_2d() {
   }
 }
 
-translate([22,-52,60-3]) color([1.0,0,0,0.5]) linear_extrude(height=3) drive_plate_2d();
+translate([32,-52,60-3]) color([1.0,0,0,0.5]) linear_extrude(height=3) drive_plate_2d();
 
 module output_rail_2d()
 {
