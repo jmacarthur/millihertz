@@ -97,6 +97,55 @@ module optimal_stator_2d()
   }
 }
 
+module basic_stator_2d()
+{
+  difference() {
+    union() {
+      translate([-35,-55]) polygon(points=[[5,25],[15,-5], [60,-5], [60,20], [50,40], [30,60], [7,60],[5,55]]);
+      translate([-27.5,0]) circle(d=10);
+      translate([-27.5,-20]) circle(d=10);
+    }
+
+    // A gap for the travel of the cable connector
+    translate([-30,-50]) square([25+input_travel,20]);
+
+    // Gap for the cable output
+    translate([0,-50+5.5]) square([50,cable_inner_diameter]);
+
+    // Gap for the cable output
+    translate([25,-50+5.5- (cable_outer_diameter-cable_inner_diameter)/2]) square([50,cable_outer_diameter]);
+
+    // Hardpoint holes
+    translate([-27.5,0]) circle(d=3);
+    translate([-27.5,-20]) circle(d=3);
+
+    // Holes to allow binding over the input cable
+    translate([20,-35]) circle(d=3);
+    translate([20,-50]) circle(d=3);
+
+    // Holes to allow a connection over the cable connector
+    translate([-10,-25]) circle(d=3);
+    translate([-10,-55]) circle(d=3);
+    translate([10,-25]) circle(d=3);
+    translate([10,-55]) circle(d=3);
+
+  }
+}
+
+
+module basic_stator_top_plate_2d() {
+  difference() {
+    union() {
+      translate([-15,-60]) square([30,40]);
+    }
+    // Holes to allow a connection over the cable connector
+    translate([-10,-25]) circle(d=3);
+    translate([-10,-55]) circle(d=3);
+    translate([10,-25]) circle(d=3);
+    translate([10,-55]) circle(d=3);
+  }
+}
+
 module dual_stator_2d()
 {
   difference() {
@@ -179,6 +228,14 @@ module interconnect(output_length) {
   translate([-output_length+5-travel/4,5,1*explode]) linear_extrude(height=3) drive_rod_2d(output_length);
 }
 
+module basic_interconnect() {
+  translate([0,0,0]) color([0,0,1.0]) linear_extrude(height=3) basic_stator_2d();
+  translate([0,0,3]) color([0.1,0.1,1.0]) linear_extrude(height=3) basic_stator_top_plate_2d();
+  translate([-22.5+travel,-50,explode]) linear_extrude(height=3) cable_connector_2d();
+}
 
 
 translate([200,0,0]) color([0,0,1.0]) linear_extrude(height=3) dual_stator_2d();
+
+translate([500,0,0]) color([0,0,1.0]) linear_extrude(height=3) basic_stator_2d();
+translate([500,0,30]) color([0,0,1.0]) linear_extrude(height=3) basic_stator_top_plate_2d();
