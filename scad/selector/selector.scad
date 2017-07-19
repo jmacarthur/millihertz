@@ -132,10 +132,10 @@ module xBar_2d(slotStart, slotHeight, height, hooks) {
     translate([enumerator_support_x1,-11]) square([3,6]);
     translate([enumerator_support_x2,-11]) square([3,6]);
     if(hooks) {
-      translate([5,15]) square([3,6]);
-      translate([5+x_internal_space,15]) square([3,6]);
-      translate([0,15]) square([3,6]);
-      translate([13+x_internal_space,15]) square([3,6]);
+      translate([5,15]) square([3,height]);
+      translate([5+x_internal_space,15]) square([3,height]);
+      translate([-1,15]) square([4,height]);
+      translate([13+x_internal_space,15]) square([3,height]);
     }
   }
 }
@@ -258,7 +258,7 @@ module output_sum_bar(stagger)
 {
   difference() {
     union() {
-      translate([5,0]) square([x_internal_space + 25, 10]);
+      translate([5,0]) square([x_internal_space + 45, 10]);
       translate([0,-3+stagger]) square([10, 8]);
       translate([5,-5+slot_height+3+stagger]) circle(d=10);
       translate([5,-5+3+stagger]) circle(d=10);
@@ -395,13 +395,21 @@ module front_panel_2d()
     }
     // Cutout for output hard points
     for(i=[0:4]) {
-      stagger = (i%2==1?5:0);
+      //stagger = (i%2==1?5:0);
+      stagger = 0;
       translate([-4+output_y_spacing*i,-10+stagger]) square([3,30]);
     }
+
+    // These hard-point slots need to be thicker to avoid a zero-width line
+    translate([-4+output_y_spacing*3,-10]) square([4,30]);
+
+    // This needs to be thicker to avoid a zero-width line
+    translate([-4+output_y_spacing*1,-10]) square([4,15]);
+
     // The leftmost (y-positive) output hardpoint must be longer to hold
     // the guide rod
     translate([-4+output_y_spacing*4,-15]) square([3,30]);
-    
+
     // Slots for the output bars
     for(i=[0:5])
     translate([40,45])
