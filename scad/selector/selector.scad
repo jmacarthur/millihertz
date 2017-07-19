@@ -297,15 +297,17 @@ module output_mounting_bracket(trim, extend_bar)
  
 // Output summing bars
 for(i=[0:4]) {
-  stagger = (i%2==1) ? 5: 0;
-  translate([-8,-36+i*output_y_spacing,45]) rotate([90,0,0]) linear_extrude(height=3) output_sum_bar(stagger);
+  //stagger = (i%2==1) ? 5: 0;
+  stagger = 0;
+  translate([-8,-36+i*output_y_spacing, 40+((i%2==1)?5:0)]) rotate([90,0,0]) linear_extrude(height=3) output_sum_bar(stagger);
 }
 
 // "Hardpoints" for output
 for(i=[0:4]) {
-  stagger = (i%2==1) ? 5: 0;
+  //stagger = (i%2==1) ? 5: 0;
+  stagger = 0;
   extend = (i==3 ? 10: i==4?-5:0);
-  translate([-8-explode,-36+i*output_y_spacing,stagger]) rotate([90,0,0]) linear_extrude(height=3) output_mounting_bracket(i%2==1?1:0, extend);
+  translate([-8-explode,-36+i*output_y_spacing,stagger]) rotate([90,0,0]) linear_extrude(height=3) output_mounting_bracket(0, extend);
 }
 
 // "Hardpoints" for input
