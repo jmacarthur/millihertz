@@ -8,7 +8,7 @@ module aligned_interconnect()
 
 }
 
-translate([-30,86,20]) aligned_interconnect();
+translate([-30,86,15]) aligned_interconnect();
 translate([-30,76,15]) aligned_interconnect();
-translate([-30,66,20]) aligned_interconnect();
+translate([-30,66,15]) aligned_interconnect();
 translate([-30,56,15]) aligned_interconnect();
