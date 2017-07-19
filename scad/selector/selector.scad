@@ -87,7 +87,8 @@ module enumerator_rod(value, n_inputs, follower_spacing, stagger, travel, rise_h
 for(s=[0:n_inputs-1]) {
   translate([-15+input_data[s]*5,53+10*s,0])
     rotate([90,0,0]) linear_extrude(height=3) {
-    enumerator_rod(s, n_inputs, follower_spacing, (s%2==1?5:0), 5, 10);
+    //enumerator_rod(s, n_inputs, follower_spacing, (s%2==1?5:0), 5, 10);
+    enumerator_rod(s, n_inputs, follower_spacing, 0, 5, 10);
   }
 }
 
@@ -309,7 +310,8 @@ for(i=[0:4]) {
 
 // "Hardpoints" for input
 for(i=[0:4]) {
-  stagger = (i%2==1) ? 5: 0;
+  //stagger = (i%2==1) ? 5: 0;
+  stagger = 0;
   translate([-8-explode,50+3+i*10,20+stagger]) rotate([90,0,0]) linear_extrude(height=3) output_mounting_bracket(0,0);
 }
 
@@ -385,7 +387,8 @@ module front_panel_2d()
       square([10,11]); // holes to mount output pivot
     // Cutout for input hard points
     for(i=[0:4]) {
-      stagger = (i%2==1?5:0);
+      //stagger = (i%2==1?5:0);
+      stagger = 0;
       translate([85+10*i,10+stagger]) square([3,30]);
     }
     // Cutout for output hard points
