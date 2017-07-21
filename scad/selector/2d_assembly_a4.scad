@@ -2,7 +2,7 @@ use <selector.scad>;
 use <../interconnect/interconnect.scad>;
 n_inputs = 4;
 follower_spacing = 10;
-
+$fn = 20;
 // A4 Page as a guide
 
 
@@ -83,8 +83,12 @@ translate([margin+700,100]) drive_plate_2d();
 translate([margin+700,180]) drive_lever_2d();
 
 // stator
-
-translate([margin+700,250]) dual_stator_2d();
+translate([margin+700,250]) difference() {
+  dual_stator_2d();
+  translate([0,0]) circle(d=3);
+  translate([10,0]) circle(d=3);
+}
+  
 
 
 // "Hardpoints" for output

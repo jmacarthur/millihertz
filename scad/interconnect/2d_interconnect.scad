@@ -24,8 +24,17 @@ module conRod(len) {
   generalConRod(len, 3, 3);
 }
 
+// Output for the optimal stators
+translate([100,240]) conRod(25);
 
-translate([100,100]) conRod(15);
-translate([100,130]) conRod(15);
-translate([100,220]) conRod(20);
-translate([100,240]) conRod(20);
+translate([200,0]) basic_stator_2d();
+translate([200,80]) basic_stator_top_plate_2d();
+translate([200,100]) cable_connector_2d();
+
+
+// Cable clamps
+translate([75,-50]) rotate(90)  conRod(15);
+translate([88,-50]) rotate(90)  conRod(15);
+
+translate([250,-50]) rotate(90)  conRod(15);
+translate([270,-50]) rotate(90)  conRod(15);
