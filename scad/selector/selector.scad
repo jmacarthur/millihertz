@@ -28,7 +28,9 @@ use <../interconnect/interconnect.scad>;
 // Various parameters
 follower_spacing = 10; // Spacing between each input follower
 $fn = 20;
-explode = 0; // Moves parts apart for easier inspection
+explode = 30; // Moves parts apart for easier inspection
+gap_adjust = 0.2; // In case of thicker than 3mm acrylic, make this positive to increase the width of the slots for the followers.
+
 
 // Number of inputs. This was originally defined for 5 inputs;
 // other numbers may work, but are in development.
@@ -125,7 +127,7 @@ module xBar_2d(slotStart, slotHeight, height, hooks) {
       translate([0,-10]) square([20+x_internal_space,height]);
     }
     for(i=[1:n_positions]) {
-      translate([i*10+1,5+slotStart]) square([3,slotHeight]);
+      translate([i*10+1-gap_adjust/2,5+slotStart]) square([3+gap_adjust,slotHeight]);
     }
     translate([45,-5]) circle(d=3);
     translate([15+x_internal_space,-5]) circle(d=3);
