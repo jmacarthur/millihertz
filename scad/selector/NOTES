@@ -16,3 +16,10 @@
 * Lever lifter bar doesn't sit in the slot at the front. [FIXED]
 * There isn't enough space for the follower raiser in the end plates. Simply making the space in the end plates bigger would fix it. [FIXED]
 * The lower tabs on the output bars need to be longer; at least as long as the travel of the output. [FIXED]
+
+
+
+# Notes from the second laser cut protoype on 22/07/2017
+
+* We have cut some of the wrong parts because the parameters to xBars had to be copied from the 3D assembly to the 2D diagram. We should do all the parameters in one place and make specific 2D modules for each part which contain the parameters.
+* The output drive plate can't move far enough forward because it's blocked by the short output comb. We can't trim the end of this, but we can move everything backwards by the required amount. This just requires cutting a longer slot on the guide on the far right and adjusting the output sum bars.
