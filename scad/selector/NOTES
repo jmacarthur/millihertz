@@ -22,4 +22,8 @@
 # Notes from the second laser cut protoype on 22/07/2017
 
 * We have cut some of the wrong parts because the parameters to xBars had to be copied from the 3D assembly to the 2D diagram. We should do all the parameters in one place and make specific 2D modules for each part which contain the parameters.
+  * Missing slot on far-right comb?
 * The output drive plate can't move far enough forward because it's blocked by the short output comb. We can't trim the end of this, but we can move everything backwards by the required amount. This just requires cutting a longer slot on the guide on the far right and adjusting the output sum bars.
+* The second back plate isn't necessary.
+* The output sum bars are now very slightly too long (by about 2mm) to insert into the frame when assembled. They should be cut back by 15mm.
+* Basic interconnects don't have any narrowing of the neck to hold the cable - it's all on the inner wire. Needs extending so the clamp can go on the outer cable.
