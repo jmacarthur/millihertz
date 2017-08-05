@@ -139,7 +139,7 @@ The output rods running the length of the array can be constructed like this:
    _______|         |______________________|         |_________________
   |                                          OUTPUT Y               | o|
   |_________________________________________________________________|__|
-     _   _   _   _   _   _   _  |s|  _   _   _   _   _   _   _   _
+     ^   ^   _   _   ^   _   _  |s|  _   ^   _   ^   ^   ^   ^   ^
     |s| |s| |s| |s| |s| |s| |s| |_| |s| |s| |s| |s| |s| |s| |s| |s| 
     |_| |_| |_| |_| |_| |_| |_|     |_| |_| |_| |_| |_| |_| |_| |_|
 
@@ -151,5 +151,35 @@ The rake-shaped part on top moves left, returning the output rod to the left (wh
 
 There are two L-shaped drive tabs on top of the output rod. This is because the output rod may not be lifted perfectly vertically; if one of hte S-shaped pieces at each end is up, only one end of the output rod may be lifted.
 
-
 ## Interconnects
+
+None of the above system would be much use without a means to connect outputs to inputs. A simple rod might work if the gates or arrays are able to be arranged carefully. For a complex system, Bowden cable - the system usually used for bicycle brake cables - allows for flexible connections between units.
+
+True Bowden cable can transmit high forces and is quite complicated. For our application, lighter and simpler alternatives can be found, such as cable referred to as 'snake' used for control in some model aircraft.
+
+Bowden cable is usually used for tension, that is, only to pull a load. However, cables work quite well when used to push as well. If you want to avoid using a Bowden cable to push loads, you can use two cables with a lever at each end so logical signals can be transmitted as 'pull' for each symbol.
+
+Various connectors exist for terminating the ends of bowden cable, however it is convenient to use the screw terminals from small electrical connection blocks. A simple connector can be made like this:
+
+
+
+```bob
+
+     __________________________
+    |o                         |
+    |_                         |
+      |                        |
+     _|                        |
+    |o    ____________         |
+    |_   |   __  __   |        |
+      |  |  _||__||_  |   ________________
+     _|__| |        |=====________________
+    |o     |________| |        |
+    |_________________|        |
+      |________________________|
+
+```
+
+The top two points marked 'o' are fixed points for connecting to a logic gate chassis. The bottom 'o' moves to determine the logic value. In my system, zero is always marked by the bottom mounting hole being aligned with the top two holes, and the slider moves inwards (towards the cable) by 5mm to indicate a 1, but you can choose any scheme you like.
+
+All the Bowden cables I've seen, including the heavier bicycle cables, have some amount of free play in them which is roughly proportional to the amount they are bent.
