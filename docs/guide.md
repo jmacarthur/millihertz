@@ -182,4 +182,29 @@ Various connectors exist for terminating the ends of bowden cable, however it is
 
 The top two points marked 'o' are fixed points for connecting to a logic gate chassis. The bottom 'o' moves to determine the logic value. In my system, zero is always marked by the bottom mounting hole being aligned with the top two holes, and the slider moves inwards (towards the cable) by 5mm to indicate a 1, but you can choose any scheme you like.
 
-All the Bowden cables I've seen, including the heavier bicycle cables, have some amount of free play in them which is roughly proportional to the amount they are bent.
+All the Bowden cables I've seen, including the heavier bicycle cables, have some amount of free play in them which is roughly proportional to the amount they are bent. Bending a basic 'snake' cable through 360 degrees creates free play of 3-4 mm.
+
+Given a difference between '1' and '0' of about 5mm, this would be a big problem. To account for this, we can simply declare the difference between '1' and '0' is longer, but this makes the input rods for a decoder proportionally longer. Instead, we can make a version of the interconnect containing a lever:
+
+
+```bob
+       ________________________
+     _|_______________ ________|
+    |o      o    |    |        |
+    |_______ \ __|____|        |
+      |       \                |
+     _|        x               |___________
+    |o          \     ____________         |
+    |_           \   |   __  __   |        |
+      |           \  |  _||__||_  |    _______________
+     _|            \_| |        |=====|_______________
+    |o            | o  |________| |        |
+    |_            |_______________|        |
+      |____________________________________|
+
+```
+
+The output on this connector is on top, and the two fixed connectors on the bottom, but it can simply be connected to an existing logic gate upside down.
+
+The point 'x' is a pivot, and a lever, with slots at each end, connects the cable connector to the output shaft. In this way, a cable movement of 20mm can be easily converted to an output of 5mm. Care must be taken to assemble this connector such that it doesn't introduce any significant extra free play of its own.
+
