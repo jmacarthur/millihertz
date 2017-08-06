@@ -208,3 +208,61 @@ The output on this connector is on top, and the two fixed connectors on the bott
 
 The point 'x' is a pivot, and a lever, with slots at each end, connects the cable connector to the output shaft. In this way, a cable movement of 20mm can be easily converted to an output of 5mm. Care must be taken to assemble this connector such that it doesn't introduce any significant extra free play of its own.
 
+## Memory
+
+Memory can be created using discrete logic gates but there are more efficient approaches which allow data to be stored with fewer moving parts and less space.
+
+Sequential access memory, as used by a Turing machine or other cellular automata, is quite simple to produce and can be produced with stock parts such as ball bearings and premade steel grid.
+
+
+
+Random access memory is more complicated, but can be made in part using decoders as described previously.
+
+### 1D array memory
+
+A decoder as mentioned previously can scale to 32 outputs, which is sufficient for a simple computer - the Manchester SSEM had 32 words of 32 bits each.
+
+The following structure can be made of acrylic, with ball bearings representing the data, normally resting in square cutouts. The whole structure must be verticle, or on a gentle slope, so that the ball bearings fall to the bottom (the 'OUT' end)
+
+```bob
+                           IN
+                _| |   _| |   _| |   _| |
+              _|o  |  |o  |  |o  |  |   |
+             / |_  |  |_  |  |_  |  |_  | 
+            /    | |    | |    | |    | |
+           /    _| |   _| |   _| |   _| |
+       /| / ___|   |  |   |  |o  |  |o  |
+      /D|/ /   |_  |  |_  |  |_  |  |_  | 
+     | E|_/      | |    | |    | |    | |
+     | C|_      _| |   _| |   _| |   _| |
+      \ |\\____|   |  |o  |  |   |  |o  |
+      |\| \    |_  |  |_  |  |_  |  |_  | 
+      ||   \     | |    | |    | |    | |
+      ||    \   _| |   _| |   _| |   _| |
+      ||     \_|   |  |o  |  |   |  |   |
+               |_  |  |_  |  |_  |  |_  | 
+                 | |    | |    | |    | |
+		           OUT
+```
+
+To read the data, the decoder must trigger a mechanism which pushes each ball bearing on that row into the channel to its right; the pattern of data for that word will then fall out of the bottom of the mechanism. A mechanism at the bottom will sense the presence or absence of a ball bearing for each column and send this as a logic signal using a standard interconnect.
+
+To write data back in, the decoder must insert a ramp-shaped piece into the vertical column which will divert a falling ball bearing back into the cut-out space on the left. Ball bearings representing the word to write are then dropped into the mechanism at the top, and these will fall past all columns until the selected one, at which point the ball bearings are diverted by the ramp.
+
+The rows in this memory will contain a row of shapes like this:
+
+```bob
+     _____             _____             _____             _____
+_ _ /     | _ _ _ _ _ /     | _ _ _ _ _ /     | _ _ _ _ _ /     |
+   /______|          /______|          /______|          /______|
+
+```
+
+These shapes must be linked together by a connecting rod which is placed at a layer above these shapes, so that ball bearings can pass underneath.
+
+On reading, the row bar is pushed right, and the square edge of this pushes a ball bearing out of its notch and down the channel. To write, the whole bar is moved left so that the ramp-shaped piece can deflect a ball bearing dropping into a notch to the left.
+
+
+### 2D array memory
+
+By using a 3-to-8 decoder which selects one row and another which selects a column, a 2-dimensional 64-bit array can be created. It's then necessary to create some interaction between a selected row and selected column such that one cell can be accessed independently.
