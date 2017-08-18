@@ -29,6 +29,11 @@ This is a 2-input OR gate. The inputs are made by sliding plates 'A' and 'B' up 
      <---   
 ```
 
+```basicsvg
+plate=polygon([[0,0], [50,0], [50,50], [0,50]], [[10,10],[40,10],[40,25],[25,25],[25,40],[10,40]]);
+plate2=copy(plate, [61,0]);
+```
+
 The 'drive bar' at the bottom has three pegs in it which fit into the points marked 'O' on the moving plates. Cycling the gate requires pushing the rod at the bottom left, then fully right, then back to the centre again. Moving left resets the output to zero. On moving fully right, the output plate C will be pushed if either plate A or B are in the up position. When a plate is in the down position, the peg moves inside the channel without moving the plate. 'A' will push B if B is not being driven, so if either of them move, C will move to '1'. The input plates cannot move vertically while the drive bar is fully right, so the bar must be returned to the centre position before the inputs are updated.
 
 Inversion of the inputs can be easily achieved by turning the input plates upside down; turning both would give you a NAND gate.
